@@ -1,0 +1,1 @@
+Finally I have connected to the remote repository which was created by Wiki bro.
