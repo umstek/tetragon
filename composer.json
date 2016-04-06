@@ -26,7 +26,9 @@
         "symfony/monolog-bundle": "^2.8",
         "sensio/distribution-bundle": "^5.0",
         "sensio/framework-extra-bundle": "^3.0.2",
-        "incenteev/composer-parameter-handler": "^2.0"
+        "incenteev/composer-parameter-handler": "^2.0",
+        "twbs/bootstrap": "^3.3",
+        "phpunit/phpunit": "^5.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
@@ -52,7 +54,7 @@
     },
     "config": {
         "platform": {
-            "php": "5.5.9"
+            "php": "5.6.0"
         }
     },
     "extra": {
