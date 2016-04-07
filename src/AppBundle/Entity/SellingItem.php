@@ -125,4 +125,3 @@ class SellingItem
         return $this->description;
     }
 }
-

@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="employee")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\EmployeeRepository")
  */
-class Employee
+abstract class Employee
 {
     /**
      * @var int
@@ -44,6 +44,12 @@ class Employee
      */
     private $phone;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="role", type="string", length=255)
+     */
+    private $role;
 
     /**
      * Get id
@@ -126,5 +132,28 @@ class Employee
     {
         return $this->phone;
     }
-}
 
+    /**
+     * Set role
+     *
+     * @param string $role
+     *
+     * @return Employee
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+}

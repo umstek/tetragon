@@ -127,4 +127,3 @@ class Customer
         return $this->phone;
     }
 }
-

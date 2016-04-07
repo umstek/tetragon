@@ -63,4 +63,3 @@ class RepairingItem
         return $this->description;
     }
 }
-
