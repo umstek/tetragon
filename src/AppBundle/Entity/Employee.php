@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * Represents an employee in the shop.
  *
+ * @ORM\MappedSuperclass()
  * @ORM\Table(name="employee")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\EmployeeRepository")
  */
@@ -50,6 +51,20 @@ abstract class Employee
      * @ORM\Column(name="role", type="string", length=255)
      */
     private $role;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=20, nullable=true)
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nic", type="string", length=11)
+     */
+    private $nic;
 
     /**
      * Get id
@@ -155,5 +170,53 @@ abstract class Employee
     public function getRole()
     {
         return $this->role;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return Employee
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set nic
+     *
+     * @param string $nic
+     *
+     * @return Employee
+     */
+    public function setNic($nic)
+    {
+        $this->nic = $nic;
+
+        return $this;
+    }
+
+    /**
+     * Get nic
+     *
+     * @return string
+     */
+    public function getNic()
+    {
+        return $this->nic;
     }
 }

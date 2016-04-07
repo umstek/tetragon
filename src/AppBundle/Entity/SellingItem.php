@@ -38,10 +38,45 @@ class SellingItem
     /**
      * @var string
      *
+     * @ORM\Column(name="brand", type="string", length=255)
+     */
+    private $brand;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="model", type="string", length=255)
+     */
+    private $model;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="serial", type="string", length=255)
+     */
+    private $serial;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="description", type="text")
      */
     private $description;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_sold", type="boolean")
+     */
+    private $isSold;
+
+    /**
+     * @var BuyingOrder
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\BuyingOrder", inversedBy="items")
+     * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
+     */
+    private $order;
 
     /**
      * Get id
@@ -123,5 +158,125 @@ class SellingItem
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set brand
+     *
+     * @param string $brand
+     *
+     * @return SellingItem
+     */
+    public function setBrand($brand)
+    {
+        $this->brand = $brand;
+
+        return $this;
+    }
+
+    /**
+     * Get brand
+     *
+     * @return string
+     */
+    public function getBrand()
+    {
+        return $this->brand;
+    }
+
+    /**
+     * Set model
+     *
+     * @param string $model
+     *
+     * @return SellingItem
+     */
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    /**
+     * Get model
+     *
+     * @return string
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * Set serial
+     *
+     * @param string $serial
+     *
+     * @return SellingItem
+     */
+    public function setSerial($serial)
+    {
+        $this->serial = $serial;
+
+        return $this;
+    }
+
+    /**
+     * Get serial
+     *
+     * @return string
+     */
+    public function getSerial()
+    {
+        return $this->serial;
+    }
+
+    /**
+     * Set isSold
+     *
+     * @param boolean $isSold
+     *
+     * @return SellingItem
+     */
+    public function setIsSold($isSold)
+    {
+        $this->isSold = $isSold;
+
+        return $this;
+    }
+
+    /**
+     * Get isSold
+     *
+     * @return boolean
+     */
+    public function getIsSold()
+    {
+        return $this->isSold;
+    }
+
+    /**
+     * Set order
+     *
+     * @param \AppBundle\Entity\BuyingOrder $order
+     *
+     * @return SellingItem
+     */
+    public function setOrder(\AppBundle\Entity\BuyingOrder $order = null)
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * Get order
+     *
+     * @return \AppBundle\Entity\BuyingOrder
+     */
+    public function getOrder()
+    {
+        return $this->order;
     }
 }

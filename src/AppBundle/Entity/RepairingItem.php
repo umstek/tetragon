@@ -24,10 +24,37 @@ class RepairingItem
     /**
      * @var string
      *
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="description", type="text")
      */
     private $description;
 
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="due", type="datetime")
+     */
+    private $due;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_repaired", type="boolean")
+     */
+    private $isRepaired;
+
+    /**
+     * @var BuyingOrder
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\RepairingOrder", inversedBy="items")
+     * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
+     */
+    private $order;
 
     /**
      * Get id
@@ -61,5 +88,101 @@ class RepairingItem
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return RepairingItem
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set due
+     *
+     * @param \DateTime $due
+     *
+     * @return RepairingItem
+     */
+    public function setDue($due)
+    {
+        $this->due = $due;
+
+        return $this;
+    }
+
+    /**
+     * Get due
+     *
+     * @return \DateTime
+     */
+    public function getDue()
+    {
+        return $this->due;
+    }
+
+    /**
+     * Set isRepaired
+     *
+     * @param boolean $isRepaired
+     *
+     * @return RepairingItem
+     */
+    public function setIsRepaired($isRepaired)
+    {
+        $this->isRepaired = $isRepaired;
+
+        return $this;
+    }
+
+    /**
+     * Get isRepaired
+     *
+     * @return boolean
+     */
+    public function getIsRepaired()
+    {
+        return $this->isRepaired;
+    }
+
+    /**
+     * Set order
+     *
+     * @param \AppBundle\Entity\RepairingOrder $order
+     *
+     * @return RepairingItem
+     */
+    public function setOrder(\AppBundle\Entity\RepairingOrder $order = null)
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * Get order
+     *
+     * @return \AppBundle\Entity\RepairingOrder
+     */
+    public function getOrder()
+    {
+        return $this->order;
     }
 }

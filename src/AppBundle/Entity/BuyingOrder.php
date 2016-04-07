@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="buying_order")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BuyingOrderRepository")
  */
-class BuyingOrder
+class BuyingOrder extends Order
 {
     /**
      * @var int
@@ -30,9 +30,21 @@ class BuyingOrder
     private $date;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SellingItem", mappedBy="buyingOrder")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SellingItem", mappedBy="order")
      */
     private $items;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Customer", inversedBy="buyings")
+     * @ORM\JoinColumn(name="customer_id", referencedColumnName="id")
+     */
+    private $customer;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Seller", inversedBy="sales")
+     * @ORM\JoinColumn(name="seller_id", referencedColumnName="id")
+     */
+    private $seller;
 
     public function __construct()
     {
@@ -105,5 +117,53 @@ class BuyingOrder
     public function getItems()
     {
         return $this->items;
+    }
+
+    /**
+     * Set customer
+     *
+     * @param \AppBundle\Entity\Customer $customer
+     *
+     * @return BuyingOrder
+     */
+    public function setCustomer(\AppBundle\Entity\Customer $customer = null)
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    /**
+     * Get customer
+     *
+     * @return \AppBundle\Entity\Customer
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
+    /**
+     * Set seller
+     *
+     * @param \AppBundle\Entity\Seller $seller
+     *
+     * @return BuyingOrder
+     */
+    public function setSeller(\AppBundle\Entity\Seller $seller = null)
+    {
+        $this->seller = $seller;
+
+        return $this;
+    }
+
+    /**
+     * Get seller
+     *
+     * @return \AppBundle\Entity\Seller
+     */
+    public function getSeller()
+    {
+        return $this->seller;
     }
 }
