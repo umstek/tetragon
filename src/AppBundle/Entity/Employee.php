@@ -7,13 +7,16 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Employee
  *
- * Represents an employee in the shop.
+ * Represents any type of employee.
  *
- * @ORM\MappedSuperclass()
  * @ORM\Table(name="employee")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\EmployeeRepository")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="role", type="string")
+ *
+ * Use automatically generated discriminator map.
  */
-abstract class Employee
+abstract class Employee extends Person
 {
     /**
      * @var int
@@ -22,54 +25,13 @@ abstract class Employee
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="address", type="text")
-     */
-    private $address;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="phone", type="string", length=20)
-     */
-    private $phone;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="role", type="string", length=255)
-     */
-    private $role;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=20, nullable=true)
-     */
-    private $email;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nic", type="string", length=11)
-     */
-    private $nic;
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -146,30 +108,6 @@ abstract class Employee
     public function getPhone()
     {
         return $this->phone;
-    }
-
-    /**
-     * Set role
-     *
-     * @param string $role
-     *
-     * @return Employee
-     */
-    public function setRole($role)
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
-    /**
-     * Get role
-     *
-     * @return string
-     */
-    public function getRole()
-    {
-        return $this->role;
     }
 
     /**

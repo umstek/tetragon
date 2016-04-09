@@ -9,9 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
  * BuyingOrder
  *
  * @ORM\Table(name="buying_order")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\BuyingOrderRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\SalesOrderRepository")
  */
-class BuyingOrder extends Order
+class SalesOrder extends Order
 {
     /**
      * @var int
@@ -41,10 +41,10 @@ class BuyingOrder extends Order
     private $customer;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Seller", inversedBy="sales")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SalesClerk", inversedBy="sales")
      * @ORM\JoinColumn(name="seller_id", referencedColumnName="id")
      */
-    private $seller;
+    private $salesClerk;
 
     public function __construct()
     {
@@ -62,20 +62,6 @@ class BuyingOrder extends Order
     }
 
     /**
-     * Set date
-     *
-     * @param \DateTime $date
-     *
-     * @return BuyingOrder
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
      * Get date
      *
      * @return \DateTime
@@ -86,11 +72,25 @@ class BuyingOrder extends Order
     }
 
     /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return SalesOrder
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
      * Add item
      *
      * @param \AppBundle\Entity\SellingItem $item
      *
-     * @return BuyingOrder
+     * @return SalesOrder
      */
     public function addItem(\AppBundle\Entity\SellingItem $item)
     {
@@ -120,20 +120,6 @@ class BuyingOrder extends Order
     }
 
     /**
-     * Set customer
-     *
-     * @param \AppBundle\Entity\Customer $customer
-     *
-     * @return BuyingOrder
-     */
-    public function setCustomer(\AppBundle\Entity\Customer $customer = null)
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
-
-    /**
      * Get customer
      *
      * @return \AppBundle\Entity\Customer
@@ -144,15 +130,15 @@ class BuyingOrder extends Order
     }
 
     /**
-     * Set seller
+     * Set customer
      *
-     * @param \AppBundle\Entity\Seller $seller
+     * @param \AppBundle\Entity\Customer $customer
      *
-     * @return BuyingOrder
+     * @return SalesOrder
      */
-    public function setSeller(\AppBundle\Entity\Seller $seller = null)
+    public function setCustomer(\AppBundle\Entity\Customer $customer = null)
     {
-        $this->seller = $seller;
+        $this->customer = $customer;
 
         return $this;
     }
@@ -160,10 +146,24 @@ class BuyingOrder extends Order
     /**
      * Get seller
      *
-     * @return \AppBundle\Entity\Seller
+     * @return \AppBundle\Entity\SalesClerk
      */
-    public function getSeller()
+    public function getSalesClerk()
     {
-        return $this->seller;
+        return $this->salesClerk;
+    }
+
+    /**
+     * Set seller
+     *
+     * @param \AppBundle\Entity\SalesClerk $salesClerk
+     *
+     * @return SalesOrder
+     */
+    public function setSalesClerk(\AppBundle\Entity\SalesClerk $salesClerk = null)
+    {
+        $this->salesClerk = $salesClerk;
+
+        return $this;
     }
 }
