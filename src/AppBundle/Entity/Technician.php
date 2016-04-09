@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,7 +25,7 @@ class Technician extends Employee
      */
     public function __construct()
     {
-        $this->repairs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->repairs = new ArrayCollection();
     }
 
     /**
@@ -160,11 +161,11 @@ class Technician extends Employee
     /**
      * Add repair
      *
-     * @param \AppBundle\Entity\RepairingOrder $repair
+     * @param RepairingOrder $repair
      *
      * @return Technician
      */
-    public function addRepair(\AppBundle\Entity\RepairingOrder $repair)
+    public function addRepair(RepairingOrder $repair)
     {
         $this->repairs[] = $repair;
 
@@ -174,9 +175,9 @@ class Technician extends Employee
     /**
      * Remove repair
      *
-     * @param \AppBundle\Entity\RepairingOrder $repair
+     * @param RepairingOrder $repair
      */
-    public function removeRepair(\AppBundle\Entity\RepairingOrder $repair)
+    public function removeRepair(RepairingOrder $repair)
     {
         $this->repairs->removeElement($repair);
     }

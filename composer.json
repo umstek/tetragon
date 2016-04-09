@@ -2,6 +2,33 @@
     "name": "tetracode/tetragon",
     "license": "proprietary",
     "type": "project",
+    "authors": [
+        {
+            "name": "Wickramaranga Abeygunawardhana",
+            "email": "umstek@live.com",
+            "role": "Integrator"
+        },
+        {
+            "name": "Tharaka Ranatunga",
+            "email": "tharaka.kamal@gmail.com",
+            "role": "Implementor"
+        },
+        {
+            "name": "Akila D. Perera",
+            "email": "akilamatrix@gmail.com",
+            "role": "Project Manager"
+        },
+        {
+            "name": "Thilan K. Bandara",
+            "email": "thilan.rc@gmail.com",
+            "role": "Test Manager"
+        }
+    ],
+    "support": {
+        "forum": "https://groups.google.com/forum/#!forum/twig-users",
+        "issues": "https://bitbucket.org/tetra-code/tetragon/issues",
+        "wiki": "https://bitbucket.org/tetra-code/tetragon/wiki/Home"
+    },
     "autoload": {
         "psr-4": {
             "": "src/"
@@ -28,7 +55,8 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
         "twbs/bootstrap": "^3.3",
-        "phpunit/phpunit": "^5.2"
+        "phpunit/phpunit": "^5.2",
+        "symfony/assetic-bundle": "^2.8"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
