@@ -62,6 +62,16 @@ class RepairingOrder extends Order
     }
 
     /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
      * Set date
      *
      * @param \DateTime $date
@@ -76,23 +86,13 @@ class RepairingOrder extends Order
     }
 
     /**
-     * Get date
-     *
-     * @return \DateTime
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    /**
      * Add item
      *
-     * @param \AppBundle\Entity\RepairingItem $item
+     * @param RepairingItem $item
      *
      * @return RepairingOrder
      */
-    public function addItem(\AppBundle\Entity\RepairingItem $item)
+    public function addItem(RepairingItem $item)
     {
         $this->items[] = $item;
 
@@ -102,9 +102,9 @@ class RepairingOrder extends Order
     /**
      * Remove item
      *
-     * @param \AppBundle\Entity\RepairingItem $item
+     * @param RepairingItem $item
      */
-    public function removeItem(\AppBundle\Entity\RepairingItem $item)
+    public function removeItem(RepairingItem $item)
     {
         $this->items->removeElement($item);
     }
@@ -120,23 +120,9 @@ class RepairingOrder extends Order
     }
 
     /**
-     * Set customer
-     *
-     * @param \AppBundle\Entity\Customer $customer
-     *
-     * @return RepairingOrder
-     */
-    public function setCustomer(\AppBundle\Entity\Customer $customer = null)
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
-
-    /**
      * Get customer
      *
-     * @return \AppBundle\Entity\Customer
+     * @return Customer
      */
     public function getCustomer()
     {
@@ -144,15 +130,15 @@ class RepairingOrder extends Order
     }
 
     /**
-     * Set technician
+     * Set customer
      *
-     * @param \AppBundle\Entity\Technician $technician
+     * @param Customer $customer
      *
      * @return RepairingOrder
      */
-    public function setTechnician(\AppBundle\Entity\Technician $technician = null)
+    public function setCustomer(Customer $customer = null)
     {
-        $this->technician = $technician;
+        $this->customer = $customer;
 
         return $this;
     }
@@ -160,10 +146,24 @@ class RepairingOrder extends Order
     /**
      * Get technician
      *
-     * @return \AppBundle\Entity\Technician
+     * @return Technician
      */
     public function getTechnician()
     {
         return $this->technician;
+    }
+
+    /**
+     * Set technician
+     *
+     * @param Technician $technician
+     *
+     * @return RepairingOrder
+     */
+    public function setTechnician(Technician $technician = null)
+    {
+        $this->technician = $technician;
+
+        return $this;
     }
 }

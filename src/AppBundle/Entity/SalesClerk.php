@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,7 +25,7 @@ class SalesClerk extends Employee
      */
     public function __construct()
     {
-        $this->sales = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sales = new ArrayCollection();
     }
 
     /**
@@ -160,11 +161,11 @@ class SalesClerk extends Employee
     /**
      * Add sale
      *
-     * @param \AppBundle\Entity\SalesOrder $sale
+     * @param SalesOrder $sale
      *
      * @return SalesClerk
      */
-    public function addSale(\AppBundle\Entity\SalesOrder $sale)
+    public function addSale(SalesOrder $sale)
     {
         $this->sales[] = $sale;
 
@@ -174,9 +175,9 @@ class SalesClerk extends Employee
     /**
      * Remove sale
      *
-     * @param \AppBundle\Entity\SalesOrder $sale
+     * @param SalesOrder $sale
      */
-    public function removeSale(\AppBundle\Entity\SalesOrder $sale)
+    public function removeSale(SalesOrder $sale)
     {
         $this->sales->removeElement($sale);
     }

@@ -165,7 +165,7 @@ class RepairingItem
     /**
      * Get order
      *
-     * @return \AppBundle\Entity\RepairingOrder
+     * @return RepairingOrder
      */
     public function getOrder()
     {
@@ -175,11 +175,11 @@ class RepairingItem
     /**
      * Set order
      *
-     * @param \AppBundle\Entity\RepairingOrder $order
+     * @param RepairingOrder $order
      *
      * @return RepairingItem
      */
-    public function setOrder(\AppBundle\Entity\RepairingOrder $order = null)
+    public function setOrder(RepairingOrder $order = null)
     {
         $this->order = $order;
 

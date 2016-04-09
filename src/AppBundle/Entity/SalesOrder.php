@@ -88,11 +88,11 @@ class SalesOrder extends Order
     /**
      * Add item
      *
-     * @param \AppBundle\Entity\SellingItem $item
+     * @param SellingItem $item
      *
      * @return SalesOrder
      */
-    public function addItem(\AppBundle\Entity\SellingItem $item)
+    public function addItem(SellingItem $item)
     {
         $this->items[] = $item;
 
@@ -102,9 +102,9 @@ class SalesOrder extends Order
     /**
      * Remove item
      *
-     * @param \AppBundle\Entity\SellingItem $item
+     * @param SellingItem $item
      */
-    public function removeItem(\AppBundle\Entity\SellingItem $item)
+    public function removeItem(SellingItem $item)
     {
         $this->items->removeElement($item);
     }
@@ -122,7 +122,7 @@ class SalesOrder extends Order
     /**
      * Get customer
      *
-     * @return \AppBundle\Entity\Customer
+     * @return Customer
      */
     public function getCustomer()
     {
@@ -132,11 +132,11 @@ class SalesOrder extends Order
     /**
      * Set customer
      *
-     * @param \AppBundle\Entity\Customer $customer
+     * @param Customer $customer
      *
      * @return SalesOrder
      */
-    public function setCustomer(\AppBundle\Entity\Customer $customer = null)
+    public function setCustomer(Customer $customer = null)
     {
         $this->customer = $customer;
 
@@ -146,7 +146,7 @@ class SalesOrder extends Order
     /**
      * Get seller
      *
-     * @return \AppBundle\Entity\SalesClerk
+     * @return SalesClerk
      */
     public function getSalesClerk()
     {
@@ -156,11 +156,11 @@ class SalesOrder extends Order
     /**
      * Set seller
      *
-     * @param \AppBundle\Entity\SalesClerk $salesClerk
+     * @param SalesClerk $salesClerk
      *
      * @return SalesOrder
      */
-    public function setSalesClerk(\AppBundle\Entity\SalesClerk $salesClerk = null)
+    public function setSalesClerk(SalesClerk $salesClerk = null)
     {
         $this->salesClerk = $salesClerk;
 
