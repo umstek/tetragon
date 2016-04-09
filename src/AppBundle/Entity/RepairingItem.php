@@ -49,7 +49,7 @@ class RepairingItem
     private $isRepaired;
 
     /**
-     * @var BuyingOrder
+     * @var SalesOrder
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\RepairingOrder", inversedBy="items")
      * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
@@ -67,6 +67,16 @@ class RepairingItem
     }
 
     /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
      * Set description
      *
      * @param string $description
@@ -81,13 +91,13 @@ class RepairingItem
     }
 
     /**
-     * Get description
+     * Get name
      *
      * @return string
      */
-    public function getDescription()
+    public function getName()
     {
-        return $this->description;
+        return $this->name;
     }
 
     /**
@@ -105,13 +115,13 @@ class RepairingItem
     }
 
     /**
-     * Get name
+     * Get due
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getName()
+    public function getDue()
     {
-        return $this->name;
+        return $this->due;
     }
 
     /**
@@ -129,13 +139,13 @@ class RepairingItem
     }
 
     /**
-     * Get due
+     * Get isRepaired
      *
-     * @return \DateTime
+     * @return boolean
      */
-    public function getDue()
+    public function getIsRepaired()
     {
-        return $this->due;
+        return $this->isRepaired;
     }
 
     /**
@@ -153,13 +163,13 @@ class RepairingItem
     }
 
     /**
-     * Get isRepaired
+     * Get order
      *
-     * @return boolean
+     * @return \AppBundle\Entity\RepairingOrder
      */
-    public function getIsRepaired()
+    public function getOrder()
     {
-        return $this->isRepaired;
+        return $this->order;
     }
 
     /**
@@ -174,15 +184,5 @@ class RepairingItem
         $this->order = $order;
 
         return $this;
-    }
-
-    /**
-     * Get order
-     *
-     * @return \AppBundle\Entity\RepairingOrder
-     */
-    public function getOrder()
-    {
-        return $this->order;
     }
 }

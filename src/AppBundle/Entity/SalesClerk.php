@@ -5,16 +5,27 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Manager
+ * Seller
  *
- * Represents a manager in the shop.
+ * Represents a salesman in the shop.
  *
  * @ORM\Table(name="employee")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\EmployeeRepository")
  */
-class Manager extends Employee
+class SalesClerk extends Employee
 {
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SalesOrder", mappedBy="salesClerk")
+     */
+    private $sales;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->sales = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -31,7 +42,7 @@ class Manager extends Employee
      *
      * @param string $name
      *
-     * @return Manager
+     * @return SalesClerk
      */
     public function setName($name)
     {
@@ -55,7 +66,7 @@ class Manager extends Employee
      *
      * @param string $address
      *
-     * @return Manager
+     * @return SalesClerk
      */
     public function setAddress($address)
     {
@@ -79,7 +90,7 @@ class Manager extends Employee
      *
      * @param string $phone
      *
-     * @return Manager
+     * @return SalesClerk
      */
     public function setPhone($phone)
     {
@@ -103,7 +114,7 @@ class Manager extends Employee
      *
      * @param string $email
      *
-     * @return Manager
+     * @return SalesClerk
      */
     public function setEmail($email)
     {
@@ -127,7 +138,7 @@ class Manager extends Employee
      *
      * @param string $nic
      *
-     * @return Manager
+     * @return SalesClerk
      */
     public function setNic($nic)
     {
@@ -144,5 +155,39 @@ class Manager extends Employee
     public function getNic()
     {
         return $this->nic;
+    }
+
+    /**
+     * Add sale
+     *
+     * @param \AppBundle\Entity\SalesOrder $sale
+     *
+     * @return SalesClerk
+     */
+    public function addSale(\AppBundle\Entity\SalesOrder $sale)
+    {
+        $this->sales[] = $sale;
+
+        return $this;
+    }
+
+    /**
+     * Remove sale
+     *
+     * @param \AppBundle\Entity\SalesOrder $sale
+     */
+    public function removeSale(\AppBundle\Entity\SalesOrder $sale)
+    {
+        $this->sales->removeElement($sale);
+    }
+
+    /**
+     * Get sales
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSales()
+    {
+        return $this->sales;
     }
 }

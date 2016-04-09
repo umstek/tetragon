@@ -3,17 +3,18 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Customer
+ * Class Customer
  *
  * Represents a customer.
  *
  * @ORM\Table(name="customer")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CustomerRepository")
  */
-class Customer
+class Customer extends Person
 {
     /**
      * @var int
@@ -25,42 +26,7 @@ class Customer
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="address", type="text", nullable=true)
-     */
-    private $address;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="phone", type="string", length=20)
-     */
-    private $phone;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=20, nullable=true)
-     */
-    private $email;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nic", type="string", length=11, nullable=true)
-     */
-    private $nic;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\BuyingOrder", mappedBy="customer")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SalesOrder", mappedBy="customer")
      */
     private $buyings;
 
@@ -70,23 +36,22 @@ class Customer
     private $repairs;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->buyings = new ArrayCollection();
+        $this->repairs = new ArrayCollection();
+    }
+
+    /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**
@@ -104,13 +69,13 @@ class Customer
     }
 
     /**
-     * Get address
+     * Get name
      *
      * @return string
      */
-    public function getAddress()
+    public function getName()
     {
-        return $this->address;
+        return $this->name;
     }
 
     /**
@@ -128,13 +93,13 @@ class Customer
     }
 
     /**
-     * Get phone
+     * Get address
      *
      * @return string
      */
-    public function getPhone()
+    public function getAddress()
     {
-        return $this->phone;
+        return $this->address;
     }
 
     /**
@@ -152,12 +117,13 @@ class Customer
     }
 
     /**
-     * Constructor
+     * Get phone
+     *
+     * @return string
      */
-    public function __construct()
+    public function getPhone()
     {
-        $this->buyings = new ArrayCollection();
-        $this->repairs = new ArrayCollection();
+        return $this->phone;
     }
 
     /**
@@ -211,11 +177,11 @@ class Customer
     /**
      * Add buying
      *
-     * @param \AppBundle\Entity\BuyingOrder $buying
+     * @param SalesOrder $buying
      *
      * @return Customer
      */
-    public function addBuying(\AppBundle\Entity\BuyingOrder $buying)
+    public function addBuying(SalesOrder $buying)
     {
         $this->buyings[] = $buying;
 
@@ -225,9 +191,9 @@ class Customer
     /**
      * Remove buying
      *
-     * @param \AppBundle\Entity\BuyingOrder $buying
+     * @param SalesOrder $buying
      */
-    public function removeBuying(\AppBundle\Entity\BuyingOrder $buying)
+    public function removeBuying(SalesOrder $buying)
     {
         $this->buyings->removeElement($buying);
     }
@@ -235,7 +201,7 @@ class Customer
     /**
      * Get buyings
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getBuyings()
     {
@@ -245,11 +211,11 @@ class Customer
     /**
      * Add repair
      *
-     * @param \AppBundle\Entity\RepairingOrder $repair
+     * @param RepairingOrder $repair
      *
      * @return Customer
      */
-    public function addRepair(\AppBundle\Entity\RepairingOrder $repair)
+    public function addRepair(RepairingOrder $repair)
     {
         $this->repairs[] = $repair;
 
@@ -259,9 +225,9 @@ class Customer
     /**
      * Remove repair
      *
-     * @param \AppBundle\Entity\RepairingOrder $repair
+     * @param RepairingOrder $repair
      */
-    public function removeRepair(\AppBundle\Entity\RepairingOrder $repair)
+    public function removeRepair(RepairingOrder $repair)
     {
         $this->repairs->removeElement($repair);
     }
@@ -269,7 +235,7 @@ class Customer
     /**
      * Get repairs
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getRepairs()
     {

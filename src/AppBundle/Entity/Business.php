@@ -6,15 +6,15 @@ class Business
 {
     private $manager;
 
-    private $seller = array ();
+    private $salesClerks = array();
 
-    private $customer = array ();
+    private $customers = array();
 
-    private $repairingItem = array ();
+    private $repairingItems = array();
 
-    private $sellerItems = array ();
-    
-    private $technician = array ();
+    private $sellingItems = array();
+
+    private $technicians = array();
 
     public function __construct()
     {
