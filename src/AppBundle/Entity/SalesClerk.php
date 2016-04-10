@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Seller
+ * SalesClerk
  *
  * Represents a salesman in the shop.
  *
@@ -190,5 +190,29 @@ class SalesClerk extends Employee
     public function getSales()
     {
         return $this->sales;
+    }
+
+    /**
+     * Set sysUser
+     *
+     * @param User $sysUser
+     *
+     * @return SalesClerk
+     */
+    public function setSysUser(User $sysUser = null)
+    {
+        $this->sysUser = $sysUser;
+
+        return $this;
+    }
+
+    /**
+     * Get sysUser
+     *
+     * @return User
+     */
+    public function getSysUser()
+    {
+        return $this->sysUser;
     }
 }

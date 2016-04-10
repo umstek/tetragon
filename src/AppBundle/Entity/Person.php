@@ -3,14 +3,13 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\MappedSuperclass;
 
 /**
  * Person
  *
  * Persistent entity state provider for Person-type classes.
  *
- * @MappedSuperclass()
+ * @ORM\MappedSuperclass()
  */
 abstract class Person
 {

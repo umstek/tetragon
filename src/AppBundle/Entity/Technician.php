@@ -191,4 +191,28 @@ class Technician extends Employee
     {
         return $this->repairs;
     }
+
+    /**
+     * Set sysUser
+     *
+     * @param User $sysUser
+     *
+     * @return Technician
+     */
+    public function setSysUser(User $sysUser = null)
+    {
+        $this->sysUser = $sysUser;
+
+        return $this;
+    }
+
+    /**
+     * Get sysUser
+     *
+     * @return User
+     */
+    public function getSysUser()
+    {
+        return $this->sysUser;
+    }
 }

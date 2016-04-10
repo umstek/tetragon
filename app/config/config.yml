@@ -48,8 +48,8 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         default_table_options:
-            charset: utf8mb4
-            collate: utf8mb4_unicode_ci
+            charset: utf8 #utf8mb4 incompatibility with FOSUserBundle
+            collate: utf8_unicode_ci #utf8mb4_unicode_ci
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
@@ -70,8 +70,15 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
+# Assetic configuration
 assetic:
     debug: "%kernel.debug%"
     use_controller: "%kernel.debug%"
     filters:
         cssrewrite: ~
+
+# FOSUserBundle configuration
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: AppBundle\Entity\Person

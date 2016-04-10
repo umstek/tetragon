@@ -27,6 +27,11 @@ abstract class Employee extends Person
      */
     protected $id;
 
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", inversedBy="profile")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    protected $sysUser;
 
     /**
      * Get id
@@ -156,5 +161,29 @@ abstract class Employee extends Person
     public function getNic()
     {
         return $this->nic;
+    }
+
+    /**
+     * Get sysUser
+     *
+     * @return User
+     */
+    public function getSysUser()
+    {
+        return $this->sysUser;
+    }
+
+    /**
+     * Set sysUser
+     *
+     * @param User $sysUser
+     *
+     * @return Employee
+     */
+    public function setSysUser(User $sysUser = null)
+    {
+        $this->sysUser = $sysUser;
+
+        return $this;
     }
 }
