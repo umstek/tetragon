@@ -42,7 +42,7 @@ class SalesOrder extends Order
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SalesClerk", inversedBy="sales")
-     * @ORM\JoinColumn(name="seller_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="sales_clerk_id", referencedColumnName="id")
      */
     private $salesClerk;
 
