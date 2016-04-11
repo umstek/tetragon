@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block style %}
-            {% stylesheets filter="cssrewrite" output="css/app.css"
-            "%kernel.root_dir%/../vendor/twbs/bootstrap/dist/css/bootstrap.css"
-            "%kernel.root_dir%/../vendor/twbs/bootstrap/dist/css/bootstrap-theme.css" %}
-            {# no error here#}
-            <link rel="stylesheet" href="{{ asset_url }}"/>
-            {% endstylesheets %}
-        {% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}Tetragon{% endblock %}</title>
+    {% block styles %}
+        {% stylesheets filter="cssrewrite" output="css/app.css"
+        "%kernel.root_dir%/../vendor/twbs/bootstrap/dist/css/bootstrap.css"
+        "%kernel.root_dir%/../vendor/twbs/bootstrap/dist/css/bootstrap-theme.css" %}
+        {# no error here#}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+</head>
 
-        {% endblock %}
-    </body>
+<body>
+<div class="container">
+    {% block body %}{% endblock %}
+</div>
+
+{% block scripts %}
+{% endblock %}
+{% javascripts
+"%kernel.root_dir%/../vendor/twbs/bootstrap/dist/js/bootstrap.js" %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+</body>
 </html>

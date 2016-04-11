@@ -3,11 +3,10 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type as Types;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CustomerType extends AbstractType
+class RepairingOrderType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,12 +15,9 @@ class CustomerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('address')
-            ->add('phone')
-            ->add('email', Types\EmailType::class)
-            ->add('nic')
-            ->add('submit', Types\SubmitType::class);
+            ->add('date', 'datetime')
+            ->add('customer')
+            ->add('technician');
     }
 
     /**
@@ -30,7 +26,7 @@ class CustomerType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Customer'
+            'data_class' => 'AppBundle\Entity\RepairingOrder'
         ));
     }
 }

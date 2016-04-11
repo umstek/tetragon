@@ -1,6 +1,9 @@
 # README #
 This is the repository for **tetragon** software by **tetracode**.
 
+![tetragon](https://bitbucket.org/account/user/tetra-code/projects/TET/avatar/256)
+![tetracode](https://bitbucket.org/account/tetra-code/avatar/)
+
 ![tests:passing](https://img.shields.io/badge/tests-passing-green.svg)
 ![product:maintained](https://img.shields.io/badge/project-on--going-blue.svg)
 ![documentation:not-yet](https://img.shields.io/badge/documentation-not--yet-red.svg)
@@ -57,7 +60,7 @@ Of course. Go to [test-prod on Heroku](http://tetragon.heroku.com/)
    > 
    > Fine tuning for a release: `release`.
    >
-   > Please be kind enough not to use the `master` branch unless required. 
+   > Please do not use the `master` branch unless required.
    >
    >     git checkout <branch-name>
 6. Read [The Symfony Book](http://symfony.com/doc/current/book/index.html).

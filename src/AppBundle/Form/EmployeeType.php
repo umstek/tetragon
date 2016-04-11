@@ -17,7 +17,10 @@ class EmployeeType extends AbstractType
         $builder
             ->add('name')
             ->add('address')
-            ->add('phone');
+            ->add('phone')
+            ->add('email')
+            ->add('nic')
+            ->add('sysUser');
     }
 
     /**
