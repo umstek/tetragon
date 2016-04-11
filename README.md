@@ -1,17 +1,20 @@
 # README #
 This is the repository for **tetragon** software by **tetracode**.
+![tests:passing](https://img.shields.io/badge/tests-passing-green.svg)
+![product:maintained](https://img.shields.io/badge/project-on--going-blue.svg)
+![documentation:not-yet](https://img.shields.io/badge/documentation-not--yet-red.svg)
 ___
 
 ## What is this repository for? ##
 
 * This contains the development sources for the shop management system **tetragon**.
-* Only the [Symfony](http://symfony.com/) boilerplate code is committed yet. 
+* Bulid with [![symfony](http://symfony.com/logos/symfony_black_02.png?v=4)](http://symfony.com/) and :heart:
 * Join the [hipchat](https://tetracode.hipchat.com/home)!
 ___
 
-## How to run the program? ##
+## How to run the program locally? ##
 
-There's nothing to run yet, :frowning: but, 
+To run the program,
 
 1. Have set up a server. Easiest way is to install [XAMPP](https://www.apachefriends.org/).
 2. Install [git](https://git-scm.com/). 
@@ -25,6 +28,12 @@ There's nothing to run yet, :frowning: but,
    >     php bin/console server:run
 8. Go to [`http://127.0.0.1:8000`](http://127.0.0.1:8000) and enjoy. :smile:
 ___
+
+## Any online version? ##
+
+Of course. Go to [test-prod on Heroku](http://tetragon.heroku.com/)
+
+---
 
 ## How to get started developing? ##
 
