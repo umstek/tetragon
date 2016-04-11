@@ -4,7 +4,7 @@ This is the repository for **tetragon** software by **tetracode**.
 ![tetragon](https://bitbucket.org/account/user/tetra-code/projects/TET/avatar/256)
 ![tetracode](https://bitbucket.org/account/tetra-code/avatar/)
 
-![tests:passing](https://img.shields.io/badge/tests-passing-green.svg)
+![tests:failing](https://img.shields.io/badge/tests-passing-red.svg)
 ![product:maintained](https://img.shields.io/badge/project-on--going-blue.svg)
 ![documentation:not-yet](https://img.shields.io/badge/documentation-not--yet-red.svg)
 ___
