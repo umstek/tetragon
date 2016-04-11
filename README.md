@@ -1,5 +1,6 @@
 # README #
 This is the repository for **tetragon** software by **tetracode**.
+
 ![tests:passing](https://img.shields.io/badge/tests-passing-green.svg)
 ![product:maintained](https://img.shields.io/badge/project-on--going-blue.svg)
 ![documentation:not-yet](https://img.shields.io/badge/documentation-not--yet-red.svg)
@@ -8,7 +9,7 @@ ___
 ## What is this repository for? ##
 
 * This contains the development sources for the shop management system **tetragon**.
-* Bulid with [![symfony](http://symfony.com/logos/symfony_black_02.png?v=4)](http://symfony.com/) and :heart:
+* Built with [![symfony](http://symfony.com/logos/symfony_black_02.svg?v=4)](http://symfony.com/) and :heart:
 * Join the [hipchat](https://tetracode.hipchat.com/home)!
 ___
 
