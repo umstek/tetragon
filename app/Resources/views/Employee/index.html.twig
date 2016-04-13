@@ -1,0 +1,18 @@
+{% form_theme form "bootstrap_3_layout.html.twig" %}
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Employee:index{% endblock %}
+
+{% block body %}
+    <div class="col-sm-12">
+        <h1>Welcome to the Employee:index page</h1>
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+        {#{{ form_row(form.name) }}#}
+        {#{{ form_row(form.address) }}#}
+        {#{{ form_row(form.phone) }}#}
+        {#{{ form_row(form.email) }}#}
+        {#{{ form_row(form.nic) }}#}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

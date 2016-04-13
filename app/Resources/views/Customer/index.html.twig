@@ -1,18 +1,66 @@
 {% form_theme form "bootstrap_3_layout.html.twig" %}
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Customer:index{% endblock %}
+{% block title %}Customers{% endblock %}
 
 {% block body %}
     <div class="col-sm-12">
-        <h1>Welcome to the Customer:index page</h1>
-        {{ form_start(form) }}
-        {{ form_errors(form) }}
-        {{ form_row(form.name) }}
-        {{ form_row(form.address) }}
-        {{ form_row(form.phone) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.nic) }}
-        {{ form_end(form) }}
+        <h1>Welcome to the Customers page</h1>
+
+        {% for flash_message in app.session.flashbag.get('success') %}
+            <div class="alert alert-success">
+                <strong>Success: </strong>{{ flash_message }}
+            </div>
+        {% endfor %}
+
+        {% if list %}
+            <table class="table table-responsive">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>E-mail</th>
+                    <th>NIC number</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for customer in customers %}
+                    <tr>
+                        <td>{{ customer.id }}</td>
+                        <td>{{ customer.name }}</td>
+                        <td>{{ customer.address }}</td>
+                        <td>{{ customer.phone }}</td>
+                        <td>{{ customer.email }}</td>
+                        <td>{{ customer.nic }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ form_start(form) }}
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" href="#add">Add Customer</a>
+                </h3>
+            </div>
+            <div id="add" class="panel-collapse collapse {% if not list %}in{% endif %}">
+                <div class="panel-body">
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.address) }}
+                    {{ form_row(form.phone) }}
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.nic) }}
+                </div>
+                <div class="panel-footer">
+                    {{ form_rest(form) }}
+                    {{ form_errors(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

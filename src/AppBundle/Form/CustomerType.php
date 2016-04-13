@@ -16,6 +16,7 @@ class CustomerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('id', Types\HiddenType::class, ['disabled' => true])
             ->add('name')
             ->add('address')
             ->add('phone')

@@ -2,8 +2,9 @@
 
 {% block body %}
     <div class="jumbotron">
-        <img src="{{ asset('bundles/framework/images/logo_tetragon.svg') }}" class="img-responsive"
-             height="25%" width="25%">
+        {% image 'bundles/app/logo_tetragon.svg' %}
+        <img src="{{ asset_url }}" alt="Logo"/>
+        {% endimage %}
         <h1 class="h1">
             Tetragon
         </h1>

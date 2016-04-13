@@ -6,14 +6,14 @@
     {% block styles %}
         {% if app.debug %} {# Use minified bootstrap in production #}
             {% stylesheets
-            "bundles/framework/css/bootstrap.css"
-            "bundles/framework/css/bootstrap-theme.css" %}
+            "bundles/bootstrap/css/bootstrap.css"
+            "bundles/bootstrap/css/bootstrap-theme.css" %}
             <link rel="stylesheet" href="{{ asset_url }}"/>
             {% endstylesheets %}
         {% else %}
-            {% stylesheets filter="cssrewrite" output="css/app.css"
-            "bundles/framework/css/bootstrap.min.css"
-            "bundles/framework/css/bootstrap-theme.min.css" %}
+            {% stylesheets
+            "bundles/bootstrap/css/bootstrap.min.css"
+            "bundles/bootstrap/css/bootstrap-theme.min.css" %}
             <link rel="stylesheet" href="{{ asset_url }}"/>
             {% endstylesheets %}
         {% endif %}
@@ -30,12 +30,14 @@
 {% endblock %}
 {% if app.debug %} {# Use minified bootstrap in production #}
     {% javascripts
-    "bundles/framework/js/bootstrap.js" %}
+    "bundles/jquery/jquery.js"
+    "bundles/bootstrap/js/bootstrap.js" %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% else %}
     {% javascripts
-    "bundles/framework/js/bootstrap.min.js" %}
+    "bundles/jquery/jquery.min.js"
+    "bundles/bootstrap/js/bootstrap.min.js" %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endif %}

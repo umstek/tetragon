@@ -21,17 +21,42 @@ class ScriptHandler
         $extras = $event->getComposer()->getPackage()->getExtra();
         $fs = new Filesystem();
 
-        $web_assets = [
-            'bootstrap' => ['source' => 'vendor/twbs/bootstrap/dist', 'destination' => 'web/bundles/framework/'],
-            'site images' => ['source' => 'src/AppBundle/Resources/public', 'destination' => 'web/bundles/framework/']
+        $mirror_dirs = [
+            'twitter bootstrap' => [
+                'source' => 'vendor/twbs/bootstrap/dist',
+                'destination' => 'web/bundles/bootstrap/'
+            ]
         ];
 
-        // Install web assets
-        foreach ($web_assets as $asset => $data) {
+        $copy_assets = [
+            'jQuery' => [
+                'source' => 'vendor/components/jquery/jquery.js',
+                'destination' => 'web/bundles/jquery/jquery.js'
+            ],
+            'jQuery min' => [
+                'source' => 'vendor/components/jquery/jquery.min.js',
+                'destination' => 'web/bundles/jquery/jquery.min.js'
+            ]
+        ];
+
+        // Install assets by mirroring
+        foreach ($mirror_dirs as $asset => $data) {
             if ($fs->exists($data['source'])) {
                 $fs->mirror($data['source'], $data['destination']);
                 /** @noinspection PhpUndefinedMethodInspection */
                 $event->getIO()->write('Mirrored: ' . $asset);
+            } else {
+                /** @noinspection PhpUndefinedMethodInspection */
+                $event->getIO()->write('Error: ' . $asset . ' not found.');
+            }
+        }
+
+        // Install assets by copying
+        foreach ($copy_assets as $asset => $data) {
+            if ($fs->exists($data['source'])) {
+                $fs->copy($data['source'], $data['destination']);
+                /** @noinspection PhpUndefinedMethodInspection */
+                $event->getIO()->write('Copied: ' . $asset);
             } else {
                 /** @noinspection PhpUndefinedMethodInspection */
                 $event->getIO()->write('Error: ' . $asset . ' not found.');

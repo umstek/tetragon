@@ -35,7 +35,7 @@ abstract class Person
      *
      * @Assert\NotBlank()
      * @Assert\Length(max="20")
-     * @Assert\Regex(pattern="[+]?\d+")
+     * @Assert\Regex(pattern="((\+\d+)|(\d+))")
      * @ORM\Column(name="phone", type="string", length=20)
      */
     protected $phone;
