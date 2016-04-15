@@ -1,4 +1,3 @@
-{% form_theme form "bootstrap_3_layout.html.twig" %}
 {% extends "::base.html.twig" %}
 
 {% block title %}Customers{% endblock %}
@@ -12,9 +11,19 @@
                 <strong>Success: </strong>{{ flash_message }}
             </div>
         {% endfor %}
+        {% for flash_message in app.session.flashbag.get('info') %}
+            <div class="alert alert-info">
+                <strong>Info: </strong>{{ flash_message }}
+            </div>
+        {% endfor %}
+        {% for flash_message in app.session.flashbag.get('error') %}
+            <div class="alert alert-danger">
+                <strong>Error: </strong>{{ flash_message }}
+            </div>
+        {% endfor %}
 
-        {% if list %}
-            <table class="table table-responsive">
+        <div>
+            <table id="details" class="table table-responsive table-hover">
                 <thead>
                 <tr>
                     <th>ID</th>
@@ -38,29 +47,37 @@
                 {% endfor %}
                 </tbody>
             </table>
-        {% endif %}
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                {{ form_start(form) }}
-                <h3 class="panel-title">
-                    <a data-toggle="collapse" href="#add">Add Customer</a>
-                </h3>
-            </div>
-            <div id="add" class="panel-collapse collapse {% if not list %}in{% endif %}">
-                <div class="panel-body">
-                    {{ form_row(form.name) }}
-                    {{ form_row(form.address) }}
-                    {{ form_row(form.phone) }}
-                    {{ form_row(form.email) }}
-                    {{ form_row(form.nic) }}
-                </div>
-                <div class="panel-footer">
-                    {{ form_rest(form) }}
-                    {{ form_errors(form) }}
-                    {{ form_end(form) }}
-                </div>
-            </div>
         </div>
+
+        <button type="button" class="btn btn-link">
+            <a href="{{ path('new customer') }}">Add Customer</a>
+        </button>
+        <button type="button" class="btn btn-link">
+            <a href="{{ path('search customers') }}">Search Customers</a>
+        </button>
     </div>
+
+    <ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none">
+        <li><a tabindex="-1" href="#">View</a></li>
+        <li><a tabindex="-1" href="#">Edit</a></li>
+    </ul>
+
+    {% block scripts %}
+        <script src="{{ asset('bundles/app/contextmenu.js') }}"></script>
+        <script>
+            $("#details").find("tr").contextMenu({
+                menuSelector: "#contextMenu",
+                menuSelected: function (invokedOn, selectedMenu) {
+                    selectedId = invokedOn.parent().find('td').first().text();
+                    viewPath = '{{ path('view customer', {'id': '0' }) }}'; // TWIG generated url
+                    editPath = '{{ path('edit customer', {'id': '0' }) }}'; // TWIG generated url
+                    if (selectedMenu.text() === 'View') {
+                        window.location.href = viewPath.replace("0", selectedId);
+                    } else if (selectedMenu.text() === 'Edit') {
+                        window.location.href = editPath.replace("0", selectedId);
+                    }
+                }
+            });
+        </script>
+    {% endblock %}
 {% endblock %}

@@ -1,0 +1,83 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Customers{% endblock %}
+
+{% block body %}
+    <div class="col-sm-12">
+        <h1>Welcome to the Customer page</h1>
+
+        {% for flash_message in app.session.flashbag.get('success') %}
+            <div class="alert alert-success">
+                <strong>Success: </strong>{{ flash_message }}
+            </div>
+        {% endfor %}
+        {% for flash_message in app.session.flashbag.get('error') %}
+            <div class="alert alert-danger">
+                <strong>Error: </strong>{{ flash_message }}
+            </div>
+        {% endfor %}
+
+        {% if customer != null %}
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ customer.name }}</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Address: </label>
+                            {{ customer.address }}
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Phone: </label>
+                            {{ customer.phone }}
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">E-mail: </label>
+                            {{ customer.email }}
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">NIC number: </label>
+                            {{ customer.nic }}
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btn-default">
+                        Back
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        Edit
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Buyings
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for buying in customer.buyings %}
+                            <tr>
+                                <td>{{ buying.id }}</td>
+                                <td>{{ buying.date }}</td>
+                                <td>{{ buying.salesClerk.name }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+{% endblock %}

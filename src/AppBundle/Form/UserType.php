@@ -3,11 +3,11 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type as Types;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EmployeeType extends AbstractType
+class UserType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,12 +16,9 @@ class EmployeeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('address')
-            ->add('phone')
+            ->add('username')
             ->add('email')
-            ->add('nic')
-            ->add('sysUser', UserType::class, ['label' => 'User account options']);
+            ->add('password', PasswordType::class);
     }
 
     /**
@@ -30,7 +27,7 @@ class EmployeeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Employee'
+            'data_class' => 'AppBundle\Entity\User'
         ));
     }
 }

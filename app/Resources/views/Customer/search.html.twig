@@ -1,0 +1,43 @@
+{% form_theme form "bootstrap_3_layout.html.twig" %}
+{% extends "::base.html.twig" %}
+
+{% block title %}Customers{% endblock %}
+
+{% block body %}
+    <div class="col-sm-12">
+        <h1>Welcome to the Customer search page</h1>
+
+        {% for flash_message in app.session.flashbag.get('info') %}
+            <div class="alert alert-info">
+                <strong>Info: </strong>{{ flash_message }}
+            </div>
+        {% endfor %}
+        {% for flash_message in app.session.flashbag.get('error') %}
+            <div class="alert alert-danger">
+                <strong>Error: </strong>{{ flash_message }}
+            </div>
+        {% endfor %}
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <!-- not doing validation for search form -->
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                <h3 class="panel-title">Search Customer</h3>
+            </div>
+            <div id="add" class="panel-collapse">
+                <div class="panel-body">
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.address) }}
+                    {{ form_row(form.phone) }}
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.nic) }}
+                </div>
+                <div class="panel-footer">
+                    {{ form_rest(form) }}
+                    {{ form_errors(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
