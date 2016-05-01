@@ -21,7 +21,7 @@ class CustomerController extends Controller
         // Collect customer objects from the database
         // Get parameters are used for searching or filtering
         $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Customer');
-        if ($request->query->count() != 0) {
+        if ($request->query->count() > 0) {
             $expected = ['id', 'name', 'address', 'phone', 'email', 'nic'];
             if (count(array_intersect($expected, $request->query->keys())) > 0 // at least one expected key
                 and count($expected + $request->query->keys()) == 6 // and no unknown keys (using array union)
@@ -36,7 +36,7 @@ class CustomerController extends Controller
             $customers = $repository->findAll();
         }
 
-        if (count($customers) == 0) {
+        if (count($customers) == 0 && $request->query->count() > 0) {  // none found for the query
             $this->addFlash('info', "No customers found for the query. ");
             return $this->redirectToRoute('search customers');
         }
@@ -129,7 +129,7 @@ class CustomerController extends Controller
     }
 
     /**
-     * FIXME first route should be PUT, symfony has a bug
+     * FIXME first route should be PUT, but symfony has a bug
      * @Route("/customers/{id}", name="update customer", methods={"POST"}, requirements={"id" : "\d+"})
      * @Route("/customers/{id}.edit", name="edit customer", methods={"GET", "HEAD"}, requirements={"id" : "\d+"})
      * @param Request $request
@@ -150,7 +150,7 @@ class CustomerController extends Controller
         // Found customer with id?
         $form = $this->createForm(CustomerType::class, $customer);
         if ($request->isMethod('POST')) { // and sent the new data with PUT?
-            // FIXME this should be PUT, symfony has a bug which doesn't allow the PUT request to handled
+            // FIXME this should be PUT, symfony has a bug which doesn't allow the PUT request to be handled
             $form->handleRequest($request); // this changes the original customer object accordingly
             if ($form->isValid()) { // Validation
                 $em->flush(); // Permanently change the record in database

@@ -12,7 +12,8 @@ class DefaultControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/');
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('Welcome to Symfony', $crawler->filter('#container h1')->text());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());  // loading
+        $this->assertContains('Tetragon', $crawler->filter('h1')->text());  // homepage TODO change to company name
+        $this->assertCount(3, $crawler->filter('button'));  // three buttons
     }
 }

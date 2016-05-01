@@ -6,18 +6,35 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CustomerControllerTest extends WebTestCase
 {
+
     public function testIndex()
     {
-        $client = static::createClient();
+        $client = static::createClient();  // create a browser
 
-        $crawler = $client->request('GET', '/customer/');
+        $crawler = $client->request('GET', '/customers');  // send the request to our page
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());  // loading
+        $this->assertContains('Customers', $crawler->filter('h1')->text());  // customers page
+        $this->assertNotEmpty($crawler->filter('table'));  // table of customers
+
+        $buttons = $crawler->filter('button');
+        $this->assertCount(2, $buttons);  // two buttons
+        $this->assertContains('Add Customer', $buttons->first()->text());  // add button
+        $this->assertContains('Search Customers', $buttons->last()->text());  // search button
+
+        $crawlerAdd = $client->click($buttons->first()->filter('a')->link());  // click the link inside the button
+        $this->assertContains('Add', $crawlerAdd->filter('h1')->text());  // can navigate to add page
+
+        $crawlerSearch = $client->click($buttons->last()->filter('a')->link());
+        $this->assertContains('Search', $crawlerSearch->filter('h1')->text());
+
     }
 
     public function testAdd()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/customer/add');
+        $crawler = $client->request('GET', '/customers/add');
     }
 
 }
