@@ -43,7 +43,7 @@ Of course. Go to [test-prod on Heroku](http://tetragon.heroku.com/)
 
 1. Follow the above steps, 1 to 6.
 2. Install a good IDE. 
-   > You can obtain JetBrains [PhpStorm](https://www.jetbrains.com/phpstorm/) 1 year license proving your student status. 
+   > You can obtain JetBrains [PhpStorm](https://www.jetbrains.com/phpstorm/) 1 year license proving your student status. (HIGHLY RECOMMENDED.)
    > [NetBeans](https://netbeans.org/) is a good IDE too. :smiley:
    >
    > You may want to checkout other text editors like [Notepad++](https://notepad-plus-plus.org/), [Visual Studio Code](https://code.visualstudio.com/), [Sublime Text](http://www.sublimetext.com/3) and [Brackets](http://brackets.io/). 
