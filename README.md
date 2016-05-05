@@ -27,7 +27,7 @@ To run the program,
 4. Install [composer](https://getcomposer.org/).
 5. Go to the project folder (tetragon) with your terminal. 
 6. **Update** dependencies with composer. (Be patient. Skip any (all?) parameters you don't know.)
-   >     composer update
+   >     composer install
 7. Run with php. (You may need to add `php.exe` location to path.)
    >     php bin/console server:run
 8. Go to [`http://127.0.0.1:8000`](http://127.0.0.1:8000) and enjoy. :smile:
