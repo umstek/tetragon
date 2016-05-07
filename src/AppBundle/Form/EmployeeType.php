@@ -36,7 +36,7 @@ class EmployeeType extends AbstractType
             ->add('phone')
             ->add('email', Types\EmailType::class)
             ->add('nic')
-            ->add('sysUser', UserType::class, ['label' => 'User account options'])
+            ->add('sysUser', UserType::class, ['label_attr' => ['hidden' => true]])
             ->add('submit', Types\SubmitType::class);
     }
 

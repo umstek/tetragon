@@ -26,9 +26,14 @@
             <div class="panel-body">
                 {{ form_row(form.id) }}
                 {{ form_row(form.name) }}
+                {{ form_row(form.sysUser.username) }}
+                {{ form_row(form.role) }}
+                {{ form_row(form.sysUser.plain_password) }}
+                {{ form_row(form.sysUser.confirm_password) }}
                 {{ form_row(form.address) }}
                 {{ form_row(form.phone) }}
                 {{ form_row(form.email) }}
+                {{ form_row(form.sysUser.email) }}
                 {{ form_row(form.nic) }}
             </div>
             <div class="panel-footer">

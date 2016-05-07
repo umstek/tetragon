@@ -3,7 +3,7 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type as Types;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,8 +18,11 @@ class UserType extends AbstractType
         $builder
             ->add('username')
             ->add('email')
-            ->add('plain_password', PasswordType::class);
-    }
+            ->add('enabled', Types\HiddenType::class, ['data' => true])
+            ->add('plain_password', Types\PasswordType::class, ['label' => 'Password'])
+            ->add('confirm_password', Types\PasswordType::class, ['mapped' => false])
+            ->add('roles', Types\HiddenType::class);
+    } // FIXME
 
     /**
      * @param OptionsResolver $resolver
