@@ -18,6 +18,20 @@ class EmployeeType extends AbstractType
         $builder
             ->add('id', Types\HiddenType::class, ['disabled' => true])
             ->add('name')
+            ->add('role', Types\ChoiceType::class,
+                [
+                    'mapped' => false,
+                    'choices' => [
+                        'Administrators' => [
+                            'Manager' => 'manager'
+                        ],
+                        'Users' => [
+                            'Sales Clerk' => 'sales_clerk',
+                            'Technician' => 'technician'
+                        ]
+                    ]
+                ]
+            )
             ->add('address')
             ->add('phone')
             ->add('email', Types\EmailType::class)

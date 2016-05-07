@@ -1,4 +1,3 @@
-{% form_theme form "bootstrap_3_layout.html.twig" %}
 {% extends "::base.html.twig" %}
 
 {% block title %}AppBundle:Employee:index{% endblock %}
@@ -24,6 +23,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
+                    <th>Role</th>
                     <th>Address</th>
                     <th>Phone</th>
                     <th>E-mail</th>
@@ -35,7 +35,7 @@
                     <tr>
                         <td>{{ employee.id }}</td>
                         <td>{{ employee.name }}</td>
-                        <td>{{ employeetype }}</td>
+                        {#<td>{{ employee.role}}</td>#}
                         <td>{{ employee.address }}</td>
                         <td>{{ employee.phone }}</td>
                         <td>{{ employee.email }}</td>

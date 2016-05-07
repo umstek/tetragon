@@ -28,7 +28,7 @@ abstract class Employee extends Person
     protected $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", inversedBy="profile")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", inversedBy="profile", cascade={"persist"})
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $sysUser;
