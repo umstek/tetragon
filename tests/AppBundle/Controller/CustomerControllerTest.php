@@ -30,11 +30,38 @@ class CustomerControllerTest extends WebTestCase
 
     }
 
-    public function testAdd()
+    public function testSearch()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/customers/add');
+        $crawler = $client->request('GET', '/customers.search');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertContains('Search', $crawler->filter('h1')->text());
+
+        $form = $crawler->selectButton('Submit')->form();
+        $form['name'] = 'name1';
+    }
+
+    public function testCreate()
+    {
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/customers.add');
+    }
+
+    public function testView()
+    {
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/customers/{}');
+    }
+
+    public function testModify()
+    {
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/customers/{}.edit');
     }
 
 }

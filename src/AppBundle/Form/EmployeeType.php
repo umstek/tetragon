@@ -16,12 +16,14 @@ class EmployeeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('id', Types\HiddenType::class, ['disabled' => true])
             ->add('name')
             ->add('address')
             ->add('phone')
-            ->add('email')
+            ->add('email', Types\EmailType::class)
             ->add('nic')
-            ->add('sysUser', UserType::class, ['label' => 'User account options']);
+            ->add('sysUser', UserType::class, ['label' => 'User account options'])
+            ->add('submit', Types\SubmitType::class);
     }
 
     /**

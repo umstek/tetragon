@@ -2,41 +2,46 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Manager;
-use AppBundle\Entity\SalesClerk;
-use AppBundle\Entity\Technician;
-use AppBundle\Form\EmployeeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class EmployeeController extends Controller
 {
 
     /**
-     * @Route("/employee/{type}/")
+     * @Route("/employees", name="employees", methods={"GET", "HEAD"})
      * //@Security("has_role('ROLE_ADMIN')")
      */
-    public function indexAction($type)
+    public function indexAction(Request $request)
     {
-        $employee = null;
-        switch ($type) {
-            case 'technician':
-                $employee = new Technician();
-                break;
-            case 'salesclerk':
-                $employee = new SalesClerk();
-                break;
-            case 'manager':
-                $employee = new Manager();
-                break;
-            default:
-                throw new \Exception();
+        // Collect customer objects from the database
+        // Get parameters are used for searching or filtering
+        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Employee');
+        if ($request->query->count() > 0) {
+            $expected = ['id', 'name', 'address', 'phone', 'email', 'nic'];
+            if (count(array_intersect($expected, $request->query->keys())) > 0 // at least one expected key
+                and count($expected + $request->query->keys()) == 6 // and no unknown keys (using array union)
+            ) {
+                // Only the queries with expected keys are checked
+                $employees = $repository->findBy($request->query->all());
+            } else {
+                $employees = $repository->findAll();
+                $this->addFlash('error', "The query is invalid. Everything is shown. ");
+            }
+        } else { // No get params given
+            $employees = $repository->findAll();
         }
 
-        $form = $this->createForm(EmployeeType::class, $employee);
+        if (count($employees) == 0 && $request->query->count() > 0) {  // none found for the query
+            $this->addFlash('info', "No employees found for the query. ");
+            return $this->redirectToRoute('search employees');
+        }
+
         return $this->render(':Employee:index.html.twig', [
-            'form' => $form->createView()
+            'employees' => $employees,
+            'employeetype' => '' // TODO: add type
         ]);
     }
 }
