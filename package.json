@@ -1,0 +1,17 @@
+{
+  "name": "tetragon",
+  "version": "1.0.0",
+  "description": "Yet another shop management system",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+  "dependencies": {
+    "bower": "^1.7.9"
+  }
+}
