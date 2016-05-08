@@ -70,10 +70,10 @@
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
+      "bower install",
       "AppBundle\\Composer\\ScriptHandler::prepare",
       "php bin/console assetic:dump",
-      "php bin/console assetic:dump --env=prod --no-debug",
-      "bower install"
+      "php bin/console assetic:dump --env=prod --no-debug"
     ],
     "post-update-cmd": [
       "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
@@ -82,10 +82,10 @@
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
+      "bower install",
       "AppBundle\\Composer\\ScriptHandler::prepare",
       "php bin/console assetic:dump",
-      "php bin/console assetic:dump --env=prod --no-debug",
-      "bower install"
+      "php bin/console assetic:dump --env=prod --no-debug"
     ]
   },
   "config": {
