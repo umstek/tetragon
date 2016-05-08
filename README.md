@@ -4,7 +4,7 @@ This is the repository for **tetragon** software by **tetracode**.
 ![tetragon](https://bitbucket.org/account/user/tetra-code/projects/TET/avatar/256)
 ![tetracode](https://bitbucket.org/account/tetra-code/avatar/)
 
-![tests:failing](https://img.shields.io/badge/tests-failing-red.svg)
+![tests:passing](https://img.shields.io/badge/tests-passing-green.svg)
 ![product:maintained](https://img.shields.io/badge/project-on--going-blue.svg)
 ![documentation:not-yet](https://img.shields.io/badge/documentation-not--yet-red.svg)
 ___
@@ -25,16 +25,19 @@ To run the program,
 3. **Clone** to computer. (You **must** have access to the repository. You will need to enter *username* and *password*. )
    >     git clone https://bitbucket.org/tetra-code/tetragon 
 4. Install [composer](https://getcomposer.org/).
-5. Go to the project folder (tetragon) with your terminal. 
-6. **Update** dependencies with composer. (Be patient. Skip any (all?) parameters you don't know.)
+5. Install [nodejs](https://nodejs.org/en/). This will install [npm](https://www.npmjs.com/) too.
+6. Install [bower](http://bower.io/) globally by running the following command. This is necessary for frontend development.
+   >     npm install -g bower
+7. Go to the project folder (tetragon) with your terminal.
+8. **Update** dependencies with composer. (Be patient. Skip any (all?) parameters you don't know.) This will also run `bower install` automatically.
    >     composer install
-7. Start your database server. Here, we are running MariaDB with `root` and a *null* password. Then run
+9. Start your database server. Here, we are running MariaDB with `root` and a *null* password. Then run
    >     php bin/console doctrine:database:create
    >     php bin/console doctrine:schema:create
    >     php bin/console doctrine:schema:update
-9. Run with php. (You may need to add `php.exe` location to path.)
+10. Run with php. (You may need to add `php.exe` location to path.)
    >     php bin/console server:run
-10. Go to [`http://127.0.0.1:8000`](http://127.0.0.1:8000) and enjoy. :smile:
+11. Go to [`http://127.0.0.1:8000`](http://127.0.0.1:8000) and enjoy. :smile:
 ___
 
 ## Any online version? ##
@@ -45,7 +48,7 @@ Of course. Go to [test-prod on Heroku](http://tetragon.heroku.com/)
 
 ## How to get started developing? ##
 
-1. Follow the above steps, 1 to 7.
+1. Follow the above steps, 1 to 9.
 2. Install a good IDE. 
    > You can obtain JetBrains [PhpStorm](https://www.jetbrains.com/phpstorm/) 1 year license proving your student status. (HIGHLY RECOMMENDED.)
    > [NetBeans](https://netbeans.org/) is a good IDE too. :smiley:

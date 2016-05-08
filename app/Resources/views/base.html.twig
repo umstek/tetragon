@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{# Some assets here are based on bower #}
 <html>
 <head>
     <meta charset="UTF-8"/>
@@ -6,14 +7,14 @@
     {% block styles %}
         {% if app.debug %} {# Use minified bootstrap in production #}
             {% stylesheets
-            "bundles/bootstrap/css/bootstrap.css"
-            "bundles/bootstrap/css/bootstrap-theme.css" %}
+            "assets/vendor/bootstrap/dist/css/bootstrap.css"
+            "assets/vendor/bootstrap/dist/css/bootstrap-theme.css" %}
             <link rel="stylesheet" href="{{ asset_url }}"/>
             {% endstylesheets %}
         {% else %}
             {% stylesheets
-            "bundles/bootstrap/css/bootstrap.min.css"
-            "bundles/bootstrap/css/bootstrap-theme.min.css" %}
+            "assets/vendor/bootstrap/dist/css/bootstrap.min.css"
+            "assets/vendor/bootstrap/dist/css/bootstrap-theme.min.css" %}
             <link rel="stylesheet" href="{{ asset_url }}"/>
             {% endstylesheets %}
         {% endif %}
@@ -28,14 +29,14 @@
 
 {% if app.debug %} {# Use minified bootstrap in production #}
     {% javascripts
-    "bundles/jquery/jquery.js"
-    "bundles/bootstrap/js/bootstrap.js" %}
+    "assets/vendor/jquery/dist/jquery.js"
+    "assets/vendor/bootstrap/dist/js/bootstrap.js" %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% else %}
     {% javascripts
-    "bundles/jquery/jquery.min.js"
-    "bundles/bootstrap/js/bootstrap.min.js" %}
+    "assets/vendor/jquery/dist/jquery.min.js"
+    "assets/vendor/bootstrap/dist/js/bootstrap.min.js" %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endif %}

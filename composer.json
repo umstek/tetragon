@@ -25,7 +25,6 @@
     }
   ],
   "support": {
-    "forum": "https://groups.google.com/forum/#!forum/twig-users",
     "issues": "https://bitbucket.org/tetra-code/tetragon/issues",
     "wiki": "https://bitbucket.org/tetra-code/tetragon/wiki/Home"
   },
@@ -44,7 +43,7 @@
     }
   },
   "require": {
-    "php": ">=5.5.9",
+    "php": ">=5.6.0",
     "symfony/symfony": "3.0.*",
     "doctrine/orm": "^2.5",
     "doctrine/doctrine-bundle": "^1.6",
@@ -54,14 +53,12 @@
     "sensio/distribution-bundle": "^5.0",
     "sensio/framework-extra-bundle": "^3.0.2",
     "incenteev/composer-parameter-handler": "^2.0",
-    "twbs/bootstrap": "^3.3",
-    "phpunit/phpunit": "^5.2",
     "symfony/assetic-bundle": "^2.8",
-    "friendsofsymfony/user-bundle": "~2.0@dev",
-    "components/jquery": "^2.2"
+    "friendsofsymfony/user-bundle": "~2.0@dev"
   },
   "require-dev": {
     "sensio/generator-bundle": "^3.0",
+    "phpunit/phpunit": "^5.2",
     "symfony/phpunit-bridge": "^3.0",
     "doctrine/doctrine-fixtures-bundle": "^2.3"
   },
@@ -75,7 +72,8 @@
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
       "AppBundle\\Composer\\ScriptHandler::prepare",
       "php bin/console assetic:dump",
-      "php bin/console assetic:dump --env=prod --no-debug"
+      "php bin/console assetic:dump --env=prod --no-debug",
+      "bower install"
     ],
     "post-update-cmd": [
       "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
@@ -86,7 +84,8 @@
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
       "AppBundle\\Composer\\ScriptHandler::prepare",
       "php bin/console assetic:dump",
-      "php bin/console assetic:dump --env=prod --no-debug"
+      "php bin/console assetic:dump --env=prod --no-debug",
+      "bower install"
     ]
   },
   "config": {

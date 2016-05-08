@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Wickramaranga
- * Date: 4/12/2016
- * Time: 12:39 PM
- */
 
 namespace AppBundle\Composer;
 
@@ -22,24 +16,24 @@ class ScriptHandler
         $fs = new Filesystem();
 
         $mirror_dirs = [
-            'twitter bootstrap' => [
-                'source' => 'vendor/twbs/bootstrap/dist',
-                'destination' => 'web/bundles/bootstrap/'
-            ]
+//            'twitter bootstrap' => [
+//                'source' => 'vendor/twbs/bootstrap/dist',
+//                'destination' => 'web/bundles/bootstrap/'
+//            ]
         ];
 
         $copy_assets = [
-            'jQuery' => [
-                'source' => 'vendor/components/jquery/jquery.js',
-                'destination' => 'web/bundles/jquery/jquery.js'
-            ],
-            'jQuery min' => [
-                'source' => 'vendor/components/jquery/jquery.min.js',
-                'destination' => 'web/bundles/jquery/jquery.min.js'
-            ]
+//            'jQuery' => [
+//                'source' => 'vendor/components/jquery/jquery.js',
+//                'destination' => 'web/bundles/jquery/jquery.js'
+//            ],
+//            'jQuery min' => [
+//                'source' => 'vendor/components/jquery/jquery.min.js',
+//                'destination' => 'web/bundles/jquery/jquery.min.js'
+//            ]
         ];
 
-        // Install assets by mirroring
+        // Install assets via mirroring
         foreach ($mirror_dirs as $asset => $data) {
             if ($fs->exists($data['source'])) {
                 $fs->mirror($data['source'], $data['destination']);
@@ -51,7 +45,7 @@ class ScriptHandler
             }
         }
 
-        // Install assets by copying
+        // Install assets via copying
         foreach ($copy_assets as $asset => $data) {
             if ($fs->exists($data['source'])) {
                 $fs->copy($data['source'], $data['destination']);
