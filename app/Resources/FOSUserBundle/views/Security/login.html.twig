@@ -1,0 +1,44 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            <strong>Error:</strong>
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+
+    <form action="{{ path("fos_user_security_check") }}" method="post">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Login</h3>
+            </div>
+            <div id="modify">
+                <div class="panel-body">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+                    <div class="form-group">
+                        <label for="username"
+                               class="control-label required">{{ 'security.login.username'|trans }}</label>
+                        <input type="text" id="username" name="_username" value="{{ last_username }}"
+                               required="required"
+                               class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="password"
+                               class="control-label required">{{ 'security.login.password'|trans }}</label>
+                        <input type="password" id="password" name="_password" required="required" class="form-control"/>
+                    </div>
+
+                </div>
+                <div class="panel-footer">
+                    <input type="checkbox" id="remember_me" name="_remember_me" value="on" class="checkbox-inline"/>
+                    <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+                    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}"
+                           class="btn btn-success"/>
+                </div>
+            </div>
+        </div>
+    </form>
+
+{% endblock fos_user_content %}

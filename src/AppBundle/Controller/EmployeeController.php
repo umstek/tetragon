@@ -3,6 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Manager;
+use AppBundle\Entity\SalesClerk;
+use AppBundle\Entity\Technician;
 use AppBundle\Form\EmployeeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -42,9 +44,22 @@ class EmployeeController extends Controller
             return $this->redirectToRoute('search employees');
         }
 
+        $employeeRoles = [];
+        foreach ($employees as $employee) {
+            if ($employee instanceof Manager) {
+                $employeeRoles[$employee->getId()] = 'Manager';
+            } elseif ($employee instanceof SalesClerk) {
+                $employeeRoles[$employee->getId()] = 'Sales Clerk';
+            } elseif ($employee instanceof Technician) {
+                $employeeRoles[$employee->getId()] = 'Technician';
+            } else {
+                assert(false);
+            }
+        }
+
         return $this->render(':Employee:index.html.twig', [
             'employees' => $employees,
-            'employeetype' => '' // TODO: add type
+            'employee_roles' => $employeeRoles
         ]);
     }
 
@@ -74,7 +89,7 @@ class EmployeeController extends Controller
                     assert(false);
             }
         }
-        
+
         $form = $this->createForm(EmployeeType::class, $employee);
         $form->handleRequest($request);
         if ($form->isValid()) { // Validation
