@@ -7,7 +7,7 @@
   </component>
   <component name="PhpUnit">
     <phpunit_settings>
-      <PhpUnitSettings configuration_file_path="$PROJECT_DIR$/phpunit.xml.dist" custom_loader_path="" phpunit_phar_path="$USER_HOME$/AppData/Roaming/Composer/vendor/bin/phpunit.bat" />
+      <PhpUnitSettings load_method="CUSTOM_LOADER" bootstrap_file_path="$PROJECT_DIR$/app/autoload.php" configuration_file_path="$PROJECT_DIR$/phpunit.xml.dist" custom_loader_path="$PROJECT_DIR$/app/autoload.php" phpunit_phar_path="$USER_HOME$/AppData/Roaming/Composer/vendor/bin/phpunit.bat" use_configuration_file="true" />
     </phpunit_settings>
   </component>
 </project>

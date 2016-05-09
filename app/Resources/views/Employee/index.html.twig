@@ -6,16 +6,8 @@
     <div class="col-sm-12">
         <h1>Welcome to the Employees page</h1>
 
-        {% for flash_message in app.session.flashbag.get('success') %}
-            <div class="alert alert-success">
-                <strong>Success: </strong>{{ flash_message }}
-            </div>
-        {% endfor %}
-        {% for flash_message in app.session.flashbag.get('error') %}
-            <div class="alert alert-danger">
-                <strong>Error: </strong>{{ flash_message }}
-            </div>
-        {% endfor %}
+        {% embed 'flashWidget.html.twig' %}
+        {% endembed %}
 
         <div>
             <table id="details" class="table table-responsive table-hover">

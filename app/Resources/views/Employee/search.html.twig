@@ -1,11 +1,11 @@
 {% form_theme form "bootstrap_3_layout.html.twig" %}
 {% extends "::base.html.twig" %}
 
-{% block title %}Customers{% endblock %}
+{% block title %}Employees{% endblock %}
 
 {% block body %}
     <div class="col-sm-12">
-        <h1>Search for a Customer</h1>
+        <h1>Search for an Employee</h1>
 
         {% embed 'flashWidget.html.twig' %}
         {% endembed %}
@@ -14,11 +14,12 @@
             <div class="panel-heading">
                 <!-- not doing validation for search form -->
                 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-                <h3 class="panel-title">Search Customer</h3>
+                <h3 class="panel-title">Search Employees</h3>
             </div>
             <div id="add" class="panel-collapse">
                 <div class="panel-body">
                     {{ form_row(form.name) }}
+                    {{ form_row(form.role) }}
                     {{ form_row(form.address) }}
                     {{ form_row(form.phone) }}
                     {{ form_row(form.email) }}

@@ -64,6 +64,52 @@ class EmployeeController extends Controller
     }
 
     /**
+     * @Route("/employees.search", name="search employees")
+     * @param Request $request
+     * @return Response
+     */
+    public function searchAction(Request $request)
+    {
+
+        // Employee object to hold the collected data
+        $employee = null;
+        if ($request->request->has('employee')) {
+            switch ($request->request->get('employee')['role']) {
+                case 'manager':
+                    $employee = new Manager();
+                    break;
+                case 'sales_clerk':
+                    $employee = new Manager();
+                    break;
+                case 'technician':
+                    $employee = new Manager();
+                    break;
+                default:
+                    assert(false);
+            }
+        }
+        $form = $this->createForm(EmployeeType::class, $employee);
+
+        $nonempty = [];
+        if ($request->request->has('employee')) { // customer form data
+            foreach ($request->request->get('employee') as $key => $value) {
+                if ($value != null and $value != '' and $key != '_token' and $key != 'role') {
+                    // omit the empty ones and the CSRF token
+                    $nonempty[$key] = $value;
+                }
+            }
+        }
+
+        if (count($nonempty) == 0) { // no parameters submitted, meaning asking for the empty form
+            return $this->render(':Employee:search.html.twig', [
+                'form' => $form->remove('sysUser')->createView()
+            ]);
+        }
+
+        return $this->redirectToRoute('employees', $nonempty);
+    }
+
+    /**
      * @Route("/employees", name="add employee", methods={"POST"})
      * @Route("/employees.add", name="new employee", methods={"GET"})
      * @param Request $request
