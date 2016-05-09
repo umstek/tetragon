@@ -1,23 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4a448464-6561-4e9f-ba9a-75ee6efe5e2e" name="Default" comment="&gt;:( Fix that stupid comma.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Resources/views/Employee/search.html.twig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Resources/views/flashWidget.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/php.xml" afterPath="$PROJECT_DIR$/.idea/php.xml" />
+    <list default="true" id="4a448464-6561-4e9f-ba9a-75ee6efe5e2e" name="Default" comment="Embedded flash (alert) widget, navbar and employee search basics.">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Resources/views/Customer/create.html.twig" afterPath="$PROJECT_DIR$/app/Resources/views/Customer/create.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Resources/views/Customer/index.html.twig" afterPath="$PROJECT_DIR$/app/Resources/views/Customer/index.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Resources/views/Customer/modify.html.twig" afterPath="$PROJECT_DIR$/app/Resources/views/Customer/modify.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Resources/views/Customer/search.html.twig" afterPath="$PROJECT_DIR$/app/Resources/views/Customer/search.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Resources/views/Customer/view.html.twig" afterPath="$PROJECT_DIR$/app/Resources/views/Customer/view.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Resources/views/Employee/create.html.twig" afterPath="$PROJECT_DIR$/app/Resources/views/Employee/create.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Resources/views/Employee/index.html.twig" afterPath="$PROJECT_DIR$/app/Resources/views/Employee/index.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Resources/views/base.html.twig" afterPath="$PROJECT_DIR$/app/Resources/views/base.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.lock" afterPath="$PROJECT_DIR$/composer.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phpunit.xml.dist" afterPath="$PROJECT_DIR$/phpunit.xml.dist" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Controller/EmployeeController.php" afterPath="$PROJECT_DIR$/src/AppBundle/Controller/EmployeeController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Resources/views/flashWidget.html.twig" afterPath="$PROJECT_DIR$/app/Resources/views/flashWidget.html.twig" />
     </list>
     <ignored path="tetragon.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -51,7 +37,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="search.html.twig" pinned="false" current-in-tab="true">
+      <file leaf-file-name="search.html.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Resources/views/Employee/search.html.twig">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="198">
@@ -59,6 +45,16 @@
               <folding>
                 <element signature="e#233#254#0#Twig" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="flashWidget.html.twig" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Resources/views/flashWidget.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="17" column="21" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -120,7 +116,6 @@
         <option value="$PROJECT_DIR$/src/AppBundle/Entity/Person.php" />
         <option value="$PROJECT_DIR$/src/AppBundle/Controller/EmployeeController.php" />
         <option value="$PROJECT_DIR$/app/Resources/views/base.html.twig" />
-        <option value="$PROJECT_DIR$/app/Resources/views/flashWidget.html.twig" />
         <option value="$PROJECT_DIR$/app/Resources/views/Employee/search.html.twig" />
         <option value="$PROJECT_DIR$/app/Resources/views/Employee/index.html.twig" />
         <option value="$PROJECT_DIR$/app/Resources/views/Employee/create.html.twig" />
@@ -129,6 +124,7 @@
         <option value="$PROJECT_DIR$/app/Resources/views/Customer/modify.html.twig" />
         <option value="$PROJECT_DIR$/app/Resources/views/Customer/search.html.twig" />
         <option value="$PROJECT_DIR$/app/Resources/views/Customer/view.html.twig" />
+        <option value="$PROJECT_DIR$/app/Resources/views/flashWidget.html.twig" />
       </list>
     </option>
   </component>
@@ -542,7 +538,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
+    <property name="settings.editor.selected.configurable" value="http.proxy" />
     <property name="settings.editor.splitter.proportion" value="0.25975475" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="143" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
@@ -713,7 +709,7 @@
       <workItem from="1462604474418" duration="21957000" />
       <workItem from="1462670638447" duration="35452000" />
       <workItem from="1462799965710" duration="4178000" />
-      <workItem from="1462808169248" duration="6051000" />
+      <workItem from="1462808169248" duration="6400000" />
     </task>
     <task id="LOCAL-00001" summary="Adding few entity classes and other minor changes">
       <created>1459943597435</created>
@@ -911,7 +907,14 @@
       <option name="project" value="LOCAL" />
       <updated>1462712345347</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Embedded flash (alert) widget, navbar and employee search basics.">
+      <created>1462823663256</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1462823663256</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -947,7 +950,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="394943000" />
+    <option name="totallyTimeSpent" value="395292000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -964,6 +967,7 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23298033" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919255" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919255" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21118012" sideWeight="0.5087848" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329429" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919255" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -973,7 +977,6 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919255" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -995,7 +998,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Install bower and minor changes." />
     <MESSAGE value="Creating model classes." />
     <MESSAGE value="Creating and modifying model classes and adding attributes." />
     <MESSAGE value="Unambiguous naming, Single table inheritance of employees, and minor refactoring." />
@@ -1020,7 +1022,8 @@
     <MESSAGE value="Minor error fix." />
     <MESSAGE value="Minor bug-fix to support heroku. Unsure." />
     <MESSAGE value="&gt;:( Fix that stupid comma." />
-    <option name="LAST_COMMIT_MESSAGE" value="&gt;:( Fix that stupid comma." />
+    <MESSAGE value="Embedded flash (alert) widget, navbar and employee search basics." />
+    <option name="LAST_COMMIT_MESSAGE" value="Embedded flash (alert) widget, navbar and employee search basics." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1319,7 +1322,6 @@
         <state relative-caret-position="-280">
           <caret line="108" column="48" selection-start-line="108" selection-start-column="48" selection-end-line="108" selection-end-column="48" />
           <folding>
-            <element signature="e#40#69#0#PHP" expanded="true" />
             <element signature="e#867#887#1#PHP" expanded="true" />
             <element signature="e#2451#2478#0#PHP" expanded="true" />
             <element signature="e#4000#4028#0#PHP" expanded="true" />
@@ -1338,14 +1340,6 @@
             <element signature="e#4440#4460#1#PHP" expanded="true" />
             <element signature="e#5486#5506#1#PHP" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/flashWidget.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1443,6 +1437,14 @@
           <folding>
             <element signature="e#233#254#0#Twig" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/flashWidget.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="21" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
