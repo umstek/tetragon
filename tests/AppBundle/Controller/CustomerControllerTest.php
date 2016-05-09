@@ -17,7 +17,7 @@ class CustomerControllerTest extends WebTestCase
         $this->assertContains('Customers', $crawler->filter('h1')->text());  // customers page
         $this->assertNotEmpty($crawler->filter('table'));  // table of customers
 
-        $buttons = $crawler->filter('button');
+        $buttons = $crawler->filter('#main.container button');
         $this->assertCount(2, $buttons);  // two buttons
         $this->assertContains('Add Customer', $buttons->first()->text());  // add button
         $this->assertContains('Search Customers', $buttons->last()->text());  // search button

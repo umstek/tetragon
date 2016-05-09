@@ -56,7 +56,10 @@ class EmployeeController extends Controller
                 assert(false);
             }
         }
-
+        //else
+        if ($request->query->count() > 0) {
+            $this->addFlash('success', 'Found employees for the given criteria. ');
+        }
         return $this->render(':Employee:index.html.twig', [
             'employees' => $employees,
             'employee_roles' => $employeeRoles
@@ -71,23 +74,7 @@ class EmployeeController extends Controller
     public function searchAction(Request $request)
     {
 
-        // Employee object to hold the collected data
         $employee = null;
-        if ($request->request->has('employee')) {
-            switch ($request->request->get('employee')['role']) {
-                case 'manager':
-                    $employee = new Manager();
-                    break;
-                case 'sales_clerk':
-                    $employee = new Manager();
-                    break;
-                case 'technician':
-                    $employee = new Manager();
-                    break;
-                default:
-                    assert(false);
-            }
-        }
         $form = $this->createForm(EmployeeType::class, $employee);
 
         $nonempty = [];
@@ -102,7 +89,7 @@ class EmployeeController extends Controller
 
         if (count($nonempty) == 0) { // no parameters submitted, meaning asking for the empty form
             return $this->render(':Employee:search.html.twig', [
-                'form' => $form->remove('sysUser')->createView()
+                'form' => $form->remove('sysUser')->remove('role')->createView()
             ]);
         }
 

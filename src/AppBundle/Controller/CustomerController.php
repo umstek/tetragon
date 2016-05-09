@@ -40,7 +40,10 @@ class CustomerController extends Controller
             $this->addFlash('info', "No customers found for the query. ");
             return $this->redirectToRoute('search customers');
         }
-
+        // else
+        if ($request->query->count() > 0) {
+            $this->addFlash('success', "Customers matched for the given critera.");
+        }
         return $this->render(':Customer:index.html.twig', [
             'customers' => $customers,
         ]);
