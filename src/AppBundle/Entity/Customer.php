@@ -44,14 +44,27 @@ class Customer extends Person
         $this->repairs = new ArrayCollection();
     }
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
+    public static function fromArray($array)
     {
-        return $this->id;
+        $customer = new Customer();
+
+        if (isset($array['name'])) {
+            $customer->setName($array['name']);
+        }
+        if (isset($array['email'])) {
+            $customer->setEmail($array['email']);
+        }
+        if (isset($array['address'])) {
+            $customer->setAddress($array['address']);
+        }
+        if (isset($array['phone'])) {
+            $customer->setPhone($array['phone']);
+        }
+        if (isset($array['nic'])) {
+            $customer->setNic($array['nic']);
+        }
+
+        return $customer;
     }
 
     /**
@@ -69,13 +82,17 @@ class Customer extends Person
     }
 
     /**
-     * Get name
+     * Set email
      *
-     * @return string
+     * @param string $email
+     *
+     * @return Customer
      */
-    public function getName()
+    public function setEmail($email)
     {
-        return $this->name;
+        $this->email = $email;
+
+        return $this;
     }
 
     /**
@@ -93,16 +110,6 @@ class Customer extends Person
     }
 
     /**
-     * Get address
-     *
-     * @return string
-     */
-    public function getAddress()
-    {
-        return $this->address;
-    }
-
-    /**
      * Set phone
      *
      * @param string $phone
@@ -117,40 +124,6 @@ class Customer extends Person
     }
 
     /**
-     * Get phone
-     *
-     * @return string
-     */
-    public function getPhone()
-    {
-        return $this->phone;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return Customer
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
      * Set nic
      *
      * @param string $nic
@@ -162,6 +135,56 @@ class Customer extends Person
         $this->nic = $nic;
 
         return $this;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Get address
+     *
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Get phone
+     *
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 
     /**

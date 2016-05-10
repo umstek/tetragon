@@ -39,9 +39,8 @@ class CustomerControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertContains('Search', $crawler->filter('h1')->text());
 
-        // $form = $crawler->selectButton('Submit')->form();
-        // $form['name'] = 'name1';
-        // TODO Reconstruct test
+        $form = $crawler->selectButton('Submit')->form();
+        $form['name'] = 'name1';
     }
 
     public function testCreate()

@@ -101,31 +101,38 @@ class EmployeeController extends Controller
      * @Route("/employees.add", name="new employee", methods={"GET"})
      * @param Request $request
      * @return Response
+     * @throws \Exception
      */
     public function createAction(Request $request)
     {
-        // Employee object to hold the collected data
+        // Customer object to hold the collected data
         $employee = null;
         if ($request->request->has('employee')) {
-
             switch ($request->request->get('employee')['role']) {
                 case 'manager':
                     $employee = new Manager();
+                    $roles[] = 'ROLE_ADMIN';
                     break;
                 case 'sales_clerk':
-                    $employee = new Manager();
+                    $employee = new SalesClerk();
+                    $roles[] = 'ROLE_USER';
                     break;
                 case 'technician':
-                    $employee = new Manager();
+                    $employee = new Technician();
+                    $roles[] = 'ROLE_USER';
                     break;
                 default:
-                    assert(false);
+                    throw new \Exception('Invalid user type.');
+                    break;
             }
         }
-
+        $roles = [];
         $form = $this->createForm(EmployeeType::class, $employee);
         $form->handleRequest($request);
         if ($form->isValid()) { // Validation
+
+            $employee->getSysUser()->setRoles($roles);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($employee);
             $em->flush(); // Permanently add to database

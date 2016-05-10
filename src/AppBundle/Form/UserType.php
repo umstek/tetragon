@@ -20,9 +20,8 @@ class UserType extends AbstractType
             ->add('email')
             ->add('enabled', Types\HiddenType::class, ['data' => true])
             ->add('plain_password', Types\PasswordType::class, ['label' => 'Password'])
-            ->add('confirm_password', Types\PasswordType::class, ['mapped' => false])
-            ->add('roles', Types\HiddenType::class);
-    } // FIXME
+            ->add('confirm_password', Types\PasswordType::class, ['mapped' => false]);
+    }
 
     /**
      * @param OptionsResolver $resolver
