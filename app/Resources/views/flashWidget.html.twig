@@ -3,16 +3,19 @@
         <strong>Error: </strong>{{ flash_message }}
     </div>
 {% endfor %}
+
 {% for flash_message in app.session.flashbag.get('warning') %}
     <div class="alert alert-warning">
         <strong>Warning: </strong>{{ flash_message }}
     </div>
 {% endfor %}
+
 {% for flash_message in app.session.flashbag.get('success') %}
     <div class="alert alert-success">
         <strong>Success: </strong>{{ flash_message }}
     </div>
 {% endfor %}
+
 {% for flash_message in app.session.flashbag.get('info') %}
     <div class="alert alert-info">
         <strong>Info.: </strong>{{ flash_message }}

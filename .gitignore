@@ -17,3 +17,5 @@
 /web/css/
 /web/images/
 /web/js/
+/.idea/
+!/.idea/.gitkeep
