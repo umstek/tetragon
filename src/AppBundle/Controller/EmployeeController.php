@@ -9,6 +9,7 @@ use AppBundle\Form\EmployeeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,13 +19,17 @@ class EmployeeController extends Controller
     /**
      * @Route("/employees", name="employees", methods={"GET", "HEAD"})
      * //@Security("has_role('ROLE_ADMIN')")
+     *
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
      */
     public function indexAction(Request $request)
     {
         // Collect employee objects from the database
         // Get parameters are used for searching or filtering
         $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Employee');
-        if ($request->query->count() > 0) {
+        if ($request->query->count() > 0) {  // User is doing a search
             $expected = ['id', 'name', 'address', 'phone', 'email', 'nic'];
             if (count(array_intersect($expected, $request->query->keys())) > 0 // at least one expected key
                 and count($expected + $request->query->keys()) == 6 // and no unknown keys (using array union)
@@ -53,7 +58,7 @@ class EmployeeController extends Controller
             } elseif ($employee instanceof Technician) {
                 $employeeRoles[$employee->getId()] = 'Technician';
             } else {
-                assert(false);
+                throw new \Exception('Invalid user type.');
             }
         }
         //else
@@ -68,12 +73,12 @@ class EmployeeController extends Controller
 
     /**
      * @Route("/employees.search", name="search employees")
+     *
      * @param Request $request
      * @return Response
      */
     public function searchAction(Request $request)
     {
-
         $employee = null;
         $form = $this->createForm(EmployeeType::class, $employee);
 
@@ -99,6 +104,7 @@ class EmployeeController extends Controller
     /**
      * @Route("/employees", name="add employee", methods={"POST"})
      * @Route("/employees.add", name="new employee", methods={"GET"})
+     *
      * @param Request $request
      * @return Response
      * @throws \Exception
@@ -107,6 +113,7 @@ class EmployeeController extends Controller
     {
         // Customer object to hold the collected data
         $employee = null;
+        $roles = [];  // Access level control
         if ($request->request->has('employee')) {
             switch ($request->request->get('employee')['role']) {
                 case 'manager':
@@ -126,19 +133,31 @@ class EmployeeController extends Controller
                     break;
             }
         }
-        $roles = [];
+
         $form = $this->createForm(EmployeeType::class, $employee);
-        $form->handleRequest($request);
+        $form->handleRequest($request);  // even though we handle, we are safe unless we persist data
+
         if ($form->isValid()) { // Validation
+            if ($request->request->get('employee')['sysUser']['confirm_password']
+                == $request->request->get('employee')['sysUser']['plain_password']
+            ) {
+                if ($request->request->get('employee')['sysUser']['email']
+                    == $request->request->get('employee')['email']
+                ) {
+                    $employee->getSysUser()->setRoles($roles);  // Set access levels
 
-            $employee->getSysUser()->setRoles($roles);
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($employee);
+                    $em->flush(); // Permanently add to database
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($employee);
-            $em->flush(); // Permanently add to database
-
-            $this->addFlash('success', "Created employee.");
-            return $this->redirectToRoute('employees');
+                    $this->addFlash('success', "Created employee.");
+                    return $this->redirectToRoute('employees');
+                } else {
+                    $form->addError(new FormError('Email addresses do not match.'));
+                }
+            } else {
+                $form->addError(new FormError('Passwords do not match.'));
+            }
         }
 
         // Executed only if validation fails
@@ -148,5 +167,91 @@ class EmployeeController extends Controller
         return $this->render(':Employee:create.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/employees/{id}", name="view employee", methods={"GET"}, requirements={"id" : "\d+"})
+     * @Security("has_role('ROLE_ADMIN') || user.getId() == id") // admin or user self can view the account
+     *
+     * @param Request $request
+     * @param $id
+     * @return Response
+     */
+    public function viewAction(Request $request, $id)
+    {
+        // Collect employee object from the database
+        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Employee');
+        $employee = $repository->find($id);
+
+        // If not found, render a page with an all records and error message
+        if ($employee == null) {
+            $this->addFlash('error', "Employee with id $id not found. ");
+            return $this->redirectToRoute('employees');
+        }
+
+        // If found, render the content
+        return $this->render(':Employee:view.html.twig', [
+            'employee' => $employee
+        ]);
+    }
+
+    /**
+     * FIXME first route should be PUT, but symfony has a bug
+     * @Route("/employee/{id}", name="update employee", methods={"POST"}, requirements={"id" : "\d+"})
+     * @Route("/employee/{id}.edit", name="edit employee", methods={"GET", "HEAD"}, requirements={"id" : "\d+"})
+     * @Security("has_role('ROLE_ADMIN') || user.getId() == id") // admin or user self can modify the account
+     *
+     * @param Request $request
+     * @param $id
+     * @return Response
+     */
+    public function modifyAction(Request $request, $id)
+    {
+        // Collect employee object from the database
+        $em = $this->getDoctrine()->getManager();
+        $employee = $em->getRepository('AppBundle:Employee')->find($id);
+
+        if ($employee == null) { // Not found? ask to create.
+            $this->addFlash('error', "Employee with id $id not found. Create new?");
+            return $this->redirectToRoute('new employee');
+        }
+
+        // Found employee with id?
+        $form = $this->createForm(EmployeeType::class, $employee);
+        if ($request->isMethod('POST')) { // and sent the new data with PUT?
+            // FIXME this should be PUT, symfony has a bug which doesn't allow the PUT request to be handled
+            // FIXME if password is not entered, consider it as not changed. Don't validate it.
+            if ($request->request->get('employee')['sysUser']['confirm_password']
+                == $request->request->get('employee')['sysUser']['plain_password']
+            ) {
+                if ($request->request->get('employee')['sysUser']['email']
+                    == $request->request->get('employee')['email']
+                ) { // we are not safe, data is persisted automatically. So check first.
+                    $form->handleRequest($request); // this changes the original employee object accordingly
+
+                    if ($form->isValid()) { // Validation
+                        $em->flush(); // Permanently change the record in database
+
+                        $this->addFlash('success', "Updated employee.");
+                        return $this->redirectToRoute('employees');
+                    }
+                } else {
+                    $form->addError(new FormError('Email addresses do not match.'));
+                }
+            } else {
+                $form->addError(new FormError('Passwords do not match.'));
+            }
+
+            return $this->render(':Employee:modify.html.twig', [
+                'id' => $id,
+                'form' => $form->remove('sysUser')->createView()
+            ]);
+        }
+
+        return $this->render(':Employee:modify.html.twig', [
+            'id' => $id,
+            'form' => $form->createView()
+        ], new Response());
+
     }
 }

@@ -48,23 +48,22 @@
         <li><a tabindex="-1" href="#">View</a></li>
         <li><a tabindex="-1" href="#">Edit</a></li>
     </ul>
-
-    {% block scripts %}
-        <script src="{{ asset('bundles/app/contextmenu.js') }}"></script>
-        <script>
-            $("#details").find("tr").contextMenu({
-                menuSelector: "#contextMenu",
-                menuSelected: function (invokedOn, selectedMenu) {
-                    selectedId = invokedOn.parent().find('td').first().text();
-                    viewPath = '{{ path('view customer', {'id': '0' }) }}'; // TWIG generated url
-                    editPath = '{{ path('edit customer', {'id': '0' }) }}'; // TWIG generated url
-                    if (selectedMenu.text() === 'View') {
-                        window.location.href = viewPath.replace("0", selectedId);
-                    } else if (selectedMenu.text() === 'Edit') {
-                        window.location.href = editPath.replace("0", selectedId);
-                    }
+{% endblock %}
+{% block scripts %}
+    <script src="{{ asset('bundles/app/contextmenu.js') }}"></script>
+    <script>
+        $("#details").find("tbody tr").contextMenu({
+            menuSelector: "#contextMenu",
+            menuSelected: function (invokedOn, selectedMenu) {
+                selectedId = invokedOn.parent().find('td').first().text();
+                viewPath = '{{ path('view customer', {'id': '0' }) }}'; // TWIG generated url
+                editPath = '{{ path('edit customer', {'id': '0' }) }}'; // TWIG generated url
+                if (selectedMenu.text() === 'View') {
+                    window.location.href = viewPath.replace("0", selectedId);
+                } else if (selectedMenu.text() === 'Edit') {
+                    window.location.href = editPath.replace("0", selectedId);
                 }
-            });
-        </script>
-    {% endblock %}
+            }
+        });
+    </script>
 {% endblock %}

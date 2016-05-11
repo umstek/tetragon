@@ -38,5 +38,34 @@
             </table>
         </div>
 
+        <button type="button" class="btn btn-link">
+            <a href="{{ path('new employee') }}">Add Employee</a>
+        </button>
+        <button type="button" class="btn btn-link">
+            <a href="{{ path('search employees') }}">Search Employees</a>
+        </button>
     </div>
+
+    <ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none">
+        <li><a tabindex="-1" href="#">View</a></li>
+        <li><a tabindex="-1" href="#">Edit</a></li>
+    </ul>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ asset('bundles/app/contextmenu.js') }}"></script>
+    <script>
+        $("#details").find("tbody tr").contextMenu({
+            menuSelector: "#contextMenu",
+            menuSelected: function (invokedOn, selectedMenu) {
+                selectedId = invokedOn.parent().find('td').first().text();
+                viewPath = '{{ path('view employee', {'id': '0' }) }}'; // TWIG generated url
+                editPath = '{{ path('edit employee', {'id': '0' }) }}'; // TWIG generated url
+                if (selectedMenu.text() === 'View') {
+                    window.location.href = viewPath.replace("0", selectedId);
+                } else if (selectedMenu.text() === 'Edit') {
+                    window.location.href = editPath.replace("0", selectedId);
+                }
+            }
+        });
+    </script>
 {% endblock %}

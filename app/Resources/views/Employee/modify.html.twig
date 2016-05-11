@@ -1,20 +1,21 @@
 {% form_theme form "bootstrap_3_layout.html.twig" %}
 {% extends "::base.html.twig" %}
 
-{% block title %}Add an Employee{% endblock %}
+{% block title %}Modify an Employee record{% endblock %}
 
 {% block body %}
-    <h1>Add New Employee</h1>
+    <h1>Welcome to the Employee:modify page</h1>
 
     {% embed 'flashWidget.html.twig' %}
     {% endembed %}
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">Add Employee</h3>
-            {{ form_start(form, {'action': path('add employee')}) }}
+            <h3 class="panel-title">Modify Employee</h3>
+            {{ form_start(form, {'action': path('update employee', {'id': id }), 'method': 'POST'}) }}
+            <!-- FIXME this should be PUT, symfony has a bug which doesn't allow the PUT request to handled -->
         </div>
-        <div id="add">
+        <div id="modify">
             <div class="panel-body">
                 {{ form_errors(form) }}
                 {{ form_row(form.id) }}
@@ -35,5 +36,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}

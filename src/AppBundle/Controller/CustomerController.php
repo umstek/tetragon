@@ -13,6 +13,7 @@ class CustomerController extends Controller
 {
     /**
      * @Route("/customers", name="customers", methods={"GET", "HEAD"})
+     * 
      * @param Request $request
      * @return Response
      */
@@ -21,6 +22,7 @@ class CustomerController extends Controller
         // Collect customer objects from the database
         // Get parameters are used for searching or filtering
         $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Customer');
+
         if ($request->query->count() > 0) {
             $expected = ['id', 'name', 'address', 'phone', 'email', 'nic'];
             if (count(array_intersect($expected, $request->query->keys())) > 0 // at least one expected key
@@ -42,7 +44,7 @@ class CustomerController extends Controller
         }
         // else
         if ($request->query->count() > 0) {
-            $this->addFlash('success', "Customers matched for the given critera.");
+            $this->addFlash('success', "Customers matched for the given criteria.");
         }
         return $this->render(':Customer:index.html.twig', [
             'customers' => $customers,
@@ -80,6 +82,7 @@ class CustomerController extends Controller
     /**
      * @Route("/customers", name="add customer", methods={"POST"})
      * @Route("/customers.add", name="new customer", methods={"GET"})
+     *
      * @param Request $request
      * @return Response
      */
@@ -109,6 +112,7 @@ class CustomerController extends Controller
 
     /**
      * @Route("/customers/{id}", name="view customer", methods={"GET"}, requirements={"id" : "\d+"})
+     *
      * @param Request $request
      * @param $id
      * @return Response
@@ -135,6 +139,7 @@ class CustomerController extends Controller
      * FIXME first route should be PUT, but symfony has a bug
      * @Route("/customers/{id}", name="update customer", methods={"POST"}, requirements={"id" : "\d+"})
      * @Route("/customers/{id}.edit", name="edit customer", methods={"GET", "HEAD"}, requirements={"id" : "\d+"})
+     *
      * @param Request $request
      * @param $id
      * @return Response
@@ -172,7 +177,6 @@ class CustomerController extends Controller
             'id' => $id,
             'form' => $form->createView()
         ], new Response());
-
 
     }
 }

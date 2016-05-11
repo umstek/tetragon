@@ -1,36 +1,36 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}Customers{% endblock %}
+{% block title %}Employees{% endblock %}
 
 {% block body %}
     <div class="col-sm-12">
-        <h1>Welcome to the Customer page</h1>
+        <h1>Welcome to the Employee page</h1>
 
         {% embed 'flashWidget.html.twig' %}
         {% endembed %}
 
-        {% if customer != null %}
+        {% if employee != null %}
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{ customer.name }}</h3>
+                    <h3 class="panel-title">{{ employee.name }}</h3>
                 </div>
                 <div class="panel-body">
                     <ul class="list-group">
                         <li class="list-group-item">
                             <label class="list-group-item-heading">Address: </label>
-                            {{ customer.address }}
+                            {{ employee.address }}
                         </li>
                         <li class="list-group-item">
                             <label class="list-group-item-heading">Phone: </label>
-                            {{ customer.phone }}
+                            {{ employee.phone }}
                         </li>
                         <li class="list-group-item">
                             <label class="list-group-item-heading">E-mail: </label>
-                            {{ customer.email }}
+                            {{ employee.email }}
                         </li>
                         <li class="list-group-item">
                             <label class="list-group-item-heading">NIC number: </label>
-                            {{ customer.nic }}
+                            {{ employee.nic }}
                         </li>
                     </ul>
                 </div>
@@ -43,32 +43,7 @@
                     </button>
                 </div>
             </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        Buyings
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <table>
-                        <thead>
-                        <tr>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for buying in customer.buyings %}
-                            <tr>
-                                <td>{{ buying.id }}</td>
-                                <td>{{ buying.date }}</td>
-                                <td>{{ buying.salesClerk.name }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         {% endif %}
+
     </div>
 {% endblock %}
