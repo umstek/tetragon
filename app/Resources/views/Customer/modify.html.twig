@@ -9,10 +9,10 @@
     {% embed 'flashWidget.html.twig' %}
     {% endembed %}
 
+    {{ form_start(form, {'action': path('update customer', {'id': id }), 'method': 'POST'}) }}
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Modify Customer</h3>
-            {{ form_start(form, {'action': path('update customer', {'id': id }), 'method': 'POST'}) }}
             <!-- FIXME this should be PUT, symfony has a bug which doesn't allow the PUT request to handled -->
         </div>
         <div id="modify">
@@ -27,8 +27,9 @@
             </div>
             <div class="panel-footer">
                 {{ form_rest(form) }}
-                {{ form_end(form) }}
             </div>
         </div>
     </div>
+    {{ form_end(form) }}
+
 {% endblock %}

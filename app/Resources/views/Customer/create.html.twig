@@ -9,10 +9,10 @@
     {% embed 'flashWidget.html.twig' %}
     {% endembed %}
 
+    {{ form_start(form, {'action': path('add customer')}) }}
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Add Customer</h3>
-            {{ form_start(form, {'action': path('add customer')}) }}
         </div>
         <div id="add">
             <div class="panel-body">
@@ -26,8 +26,9 @@
             </div>
             <div class="panel-footer">
                 {{ form_rest(form) }}
-                {{ form_end(form) }}
             </div>
         </div>
     </div>
+    {{ form_end(form) }}
+
 {% endblock %}

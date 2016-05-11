@@ -40,7 +40,10 @@ class CustomerControllerTest extends WebTestCase
         $this->assertContains('Search', $crawler->filter('h1')->text());
 
         $form = $crawler->selectButton('Submit')->form();
-        $form['name'] = 'name1';
+        $form->setValues([
+            'customer[name]' => 'name1',
+            'customer[phone]' => '234'
+        ]);
     }
 
     public function testCreate()

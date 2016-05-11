@@ -10,10 +10,10 @@
         {% embed 'flashWidget.html.twig' %}
         {% endembed %}
 
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
         <div class="panel panel-default">
             <div class="panel-heading">
                 <!-- not doing validation for search form -->
-                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
                 <h3 class="panel-title">Search Customer</h3>
             </div>
             <div id="add" class="panel-collapse">
@@ -27,9 +27,11 @@
                 </div>
                 <div class="panel-footer">
                     {{ form_rest(form) }}
-                    {{ form_end(form) }}
+
                 </div>
             </div>
         </div>
+        {{ form_end(form) }}
+
     </div>
 {% endblock %}

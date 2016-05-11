@@ -182,7 +182,7 @@ class EmployeeController extends Controller
         // Collect employee object from the database
         $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Employee');
         $employee = $repository->find($id);
-
+        echo $employee instanceof Manager;
         // If not found, render a page with an all records and error message
         if ($employee == null) {
             $this->addFlash('error', "Employee with id $id not found. ");
