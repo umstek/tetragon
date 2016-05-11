@@ -71,6 +71,80 @@ class SellingItem
     private $isSold;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_warranty_claimed", type="boolean")
+     */
+    private $isWarrantyClaimed;
+
+    /**
+     * @return boolean
+     */
+    public function isIsWarrantyClaimed()
+    {
+        return $this->isWarrantyClaimed;
+    }
+
+    /**
+     * @param boolean $isWarrantyClaimed
+     * @return SellingItem
+     */
+    public function setIsWarrantyClaimed($isWarrantyClaimed)
+    {
+        $this->isWarrantyClaimed = $isWarrantyClaimed;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getWarrantyExpiration()
+    {
+        return $this->warrantyExpiration;
+    }
+
+    /**
+     * @param \DateTime $warrantyExpiration
+     * @return SellingItem
+     */
+    public function setWarrantyExpiration($warrantyExpiration)
+    {
+        $this->warrantyExpiration = $warrantyExpiration;
+        return $this;
+    }
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="warranty_expiration", type="datetime")
+     */
+    private $warrantyExpiration;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(name="price", type="float")
+     */
+    private $price;
+
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param mixed $price
+     * @return SellingItem
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+        return $this;
+    }
+
+    /**
      * @var SalesOrder
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SalesOrder", inversedBy="items")
@@ -278,5 +352,15 @@ class SellingItem
         $this->order = $order;
 
         return $this;
+    }
+
+    /**
+     * Get isWarrantyClaimed
+     *
+     * @return boolean
+     */
+    public function getIsWarrantyClaimed()
+    {
+        return $this->isWarrantyClaimed;
     }
 }

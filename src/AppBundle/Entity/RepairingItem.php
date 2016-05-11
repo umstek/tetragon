@@ -49,6 +49,31 @@ class RepairingItem
     private $isRepaired;
 
     /**
+     * @var
+     *
+     * @ORM\Column(name="price", type="float")
+     */
+    private $price;
+
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param mixed $price
+     * @return RepairingItem
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+        return $this;
+    }
+
+    /**
      * @var SalesOrder
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\RepairingOrder", inversedBy="items")
