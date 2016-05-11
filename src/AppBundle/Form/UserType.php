@@ -19,8 +19,10 @@ class UserType extends AbstractType
             ->add('username')
             ->add('email')
             ->add('enabled', Types\HiddenType::class, ['data' => true])
-            ->add('plain_password', Types\PasswordType::class, ['label' => 'Password'])
-            ->add('confirm_password', Types\PasswordType::class, ['mapped' => false]);
+            ->add('plain_password', Types\PasswordType::class, ['label' => 'Password', 'required' => false])
+            ->add('confirm_password', Types\PasswordType::class, ['mapped' => false, 'required' => false]);
+        // We're manually checking passwords. FOSUserBundle only enables html5 validation.
+        // Also, when modifying the user account, we need this to be empty.
     }
 
     /**

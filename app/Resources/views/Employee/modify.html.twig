@@ -21,7 +21,9 @@
                 {{ form_row(form.id) }}
                 {{ form_row(form.name) }}
                 {{ form_row(form.sysUser.username) }}
-                {{ form_row(form.role) }}
+                {% if is_granted('ROLE_ADMIN') %}
+                    {{ form_row(form.role) }}
+                {% endif %}
                 {{ form_row(form.sysUser.plain_password) }}
                 {{ form_row(form.sysUser.confirm_password) }}
                 {{ form_row(form.address) }}

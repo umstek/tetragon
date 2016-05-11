@@ -144,14 +144,18 @@ class EmployeeController extends Controller
                 if ($request->request->get('employee')['sysUser']['email']
                     == $request->request->get('employee')['email']
                 ) {
-                    $employee->getSysUser()->setRoles($roles);  // Set access levels
+                    if ($request->request->get('employee')['sysUser']['plain_password'] == '') {
+                        $form->addError(new FormError('Password cannot be empty.'));
+                    } else {
+                        $employee->getSysUser()->setRoles($roles);  // Set access levels
 
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($employee);
-                    $em->flush(); // Permanently add to database
+                        $em = $this->getDoctrine()->getManager();
+                        $em->persist($employee);
+                        $em->flush(); // Permanently add to database
 
-                    $this->addFlash('success', "Created employee.");
-                    return $this->redirectToRoute('employees');
+                        $this->addFlash('success', "Created employee.");
+                        return $this->redirectToRoute('employees');
+                    }
                 } else {
                     $form->addError(new FormError('Email addresses do not match.'));
                 }
@@ -171,7 +175,7 @@ class EmployeeController extends Controller
 
     /**
      * @Route("/employees/{id}", name="view employee", methods={"GET"}, requirements={"id" : "\d+"})
-     * @Security("has_role('ROLE_ADMIN') || user.getId() == id") // admin or user self can view the account
+     * @Security("has_role('ROLE_ADMIN') || user.getId() == id")
      *
      * @param Request $request
      * @param $id
@@ -197,9 +201,9 @@ class EmployeeController extends Controller
 
     /**
      * FIXME first route should be PUT, but symfony has a bug
-     * @Route("/employee/{id}", name="update employee", methods={"POST"}, requirements={"id" : "\d+"})
-     * @Route("/employee/{id}.edit", name="edit employee", methods={"GET", "HEAD"}, requirements={"id" : "\d+"})
-     * @Security("has_role('ROLE_ADMIN') || user.getId() == id") // admin or user self can modify the account
+     * @Route("/employees/{id}", name="update employee", methods={"POST"}, requirements={"id" : "\d+"})
+     * @Route("/employees/{id}.edit", name="edit employee", methods={"GET", "HEAD"}, requirements={"id" : "\d+"})
+     * @Security("has_role('ROLE_ADMIN') || user.getId() == id")
      *
      * @param Request $request
      * @param $id
@@ -220,7 +224,7 @@ class EmployeeController extends Controller
         $form = $this->createForm(EmployeeType::class, $employee);
         if ($request->isMethod('POST')) { // and sent the new data with PUT?
             // FIXME this should be PUT, symfony has a bug which doesn't allow the PUT request to be handled
-            // FIXME if password is not entered, consider it as not changed. Don't validate it.
+            // TODO User promotion. Anything to manager. 
             if ($request->request->get('employee')['sysUser']['confirm_password']
                 == $request->request->get('employee')['sysUser']['plain_password']
             ) {
@@ -244,13 +248,15 @@ class EmployeeController extends Controller
 
             return $this->render(':Employee:modify.html.twig', [
                 'id' => $id,
-                'form' => $form->remove('sysUser')->createView()
+                'form' => ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+                    ? $form->createView() : $form->remove('role')->createView()
             ]);
         }
 
         return $this->render(':Employee:modify.html.twig', [
             'id' => $id,
-            'form' => $form->createView()
+            'form' => ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+                ? $form->createView() : $form->remove('role')->createView()
         ], new Response());
 
     }
