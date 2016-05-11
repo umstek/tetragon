@@ -17,6 +17,7 @@
         </div>
         <div id="modify">
             <div class="panel-body">
+                {{ form_errors(form) }}
                 {{ form_row(form.id) }}
                 {{ form_row(form.name) }}
                 {{ form_row(form.address) }}
@@ -26,7 +27,6 @@
             </div>
             <div class="panel-footer">
                 {{ form_rest(form) }}
-                {{ form_errors(form) }}
                 {{ form_end(form) }}
             </div>
         </div>
