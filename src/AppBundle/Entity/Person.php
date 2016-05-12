@@ -3,8 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as MisdAssertPhoneNumber;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Person
@@ -36,7 +36,7 @@ abstract class Person
      *
      * @Assert\NotBlank()
      * @Assert\Length(max="20")
-     * @MisdAssertPhoneNumber
+     * @MisdAssertPhoneNumber()
      * @ORM\Column(name="phone", type="string", length=20)
      */
     protected $phone;

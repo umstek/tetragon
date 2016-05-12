@@ -76,11 +76,40 @@ class SellingItem
      * @ORM\Column(name="is_warranty_claimed", type="boolean")
      */
     private $isWarrantyClaimed;
+    
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="warranty_expiration", type="datetime")
+     */
+    private $warrantyExpiration;
+    /**
+     * @var
+     *
+     * @ORM\Column(name="price", type="float")
+     */
+    private $price;
+    /**
+     * @var SalesOrder
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SalesOrder", inversedBy="items")
+     * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
+     */
+    private $order;
 
     /**
      * @return boolean
      */
     public function isIsWarrantyClaimed()
+    {
+        return $this->isWarrantyClaimed;
+    }
+
+    /**
+     * Get isWarrantyClaimed
+     *
+     * @return boolean
+     */
+    public function getIsWarrantyClaimed()
     {
         return $this->isWarrantyClaimed;
     }
@@ -114,19 +143,6 @@ class SellingItem
     }
 
     /**
-     * @var \DateTime
-     * @ORM\Column(name="warranty_expiration", type="datetime")
-     */
-    private $warrantyExpiration;
-
-    /**
-     * @var
-     *
-     * @ORM\Column(name="price", type="float")
-     */
-    private $price;
-
-    /**
      * @return mixed
      */
     public function getPrice()
@@ -143,14 +159,6 @@ class SellingItem
         $this->price = $price;
         return $this;
     }
-
-    /**
-     * @var SalesOrder
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SalesOrder", inversedBy="items")
-     * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
-     */
-    private $order;
 
     /**
      * Get id
@@ -352,15 +360,5 @@ class SellingItem
         $this->order = $order;
 
         return $this;
-    }
-
-    /**
-     * Get isWarrantyClaimed
-     *
-     * @return boolean
-     */
-    public function getIsWarrantyClaimed()
-    {
-        return $this->isWarrantyClaimed;
     }
 }

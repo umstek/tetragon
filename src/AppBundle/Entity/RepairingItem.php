@@ -54,6 +54,13 @@ class RepairingItem
      * @ORM\Column(name="price", type="float")
      */
     private $price;
+    /**
+     * @var SalesOrder
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\RepairingOrder", inversedBy="items")
+     * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
+     */
+    private $order;
 
     /**
      * @return mixed
@@ -72,14 +79,6 @@ class RepairingItem
         $this->price = $price;
         return $this;
     }
-
-    /**
-     * @var SalesOrder
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\RepairingOrder", inversedBy="items")
-     * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
-     */
-    private $order;
 
     /**
      * Get id

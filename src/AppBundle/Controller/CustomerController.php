@@ -13,7 +13,7 @@ class CustomerController extends Controller
 {
     /**
      * @Route("/customers", name="customers", methods={"GET", "HEAD"})
-     * 
+     *
      * @param Request $request
      * @return Response
      */
@@ -53,6 +53,7 @@ class CustomerController extends Controller
 
     /**
      * @Route("/customers.search", name="search customers")
+     * 
      * @param Request $request
      * @return Response
      */
