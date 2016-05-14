@@ -2,20 +2,21 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\ItemInquiry;
+use AppBundle\Entity\SellingItem;
+use AppBundle\Form\SellingItemType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class SalesInventoryController extends Controller
 {
+
     /**
-     * @Route("/selling_itemss", name="items",methods={"GET","HEAD"})
+     * @Route("/selling_items", name="items",methods={"GET","HEAD"})
      * @param Request $request
      * @return Response
      */
-
-
     public function indexAction(Request $request)
     {
         // Collect item objects from the database
@@ -63,7 +64,7 @@ class SalesInventoryController extends Controller
     public function createAction(Request $request)
     {
         // Customer object to hold the collected data
-        $item = new ItemInquiry();
+        $item = new SellingItem();
         $form = $this->createForm(SellingItemType::class, $item);
         $form->handleRequest($request);
         if ($form->isValid()) { // Validation
@@ -75,12 +76,9 @@ class SalesInventoryController extends Controller
             return $this->redirectToRoute('items');
         }
 
-
         return $this->render(':SalesInventory:create.html.twig', [
             'form' => $form->createView()
         ]);
-
-
     }
 
     /**
@@ -109,5 +107,4 @@ class SalesInventoryController extends Controller
 
 
     }
-
 }
