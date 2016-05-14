@@ -4,18 +4,17 @@
 {% block title %}Add a customer{% endblock %}
 
 {% block body %}
-    <h1>Add New Customer</h1>
+
 
     {% embed 'flashWidget.html.twig' %}
     {% endembed %}
 
     {{ form_start(form, {'action': path('add customer')}) }}
     <div class="panel panel-default">
-        <div class="panel-heading" style="background-color:#26b899;">
-            <h3 style="color:#ffffff" class="panel-title"><strong>Add Customer</strong></h3>
-        </div>
+
         <div id="add">
             <div class="panel-body">
+                <legend style="color: #009688">Add a Customer</legend>
                 {{ form_errors(form) }}
                 {{ form_row(form.id) }}
                 {{ form_row(form.name) }}
@@ -25,7 +24,7 @@
                 {{ form_row(form.nic) }}
             </div>
             <div class="panel-footer" style="background-color:#ffffff;">
-                {{ form_rest(form) }}
+                {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
             </div>
         </div>
     </div>
