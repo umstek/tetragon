@@ -1,0 +1,75 @@
+{% extends "::base.html.twig" %}
+
+
+
+{% block title %}Sales Inventory{% endblock %}
+
+{% block body %}
+    <div class="col-sm-12">
+        <h1>Welcome to the Sales inventory page</h1>
+
+        {% embed 'flashWidget.html.twig' %}
+        {% endembed %}
+
+        <div>
+            <table id="details" class="table table-responsive table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Category</th>
+                    <th>Serial</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                </tr>
+
+                </thead>
+                <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.brand }}</td>
+                        <td>{{ item.model }}</td>
+                        <td>{{ item.category }}</td>
+                        <td>{{ item.serial }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.price }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <button type="button" class="btn btn-link">
+            <a href="{{ path('new item') }}">Add item</a>
+        </button>
+        <button type="button" class="btn btn-link">
+            {#<a href="{{ path('search items') }}">Search items</a>#}
+        </button>
+    </div>
+
+    <ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none">
+        <li><a tabindex="-1" href="#">View</a></li>
+        <li><a tabindex="-1" href="#">Edit</a></li>
+    </ul>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ asset('bundles/app/contextmenu.js') }}"></script>
+    <script>
+        $("#details").find("tbody tr").contextMenu({
+            menuSelector: "#contextMenu",
+            menuSelected: function (invokedOn, selectedMenu) {
+                selectedId = invokedOn.parent().find('td').first().text();
+                {#viewPath = '{{ path('view item', {'id': '0' }) }}'; // TWIG generated url#}
+                {#editPath = '{{ path('edit item', {'id': '0' }) }}'; // TWIG generated url#}
+                if (selectedMenu.text() === 'View') {
+                    window.location.href = viewPath.replace("0", selectedId);
+                } else if (selectedMenu.text() === 'Edit') {
+                    window.location.href = editPath.replace("0", selectedId);
+                }
+            }
+        });
+    </script>
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type as Types;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,15 +16,16 @@ class SellingItemType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('category')
-            ->add('name')
-            ->add('brand')
-            ->add('model')
-            ->add('serial')
-            ->add('description')
-            //->add('isSold')
-            //->add('order')
-        ;
+            ->add('category', Types\TextType::class)
+            ->add('name', Types\TextType::class)
+            ->add('brand', Types\TextType::class)
+            ->add('model', Types\TextType::class)
+            ->add('serial', Types\TextType::class)
+            ->add('description', Types\TextareaType::class)
+            ->add('isSold', Types\ChoiceType::class)
+            ->add('isWarrantyClaimed', Types\CheckboxType::class)
+            ->add('warrantyExpiration', Types\DateTimeType::class)
+            ->add('price', Types\MoneyType::class);
     }
 
     /**
