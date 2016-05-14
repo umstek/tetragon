@@ -11,8 +11,8 @@
 
     {{ form_start(form, {'action': path('add employee')}) }}
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Add Employee</h3>
+        <div class="panel-heading" style="background-color:#26b899;">
+            <h3 style="color:#ffffff" class="panel-title"><strong>Add Employee</strong></h3>
         </div>
         <div id="add">
             <div class="panel-body">
@@ -29,9 +29,7 @@
                 {{ form_row(form.sysUser.email) }}
                 {{ form_row(form.nic) }}
             </div>
-            <div class="panel-footer">
-                {{ form_rest(form) }}
-            </div>
+
         </div>
     </div>
     {{ form_end(form) }}
