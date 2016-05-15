@@ -36,7 +36,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/sales")
+     * @Route("/sales", name="sales page")
      */
     public function salesAction(Request $request)
     {
@@ -44,7 +44,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/admin")
+     * @Route("/admin", name="admin page")
      */
     public function adminAction(Request $request)
     {
@@ -52,7 +52,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/repairing")
+     * @Route("/repairing", name="repairing page")
      */
     public function repairingAction(Request $request)
     {
