@@ -1,0 +1,94 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Sales{% endblock %}
+
+{% block body %}
+    <div class="col-sm-12">
+        <h1>Welcome to the Sales page</h1>
+
+        {% embed 'flashWidget.html.twig' %}
+        {% endembed %}
+
+        <div>
+            <table id="details" class="table table-responsive table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th style="visibility: hidden">Customer ID</th>
+                    <th>Customer name</th>
+                    <th>Customer Phone</th>
+                    <th style="visibility: hidden">Sales Clerk ID</th>
+                    <th>Sales Clerk Name</th>
+                    <th>Sales Clerk Phone</th>
+                    <th>Items</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in sales %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.date.format('Y-m-d H:i:s') }}</td>
+
+                        {# something == null state of the below should never happen #}
+
+                        {% if order.customer != null %}
+                            <td title="customerId" style="visibility: hidden;">{{ order.customer.id }}</td>
+                            <td>{{ order.customer.name }}</td>
+                            <td>{{ order.customer.phone }}</td>
+                        {% endif %}
+                        {% if order.salesClerk != null %}
+                            <td title="salesClerkId" style="visibility: hidden;">{{ order.salesClerk.id }}</td>
+                            <td>{{ order.salesClerk.name }}</td>
+                            <td>{{ order.salesClerk.phone }}</td>
+                        {% endif %}
+                        <td>
+                            {% for item in order.items or {} %}
+                                {{ item.name }}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <button type="button" class="btn btn-link">
+            <a href="{{ path('new sales order') }}">New Order</a>
+        </button>
+        <button type="button" class="btn btn-link">
+            {#<a href="{{ path('search sales orders') }}">Search Orders</a>#}
+        </button>
+    </div>
+
+    <ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none">
+        <li><a tabindex="-1" href="#">View Order</a></li>
+        <li><a tabindex="-1" href="#">View Customer</a></li>
+        <li><a tabindex="-1" href="#">View Sales Clerk</a></li>
+    </ul>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ asset('bundles/app/contextmenu.js') }}"></script>
+    <script>
+        $("#details").find("tbody tr").contextMenu({
+            menuSelector: "#contextMenu",
+            menuSelected: function (invokedOn, selectedMenu) {
+                var selectedId = invokedOn.parent().find('td').first().text();
+                var selectedCustomerId = invokedOn.parent().find('td').find('[title=customerId]').text();
+                var selectedSalesClerkId = invokedOn.parent().find('td').find('[title=salesClerkId]').text();
+                {#var viewOrderPath = '{{ path('view sales order', {'id': '0' }) }}'; // TWIG generated url#}
+                var viewCustomerPath = '{{ path('view customer', {'id': '0' }) }}'; // TWIG generated url
+                var viewSalesClerkPath = '{{ path('view employee', {'id': '0' }) }}'; // TWIG generated url
+
+                if (selectedMenu.text() === 'View Order') {
+                    window.location.href = viewOrderPath.replace("0", selectedId);
+                } else if (selectedMenu.text() === 'View Customer') {
+                    window.location.href = viewCustomerPath.replace("0", selectedCustomerId);
+                } else if (selectedMenu.text() === 'View Sales Clerk') {
+                    window.location.href = viewSalesClerkPath.replace("0", selectedSalesClerkId);
+                }
+
+            }
+        });
+    </script>
+{% endblock %}

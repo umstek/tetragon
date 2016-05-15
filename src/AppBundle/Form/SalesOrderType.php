@@ -16,10 +16,11 @@ class SalesOrderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date', Types\DateTimeType::class)
-            ->add('customer')
-            ->add('items')
-            ->add('salesClerk');
+            ->add('date', Types\DateTimeType::class, ['data' => new \DateTime('now', new \DateTimeZone('Asia/Colombo'))])
+            ->add('customerId', Types\HiddenType::class, ['mapped' => false, 'required' => true])
+            ->add('itemsIds', Types\HiddenType::class, ['mapped' => false, 'required' => true])
+            ->add('salesClerkId', Types\HiddenType::class, ['mapped' => false, 'required' => true])
+            ->add('submit', Types\SubmitType::class);
     }
 
     /**

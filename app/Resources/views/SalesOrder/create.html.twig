@@ -1,0 +1,42 @@
+{% form_theme form "bootstrap_3_layout.html.twig" %}
+{% extends "::base.html.twig" %}
+
+{% block title %}Create new order{% endblock %}
+
+{% block body %}
+
+    {% embed 'flashWidget.html.twig' %}
+    {% endembed %}
+
+    {{ form_start(form, {'action': path('add sales order')}) }}
+    <div class="panel panel-default">
+
+        <div id="add">
+            <div class="panel-body">
+                <legend style="color: #009688">Create a sales order</legend>
+                {{ form_errors(form) }}
+                {{ form_row(form.date) }}
+                {{ form_row(form.customerId) }}
+                <div id="customerSearch">
+
+                </div>
+                <div id="customerCreate">
+
+                </div>
+                {{ form_row(form.salesClerkId) }}
+                <div id="salesClerkSearch">
+
+                </div>
+                {{ form_row(form.itemsIds) }}
+                <div id="addItems">
+
+                </div>
+            </div>
+            <div class="panel-footer" style="background-color:#ffffff;">
+                {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+{% endblock %}
