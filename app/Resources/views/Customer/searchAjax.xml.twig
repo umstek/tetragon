@@ -1,0 +1,56 @@
+{% extends 'ajaxBase.xml.twig' %}
+
+{% block data %}
+{% endblock %}
+
+{% block segment %}
+    {% embed 'flashWidget.html.twig' %}
+    {% endembed %}
+
+<div class="panel panel-default">
+    <div>
+        <div class="panel-body">
+
+            {% if customers != null %}
+                <div>
+                    <table id="details" class="table table-responsive table-hover">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>Phone</th>
+                            <th>E-mail</th>
+                            <th>NIC number</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for customer in customers %}
+                            <tr>
+                                <td>{{ customer.id }}</td>
+                                <td>{{ customer.name }}</td>
+                                <td>{{ customer.address }}</td>
+                                <td>{{ customer.phone }}</td>
+                                <td>{{ customer.email }}</td>
+                                <td>{{ customer.nic }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+
+            <legend style="color: #009688">Search customers</legend>
+            <div class="form-group">
+                <label class="control-label required" for="customer_search_name">Name</label>
+                <input type="text" id="customer_search_name" name="name" required="required" maxlength="255"
+                       class="form-control"/>
+            </div>
+        </div>
+        <div class="panel-footer" style="background-color:#ffffff;">
+            <button type="submit" id="customer_search_submit" name="submit" class="btn btn-primary btn">Search
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -11,23 +11,16 @@
     {{ form_start(form, {'action': path('add sales order')}) }}
     <div class="panel panel-default">
 
-        <div id="add">
+        <div id="addSale">
             <div class="panel-body">
                 <legend style="color: #009688">Create a sales order</legend>
                 {{ form_errors(form) }}
                 {{ form_row(form.date) }}
                 {{ form_row(form.customerId) }}
-                <div id="customerSearch">
-                </div>
-                <div id="customerCreate">
-                </div>
                 {{ form_row(form.salesClerkId) }}
-                <div id="salesClerkSearch">
-                </div>
-                {{ form_row(form.itemsIds) }}
-                <div id="addItems">
 
-                </div>
+                {{ form_row(form.itemsIds) }}
+
             </div>
             <div class="panel-footer" style="background-color:#ffffff;">
                 {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
@@ -36,4 +29,85 @@
     </div>
     {{ form_end(form) }}
 
+    <div id="customerSearch">
+
+    </div>
+    <div id="customerCreate">
+
+    </div>
+    <div id="salesClerkSearch">
+
+    </div>
+    <div id="addItems">
+
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(
+                function () {
+
+                    $.get("{{ path('ajax new customer') }}", function (resp) {
+                        var xml = $.parseXML(resp);
+                        var $xml = $(xml);
+                        $('#customerCreate').html($xml.find('segment').html());
+
+                        $('#customerCreate').on('submit', 'form[name=customer]', function (e) {
+                            e.preventDefault();
+
+                            $.ajax({
+                                type: $(this).attr('method'),
+                                url: $(this).attr('action'),
+                                data: $(this).serialize(),
+                                cache: false,
+                                success: function (result, status, xhr) {
+                                    var xml = $.parseXML(result);
+                                    var $xml = $(xml);
+                                    $('#customerCreate').html($xml.find('segment').html());
+                                    $('#sales_order_customerId').val($.trim($xml.find('data').text()));
+                                },
+                                error: function (xhr, status, error) {
+                                    alert(error);
+                                }
+                            });
+
+                        });
+                    });
+
+                    $.get("{{ path('ajax search customers by name') }}", function (resp) {
+                        var xml = $.parseXML(resp);
+                        var $xml = $(xml);
+                        $('#customerSearch').html($xml.find('segment').html());
+
+                        var clickAction = function (e) {
+                            e.preventDefault();
+
+                            $.ajax({
+                                type: 'POST',
+                                url: "{{ path('ajax search customers by name') }}",
+                                data: {name: $('#customerSearch').find('input[name=name]').val()},
+                                cache: false,
+                                success: function (result, status, xhr) {
+                                    var xml = $.parseXML(result);
+                                    var $xml = $(xml);
+                                    $('#customerSearch').html($xml.find('segment').html());
+                                    $('#sales_order_customerId').val($.trim($xml.find('data').text()));
+
+                                    $('#customerSearch').find('button[type=submit]').click(clickAction);
+                                },
+                                error: function (xhr, status, error) {
+                                    alert(error);
+                                }
+                            });
+
+                        };
+
+                        $('#customerSearch').find('button[type=submit]').click(clickAction);
+                    });
+
+                }
+        );
+    </script>
 {% endblock %}
