@@ -5,19 +5,15 @@
 
 {% block body %}
     <div class="col-sm-12">
-        <h1>Search for a Customer</h1>
 
         {% embed 'flashWidget.html.twig' %}
         {% endembed %}
 
         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
         <div class="panel panel-default">
-            <div class="panel-heading">
-                <!-- not doing validation for search form -->
-                <h3 class="panel-title">Search Customer</h3>
-            </div>
             <div id="add" class="panel-collapse">
                 <div class="panel-body">
+                    <legend style="color: #009688">Search for a Customer</legend>
                     {{ form_errors(form) }}
                     {{ form_row(form.name) }}
                     {{ form_row(form.address) }}
@@ -25,8 +21,8 @@
                     {{ form_row(form.email) }}
                     {{ form_row(form.nic) }}
                 </div>
-                <div class="panel-footer">
-                    {{ form_rest(form) }}
+                <div class="panel-footer" style="background-color:#ffffff">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
 
                 </div>
             </div>
