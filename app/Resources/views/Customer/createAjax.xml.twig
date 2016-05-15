@@ -1,0 +1,34 @@
+{% form_theme form "bootstrap_3_layout.html.twig" %}
+{% extends 'ajaxBase.xml.twig' %}
+
+{% block data %}
+
+{% endblock %}
+
+{% block segment %}
+
+{% embed 'flashWidget.html.twig' %}
+{% endembed %}
+
+{{ form_start(form, {'action': path('ajax add customer')}) }}
+<div class="panel panel-default">
+
+    <div id="add">
+        <div class="panel-body">
+            <legend style="color: #009688">Add a Customer</legend>
+            {{ form_errors(form) }}
+            {{ form_row(form.id) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.address) }}
+            {{ form_row(form.phone) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.nic) }}
+        </div>
+        <div class="panel-footer" style="background-color:#ffffff;">
+            {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}
+
+{% endblock %}

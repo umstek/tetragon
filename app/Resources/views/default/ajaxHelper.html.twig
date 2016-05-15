@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Ajax
+{% endblock %}
+
+{% block body %}
+    <button id="load" class="btn btn-default">
+        Ajax
+    </button>
+    <div id="ajax">
+
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(
+                function () {
+
+                    $("button").click(function () {
+                        $.get("{{ path('ajax new customer') }}", function (resp, status) {
+                            var xml = $.parseXML(resp);
+                            var $xml = $(xml);
+                            $('#ajax').html($xml.find('segment').html());
+
+                            $('body').on('submit', 'form[name=customer]', function (e) {
+                                e.preventDefault();
+
+                                $.ajax({
+                                    type: $(this).attr('method'),
+                                    url: $(this).attr('action'),
+                                    data: $(this).serialize(),
+                                    cache: false,
+                                    success: function (result, status, xhr) {
+                                        var xml = $.parseXML(result);
+                                        var $xml = $(xml);
+                                        $('#ajax').html($xml.find('segment').html());
+                                        alert($xml.find('data').text())
+                                    },
+                                    error: function (xhr, status, error) {
+                                        alert(error);
+                                    }
+                                });
+
+                            });
+                        });
+                    });
+
+                }
+        );
+
+    </script>
+{% endblock %}

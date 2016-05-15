@@ -53,7 +53,7 @@ class CustomerController extends Controller
 
     /**
      * @Route("/customers.search", name="search customers")
-     * 
+     *
      * @param Request $request
      * @return Response
      */
@@ -107,6 +107,41 @@ class CustomerController extends Controller
         // No need to add a flash. Validation errors are displayed in-place
         // Also needed to render the create customer page with a get request
         return $this->render(':Customer:create.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/ajax/customers", name="ajax add customer", methods={"POST"})
+     * @Route("/ajax/customers.add", name="ajax new customer", methods={"GET"})
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function createAjaxAction(Request $request)
+    {
+        // Customer object to hold the collected data
+        $customer = new Customer();
+        $form = $this->createForm(CustomerType::class, $customer);
+        $form->handleRequest($request);
+        if ($form->isValid()) { // Validation
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($customer);
+            $em->flush(); // Permanently add to database
+
+            $this->addFlash('success', "Created customer.");
+            return $this->render(':Customer:createAjax.xml.twig', [
+                'data' => $customer->getId(),
+                'form' => $form->createView()
+            ]);
+        }
+
+        // Executed only if validation fails
+        // Renders the add customer page which does not list customers
+        // No need to add a flash. Validation errors are displayed in-place
+        // Also needed to render the create customer page with a get request
+        return $this->render(':Customer:createAjax.xml.twig', [
+            'data' => 0,
             'form' => $form->createView()
         ]);
     }
