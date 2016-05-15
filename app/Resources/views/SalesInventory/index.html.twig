@@ -27,6 +27,7 @@
                 <tbody>
                 {% for item in items %}
                     <tr>
+                        <td>{{ item.id }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.brand }}</td>
                         <td>{{ item.model }}</td>
@@ -60,8 +61,8 @@
             menuSelector: "#contextMenu",
             menuSelected: function (invokedOn, selectedMenu) {
                 selectedId = invokedOn.parent().find('td').first().text();
-                {#viewPath = '{{ path('view item', {'id': '0' }) }}'; // TWIG generated url#}
-                {#editPath = '{{ path('edit item', {'id': '0' }) }}'; // TWIG generated url#}
+                viewPath = '{{ path('view item', {'id': '0' }) }}'; // TWIG generated url
+                editPath = '{{ path('edit item', {'id': '0' }) }}'; // TWIG generated url
                 if (selectedMenu.text() === 'View') {
                     window.location.href = viewPath.replace("0", selectedId);
                 } else if (selectedMenu.text() === 'Edit') {

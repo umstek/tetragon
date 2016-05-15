@@ -1,7 +1,38 @@
+{% form_theme form "bootstrap_3_layout.html.twig" %}
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:SalesInventory:modify{% endblock %}
+{% block title %}Modify a SalesInventory record{% endblock %}
 
 {% block body %}
 <h1>Welcome to the SalesInventory:modify page</h1>
-{% endblock %}
+
+{% embed 'flashWidget.html.twig' %}
+{% endembed %}
+
+    {{ form_start(form, {'action': path('update item', {'id': id }), 'method': 'POST'}) }}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Modify SalesInventoryItem</h3>
+        <!-- FIXME this should be PUT, symfony has a bug which doesn't allow the PUT request to handled -->
+    </div>
+    <div id="modify">
+        <div class="panel-body">
+            {{ form_errors(form) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.model) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.category) }}
+            {{ form_row(form.price) }}
+            {{ form_row(form.brand) }}
+            {{ form_row(form.isSold) }}
+            {{ form_row(form.serial) }}
+            {{ form_row(form.isWarrantyClaimed) }}
+            {{ form_row(form.warrantyExpiration) }}
+            <div class="panel-footer">
+                {{ form_rest(form) }}
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+    {% endblock %}
