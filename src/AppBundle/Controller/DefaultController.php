@@ -25,13 +25,37 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/ajax/{data}-{segment}")
-     */
+ * @Route("/ajax/{data}-{segment}")
+ */
     public function ajaxViewAction(Request $request, $data, $segment)
     {
         return $this->render(":default:ajaxWiew.xml.twig", [
             'data' => $data,
             'segment' => $segment
         ]);
+    }
+
+    /**
+     * @Route("/sales")
+     */
+    public function salesAction(Request $request)
+    {
+        return $this->render(':default:sales.html.twig');
+    }
+
+    /**
+     * @Route("/admin")
+     */
+    public function adminAction(Request $request)
+    {
+        return $this->render(":default:admin.html.twig");
+    }
+
+    /**
+     * @Route("/repairing")
+     */
+    public function repairingAction(Request $request)
+    {
+        return $this->render(":default:repairing.html.twig");
     }
 }
