@@ -32,8 +32,14 @@
 
                 </div>
                 <div class="panel-footer">
-                    <input type="checkbox" id="remember_me" name="_remember_me" value="on" class="checkbox-inline"/>
-                    <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="remember_me" name="_remember_me" value="on"
+                                   class="checkbox-inline"/>
+                            <span class="checkbox-material"><span class="check"></span></span>
+                            {{ 'security.login.remember_me'|trans }}
+                        </label>
+                    </div>
                     <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}"
                            class="btn btn-success"/>
                 </div>
