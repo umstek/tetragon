@@ -14,6 +14,7 @@ class SalesInventoryController extends Controller
 
     /**
      * @Route("/selling_items", name="items",methods={"GET","HEAD"})
+     *
      * @param Request $request
      * @return Response
      */
@@ -72,12 +73,12 @@ class SalesInventoryController extends Controller
             $em->persist($item);
             $em->flush(); // Permanently add to database
 
-            $this->addFlash('success', "Created itemInquiry.");
-            return $this->redirectToRoute('items');
+            $this->addFlash('success', "Created item.");
+            return $this->redirectToRoute('new item');
         }
 
         return $this->render(':SalesInventory:create.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->remove('isSold')->remove('isWarrantyClaimed')->createView()
         ]);
     }
 

@@ -22,10 +22,11 @@ class SellingItemType extends AbstractType
             ->add('model', Types\TextType::class)
             ->add('serial', Types\TextType::class)
             ->add('description', Types\TextareaType::class)
-            ->add('isSold', Types\ChoiceType::class)
+            ->add('isSold', Types\CheckboxType::class)
             ->add('isWarrantyClaimed', Types\CheckboxType::class)
-            ->add('warrantyExpiration', Types\DateTimeType::class)
-            ->add('price', Types\MoneyType::class);
+            ->add('warrantyExpiration', Types\DateTimeType::class, ['data' => new \DateTime('now', new \DateTimeZone('Asia/Colombo'))])
+            ->add('price', Types\MoneyType::class)
+            ->add('submit', Types\SubmitType::class);
     }
 
     /**

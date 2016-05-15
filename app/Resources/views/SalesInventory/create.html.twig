@@ -18,16 +18,14 @@
         <div id="add">
             <div class="panel-body">
                 {{ form_errors(form) }}
+                {{ form_row(form.category) }}
                 {{ form_row(form.name) }}
                 {{ form_row(form.brand) }}
                 {{ form_row(form.model) }}
-                {{ form_row(form.category) }}
                 {{ form_row(form.serial) }}
                 {{ form_row(form.description) }}
-                {{ form_row(form.isSold) }}
-                {{ form_row(form.isWarrantyClaimed) }}
-                {{ form_row(form.warrantyExpiration) }}
                 {{ form_row(form.price) }}
+                {{ form_row(form.warrantyExpiration) }}
             </div>
             <div class="panel-footer" style="background-color:#ffffff;">
                 {{ form_rest(form) }}
@@ -35,6 +33,5 @@
         </div>
     </div>
     {{ form_end(form) }}
-
 
 {% endblock %}
