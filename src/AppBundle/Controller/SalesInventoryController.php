@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\SellingItem;
 use AppBundle\Form\SellingItemType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,21 +82,73 @@ class SalesInventoryController extends Controller
     }
 
     /**
-     * @Route("/selling_items/{id}.view")
+     * @Route("/selling_items/{id}.view", name="view item", methods={"GET"}, requirements={"id" : "\d+"})
+     * @param Request $request
+     * @param $id
+     * @return Response
      */
+
     public function viewAction($id)
     {
 
+        // Collect selling item object from the database
+        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:SellingItem');
+        $item = $repository->find($id);
 
+        // If not found, render a page with an all records and error message
+        if ($item == null) {
+            $this->addFlash('error', "selling item with id $id not found. ");
+            return $this->redirectToRoute('items');
+        }
+
+        // If found, render the content
+        return $this->render(':SalesInventory:view.html.twig', [
+            'SalesInv' => $item
+        ]);
     }
 
+
     /**
-     * @Route("/selling_items/{id}.edit")
+     * @Route("/selling_items/{id}.edit",name="edit item", methods={"GET", "HEAD"}, requirements={"id" : "\d+"})     *
+     * @Route("/selling_items/{id}", name="update item", methods={"POST"}, requirements={"id" : "\d+"})     *
+     * @param Request $request
+     * @param $id
+     * @return Response
      */
-    public function modifyAction($id)
+    public function modifyAction(Request $request, $id)
     {
 
+        // Collect selling_item object from the database
+        $em = $this->getDoctrine()->getManager();
+        $item = $em->getRepository('AppBundle:SellingItem')->find($id);
 
+        if ($item == null) { // Not found? ask to create.
+            $this->addFlash('error', "SellingItem with id $id not found. Create new?");
+            return $this->redirectToRoute('new item');
+        }
+
+        // Found selling_Item with id?
+        $form = $this->createForm(SellingItemType::class, $item);
+        if ($request->isMethod('POST')) { // and sent the new data with PUT?
+            // FIXME this should be PUT, symfony has a bug which doesn't allow the PUT request to be handled
+            $form->handleRequest($request); // this changes the original customer object accordingly
+            if ($form->isValid()) { // Validation
+                $em->flush(); // Permanently change the record in database
+
+                $this->addFlash('success', "Updated Selling Item.");
+                return $this->redirectToRoute('items');
+            }
+
+            return $this->render(':SalesInventory:modify.html.twig', [
+                'id' => $id,
+                'form' => $form->createView()
+            ]);
+        }
+
+        return $this->render(':SalesInventory:modify.html.twig', [
+            'id' => $id,
+            'form' => $form->createView()
+        ], new Response());
     }
 
     /**

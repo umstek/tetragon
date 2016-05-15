@@ -1,7 +1,95 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:SalesInventory:view{% endblock %}
+{% block title %}Sales inventory{% endblock %}
 
 {% block body %}
-<h1>Welcome to the SalesInventory:view page</h1>
+    <div class="col-sm-12">
+        <h1>Welcome to the SalesInventory page</h1>
+
+        {% embed 'flashWidget.html.twig' %}
+        {% endembed %}
+
+        {% if SalesInv != null %}
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ SalesInv.serial }}</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Name: </label>
+                            {{ SalesInv.name }}
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Model: </label>
+                            {{ SalesInv.model }}
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Brand: </label>
+                            {{ SalesInv.brand }}
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Price: </label>
+                            {{ SalesInv.price }}
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Description: </label>
+                            {{ SalesInv.description }}
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Serial: </label>
+                            {{ SalesInv.serial }}
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Availability: </label>
+                            {% if SalesInv.isSold %}
+                                {{ 'Sold/NotAvailable' }}
+                            {% endif %}
+                            {% if not SalesInv.isSold %}
+                                {{ 'Available in the store' }}
+                            {% endif %}
+
+                        </li>
+                        {#<li class="list-group-item">#}
+                        {#<label class="list-group-item-heading">Warranty Status: </label>#}
+                        {#{{ SalesInv.}}#}
+                        {#</li>#}
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btn-default">
+                        Back
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        Edit
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Order
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+
+                            {#<td>{{ SalesInv.order.customer }}</td>#}
+                            {#<td>{{ SalesInv.order.date }}</td>#}
+                            {#<td>{{ SalesInv.order.salesClerk }}</td>#}
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
