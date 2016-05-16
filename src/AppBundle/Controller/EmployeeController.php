@@ -102,6 +102,36 @@ class EmployeeController extends Controller
     }
 
     /**
+     * @Route("/ajax/employees.search", name="ajax search employees by name", methods={"GET", "POST"})
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function searchByNameAjaxAction(Request $request)
+    {
+
+        if ($request->isMethod('POST')) {
+            $name = $request->request->get('name');
+            $role = $request->request->get('role');
+            dump($request);
+            $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Employee');
+            $employees = $repository->findAllByLikeName($name, $role);
+
+            if (count($employees) > 0) {
+                return $this->render(':Employee:searchAjax.xml.twig', [
+                    'employees' => $employees
+                ]);
+            } else {
+                $this->addFlash('info', "No employees found for the query. ");
+            }
+        }
+
+        return $this->render(':Employee:searchAjax.xml.twig', [
+            'employees' => null
+        ]);
+    }
+
+    /**
      * @Route("/employees", name="add employee", methods={"POST"})
      * @Route("/employees.add", name="new employee", methods={"GET"})
      *

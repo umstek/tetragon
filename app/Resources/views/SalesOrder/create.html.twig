@@ -49,6 +49,7 @@
         $(document).ready(
                 function () {
 
+                    // load create new customer page
                     $.get("{{ path('ajax new customer') }}", function (resp) {
                         var xml = $.parseXML(resp);
                         var $xml = $(xml);
@@ -76,6 +77,9 @@
                         });
                     });
 
+                    // load customer search by name page
+                    // we don't use advanced searching because when we create an order, customer is with us
+                    // so knowing the name is enough to get customer account if exists.
                     $.get("{{ path('ajax search customers by name') }}", function (resp) {
                         var xml = $.parseXML(resp);
                         var $xml = $(xml);
@@ -86,14 +90,16 @@
 
                             $.ajax({
                                 type: 'POST',
-                                url: "{{ path('ajax search customers by name') }}",
+                                url: "{{ path('ajax search customers by name') }}",  // only load sales clerks
                                 data: {name: $('#customerSearch').find('input[name=name]').val()},
                                 cache: false,
                                 success: function (result, status, xhr) {
                                     var xml = $.parseXML(result);
                                     var $xml = $(xml);
                                     $('#customerSearch').html($xml.find('segment').html());
-                                    $('#sales_order_customerId').val($.trim($xml.find('data').text()));
+                                    $('#customerSearch').find('tbody tr').click(function () {
+                                        $('#sales_order_customerId').val($.trim($(this).find('td').first().text()));
+                                    });
 
                                     $('#customerSearch').find('button[type=submit]').click(clickAction);
                                 },
@@ -105,6 +111,45 @@
                         };
 
                         $('#customerSearch').find('button[type=submit]').click(clickAction);
+                    });
+
+                    // load a sales clerk
+                    // this sales clerk creates the order
+                    {# TODO automatically load currently logged in employee name #}
+                    $.get("{{ path('ajax search employees by name') }}", function (resp) {
+                        var xml = $.parseXML(resp);
+                        var $xml = $(xml);
+                        $('#salesClerkSearch').html($xml.find('segment').html());
+
+                        var clickAction = function (e) {
+                            e.preventDefault();
+
+                            $.ajax({
+                                type: 'POST',
+                                url: "{{ path('ajax search employees by name') }}",
+                                data: {
+                                    name: $('#salesClerkSearch').find('input[name=name]').val(),
+                                    role: 'salesclerk'
+                                },
+                                cache: false,
+                                success: function (result, status, xhr) {
+                                    var xml = $.parseXML(result);
+                                    var $xml = $(xml);
+                                    $('#salesClerkSearch').html($xml.find('segment').html());
+                                    $('#salesClerkSearch').find('tbody tr').click(function () {
+                                        $('#sales_order_salesClerkId').val($.trim($(this).find('td').first().text()));//
+                                    });
+
+                                    $('#salesClerkSearch').find('button[type=submit]').click(clickAction);
+                                },
+                                error: function (xhr, status, error) {
+                                    alert(error);
+                                }
+                            });
+
+                        };
+
+                        $('#salesClerkSearch').find('button[type=submit]').click(clickAction);
                     });
 
                 }

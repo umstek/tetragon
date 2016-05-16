@@ -28,7 +28,7 @@ class SalesOrderController extends Controller
         if ($request->query->count() > 0) {
             $expected = ['id', 'date', 'customer_name'];
             if (count(array_intersect($expected, $request->query->keys())) > 0 // at least one expected key
-                and count($expected + $request->query->keys()) == 6 // and no unknown keys (using array union)
+                and count($expected + $request->query->keys()) == 3 // and no unknown keys (using array union)
             ) {
                 // Only the queries with expected keys are checked
                 $salesOrders = $repository->findBy($request->query->all());
