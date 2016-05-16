@@ -1,6 +1,4 @@
-/**
- * Created by Wickramaranga on 4/15/2016.
- */
+
 (function ($, window) {
 
     $.fn.contextMenu = function (settings) {
