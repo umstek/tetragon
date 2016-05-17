@@ -59,7 +59,7 @@ class SellingItem
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
@@ -76,7 +76,7 @@ class SellingItem
      * @ORM\Column(name="is_warranty_claimed", type="boolean")
      */
     private $isWarrantyClaimed;
-    
+
     /**
      * @var \DateTime
      * @ORM\Column(name="warranty_expiration", type="datetime")
