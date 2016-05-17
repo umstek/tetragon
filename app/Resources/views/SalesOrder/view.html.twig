@@ -1,0 +1,99 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Sales order{% endblock %}
+
+{% block body %}
+    <div class="col-sm-12">
+        <h1>Welcome to the Sales order page</h1>
+
+        {% embed 'flashWidget.html.twig' %}
+        {% endembed %}
+
+        {% if salesOrder != null %}
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sales order at {{ salesOrder.date.format('Y-m-d H:i:s') }}
+                        for {{ salesOrder.customer.name }}</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Date: </label>
+                            {{ salesOrder.date.format('Y-m-d H:i:s') }}
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Customer: </label>
+                            <a href="{{ path('view customer', {'id': salesOrder.customer.id}) }}">
+                                {{ salesOrder.customer.name }}
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Sales Clerk: </label>
+                            <a href="{{ path('view employee', {'id': salesOrder.salesClerk.id}) }}">
+                                {{ salesOrder.salesClerk.name }}
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Item count: </label>
+                            {{ salesOrder.items.count }}
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btn-default">
+                        Back
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Item Details
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-responsive table-hover">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Category</th>
+                            <th>Name</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Serial</th>
+                            <th>Description</th>
+                            <th>Warranty Expiration</th>
+                            <th>Warranty Status</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in salesOrder.items %}
+                            <tr>
+                                <td>{{ item.id }}</td>
+                                <td>{{ item.category }}</td>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.brand }}</td>
+                                <td>{{ item.model }}</td>
+                                <td>{{ item.serial }}</td>
+                                <td>{{ item.description }}</td>
+                                <td>{{ item.warrantyExpiration.format('Y-m-d H:i:s') }}</td>
+                                <td>
+                                    {% if item.isWarrantyClaimed %}
+                                        Claimed.
+                                    {% else %}
+                                        Not Claimed.
+                                    {% endif %}
+                                </td>
+                                <td>{{ item.price }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+{% endblock %}
