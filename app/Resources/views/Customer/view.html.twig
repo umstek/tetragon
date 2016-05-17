@@ -26,7 +26,9 @@
                         </li>
                         <li class="list-group-item">
                             <label class="list-group-item-heading">E-mail: </label>
-                            {{ customer.email }}
+                            <a href="mailto:{{ customer.email }}">
+                                {{ customer.email }}
+                            </a>
                         </li>
                         <li class="list-group-item">
                             <label class="list-group-item-heading">NIC number: </label>
@@ -55,45 +57,72 @@
                         <thead>
                         <tr>
                             <th>Buying ID</th>
-                            <th>Buying Date</th>
+                            <th>Order Date</th>
                             <th>Sales Clerk</th>
-                            <th>Items</th>
+                            <th>Item Count</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for buying in customer.buyings %}
                             <tr>
-                                <td>{{ buying.id }}</td>
-                                <td>{{ buying.date.format('Y-m-d H:i:s') }}</td>
-                                <td>{{ buying.salesClerk.name }}</td>
                                 <td>
-
-                                    <table class="table table-responsive">
-                                        <thead>
-                                        <tr>
-                                            <th>Item ID</th>
-                                            <th>Item Name</th>
-                                            <th>Item Price</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {% for item in buying.items %}
-                                            <tr>
-                                                <td>{{ item.id }}</td>
-                                                <td>{{ item.name }}</td>
-                                                <td>{{ item.price }}</td>
-                                            </tr>
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
-
+                                    <a href="{{ path('view sales order', { 'id' : buying.id }) }}">
+                                        {{ buying.id }}
+                                    </a>
                                 </td>
+                                <td>{{ buying.date.format('Y-m-d H:i:s') }}</td>
+                                <td>
+                                    <a href="{{ path('view employee', {'id': buying.salesClerk.id}) }}">
+                                        {{ buying.salesClerk.name }}
+                                    </a>
+                                </td>
+                                <td>{{ buying.items.count }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Repairs
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-responsive table-hover">
+                        <thead>
+                        <tr>
+                            <th>Repair ID</th>
+                            <th>Order Date</th>
+                            <th>Sales Clerk</th>
+                            <th>Items Count</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for repair in customer.repairs %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('view repairing order', { 'id' : repair.id }) }}">
+                                        {{ repair.id }}
+                                    </a>
+                                </td>
+                                <td>{{ repair.date.format('Y-m-d H:i:s') }}</td>
+                                <td>
+                                    <a href="{{ path('view employee', {'id' : repair.technician.id}) }}">
+                                        {{ repair.technician.name }}
+                                    </a>
+                                </td>
+                                <td>{{ repair.items.count }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         {% endif %}
+
     </div>
 {% endblock %}

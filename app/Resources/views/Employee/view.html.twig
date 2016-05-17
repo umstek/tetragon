@@ -26,7 +26,9 @@
                         </li>
                         <li class="list-group-item">
                             <label class="list-group-item-heading">E-mail: </label>
-                            {{ employee.email }}
+                            <a href="mailto:{{ employee.email }}">
+                                {{ employee.email }}
+                            </a>
                         </li>
                         <li class="list-group-item">
                             <label class="list-group-item-heading">NIC number: </label>
@@ -43,6 +45,87 @@
                     </button>
                 </div>
             </div>
+
+            {% if employee.sales is defined %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Sales
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-responsive table-hover">
+                            <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Order Date</th>
+                                <th>Customer</th>
+                                <th>Items Count</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for sale in employee.sales %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ path('view sales order', { 'id' : sale.id }) }}">
+                                            {{ sale.id }}
+                                        </a>
+                                    </td>
+                                    <td>{{ sale.date.format('Y-m-d H:i:s') }}</td>
+                                    <td>
+                                        <a href="{{ path('view customer', {'id' : sale.customer.id}) }}">
+                                            {{ sale.customer.name }}
+                                        </a>
+                                    </td>
+                                    <td>{{ sale.items.count }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if employee.repairs is defined %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Repairs
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-responsive table-hover">
+                            <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Order Date</th>
+                                <th>Customer</th>
+                                <th>Items Count</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for repair in employee.repairs %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ path('view sales order', { 'id' : repair.id }) }}">
+                                            {{ repair.id }}
+                                        </a>
+                                    </td>
+                                    <td>{{ repair.date.format('Y-m-d H:i:s') }}</td>
+                                    <td>
+                                        <a href="{{ path('view customer', {'id' : sale.customer.id}) }}">
+                                            {{ repair.customer.name }}
+                                        </a>
+                                    </td>
+                                    <td>{{ repair.items.count }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+
         {% endif %}
 
     </div>

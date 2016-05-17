@@ -179,6 +179,5 @@ class SalesInventoryController extends Controller
         }
 
         return $this->redirectToRoute('items', $nonempty);
-
     }
 }
