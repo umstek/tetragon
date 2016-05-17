@@ -10,4 +10,14 @@ namespace AppBundle\Repository;
  */
 class EmployeeRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllByLikeName($name, $role)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT e FROM AppBundle:Employee e WHERE (e.name LIKE :name AND e INSTANCE OF :role) ORDER BY e.name ASC'
+            )
+            ->setParameter('name', $name)
+            ->setParameter('role', $role)
+            ->getResult();
+    }
 }

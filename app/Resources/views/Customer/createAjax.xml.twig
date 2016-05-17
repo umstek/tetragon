@@ -7,8 +7,8 @@
 
 {% block segment %}
 
-{% embed 'flashWidget.html.twig' %}
-{% endembed %}
+    {% embed 'flashWidget.html.twig' %}
+    {% endembed %}
 
 {{ form_start(form, {'action': path('ajax add customer')}) }}
 <div class="panel panel-default">

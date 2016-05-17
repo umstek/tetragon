@@ -15,10 +15,10 @@
                 <tr>
                     <th>ID</th>
                     <th>Date</th>
-                    <th style="visibility: hidden">Customer ID</th>
+                    <th>Customer ID</th>
                     <th>Customer name</th>
                     <th>Customer Phone</th>
-                    <th style="visibility: hidden">Sales Clerk ID</th>
+                    <th>Sales Clerk ID</th>
                     <th>Sales Clerk Name</th>
                     <th>Sales Clerk Phone</th>
                     <th>Items</th>
@@ -33,12 +33,12 @@
                         {# something == null state of the below should never happen #}
 
                         {% if order.customer != null %}
-                            <td title="customerId" style="visibility: hidden;">{{ order.customer.id }}</td>
+                            <td title="customerId">{{ order.customer.id }}</td>
                             <td>{{ order.customer.name }}</td>
                             <td>{{ order.customer.phone }}</td>
                         {% endif %}
                         {% if order.salesClerk != null %}
-                            <td title="salesClerkId" style="visibility: hidden;">{{ order.salesClerk.id }}</td>
+                            <td title="salesClerkId">{{ order.salesClerk.id }}</td>
                             <td>{{ order.salesClerk.name }}</td>
                             <td>{{ order.salesClerk.phone }}</td>
                         {% endif %}
@@ -74,20 +74,19 @@
             menuSelector: "#contextMenu",
             menuSelected: function (invokedOn, selectedMenu) {
                 var selectedId = invokedOn.parent().find('td').first().text();
-                var selectedCustomerId = invokedOn.parent().find('td').find('[title=customerId]').text();
-                var selectedSalesClerkId = invokedOn.parent().find('td').find('[title=salesClerkId]').text();
+                var selectedCustomerId = invokedOn.parent().find('td[title=customerId]').text();
+                var selectedSalesClerkId = invokedOn.parent().find('td[title=salesClerkId]').text();
                 {#var viewOrderPath = '{{ path('view sales order', {'id': '0' }) }}'; // TWIG generated url#}
                 var viewCustomerPath = '{{ path('view customer', {'id': '0' }) }}'; // TWIG generated url
                 var viewSalesClerkPath = '{{ path('view employee', {'id': '0' }) }}'; // TWIG generated url
 
                 if (selectedMenu.text() === 'View Order') {
-                    window.location.href = viewOrderPath.replace("0", selectedId);
+                    //window.location.href = viewOrderPath.replace("0", selectedId);
                 } else if (selectedMenu.text() === 'View Customer') {
                     window.location.href = viewCustomerPath.replace("0", selectedCustomerId);
                 } else if (selectedMenu.text() === 'View Sales Clerk') {
                     window.location.href = viewSalesClerkPath.replace("0", selectedSalesClerkId);
                 }
-
             }
         });
     </script>

@@ -1,0 +1,12 @@
+{% extends 'ajaxBase.xml.twig' %}
+
+{% block data %}
+    {{ id }}
+{% endblock %}
+
+{% block segment %}
+
+    {% embed 'flashWidget.html.twig' %}
+    {% endembed %}
+
+{% endblock %}

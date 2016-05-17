@@ -10,5 +10,14 @@ namespace AppBundle\Repository;
  */
 class CustomerRepository extends \Doctrine\ORM\EntityRepository
 {
-
+    public function findAllByLikeName($name)
+    {
+        dump($name);
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT c FROM AppBundle:Customer c WHERE c.name LIKE :name ORDER BY c.name ASC'
+            )
+            ->setParameter('name', $name)
+            ->getResult();
+    }
 }

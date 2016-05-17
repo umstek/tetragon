@@ -25,11 +25,11 @@ class DefaultController extends Controller
     }
 
     /**
- * @Route("/ajax/{data}-{segment}")
- */
+     * @Route("/ajax/{data}-{segment}")
+     */
     public function ajaxViewAction(Request $request, $data, $segment)
     {
-        return $this->render(":default:ajaxWiew.xml.twig", [
+        return $this->render(":default:ajaxView.xml.twig", [
             'data' => $data,
             'segment' => $segment
         ]);

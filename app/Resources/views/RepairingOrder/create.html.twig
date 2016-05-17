@@ -1,7 +1,7 @@
 {% form_theme form "bootstrap_3_layout.html.twig" %}
 {% extends "::base.html.twig" %}
 
-{% block title %}Create new order{% endblock %}
+{% block title %}Create new repairing order{% endblock %}
 
 {% block body %}
 
@@ -13,11 +13,11 @@
 
         <div id="addSale">
             <div class="panel-body">
-                <legend style="color: #009688">Create a sales order</legend>
+                <legend style="color: #009688">Create a repairing order</legend>
                 {{ form_errors(form) }}
                 {{ form_row(form.date) }}
                 {{ form_row(form.customerId) }}
-                {{ form_row(form.salesClerkId) }}
+                {{ form_row(form.technicianId) }}
 
                 {{ form_row(form.itemsIds) }}
 
@@ -35,7 +35,7 @@
     <div id="customerCreate">
 
     </div>
-    <div id="salesClerkSearch">
+    <div id="technicianSearch">
 
     </div>
     <div id="addItems">
@@ -119,7 +119,7 @@
                     $.get("{{ path('ajax search employees by name') }}", function (resp) {
                         var xml = $.parseXML(resp);
                         var $xml = $(xml);
-                        $('#salesClerkSearch').html($xml.find('segment').html());
+                        $('#technicianSearch').html($xml.find('segment').html());
 
                         var clickAction = function (e) {
                             e.preventDefault();
@@ -128,19 +128,19 @@
                                 type: 'POST',
                                 url: "{{ path('ajax search employees by name') }}",
                                 data: {
-                                    name: $('#salesClerkSearch').find('input[name=name]').val(),
-                                    role: 'salesclerk'
+                                    name: $('#technicianSearch').find('input[name=name]').val(),
+                                    role: 'technician'
                                 },
                                 cache: false,
                                 success: function (result, status, xhr) {
                                     var xml = $.parseXML(result);
                                     var $xml = $(xml);
-                                    $('#salesClerkSearch').html($xml.find('segment').html());
-                                    $('#salesClerkSearch').find('tbody tr').click(function () {
+                                    $('#technicianSearch').html($xml.find('segment').html());
+                                    $('#technicianSearch').find('tbody tr').click(function () {
                                         $('#sales_order_salesClerkId').val($.trim($(this).find('td').first().text()));//
                                     });
 
-                                    $('#salesClerkSearch').find('button[type=submit]').click(clickAction);
+                                    $('#technicianSearch').find('button[type=submit]').click(clickAction);
                                 },
                                 error: function (xhr, status, error) {
                                     alert(error);
@@ -149,7 +149,7 @@
 
                         };
 
-                        $('#salesClerkSearch').find('button[type=submit]').click(clickAction);
+                        $('#technicianSearch').find('button[type=submit]').click(clickAction);
                     });
 
                     {# TODO Configure item addition #}

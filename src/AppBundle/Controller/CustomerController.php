@@ -81,6 +81,35 @@ class CustomerController extends Controller
     }
 
     /**
+     * @Route("/ajax/customers.search", name="ajax search customers by name", methods={"GET", "POST"})
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function searchByNameAjaxAction(Request $request)
+    {
+
+        if ($request->isMethod('POST')) {
+            $name = $request->request->get('name');
+            dump($request);
+            $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Customer');
+            $customers = $repository->findAllByLikeName($name);
+
+            if (count($customers) > 0) {
+                return $this->render(':Customer:searchAjax.xml.twig', [
+                    'customers' => $customers
+                ]);
+            } else {
+                $this->addFlash('info', "No customers found for the query. ");
+            }
+        }
+
+        return $this->render(':Customer:searchAjax.xml.twig', [
+            'customers' => null
+        ]);
+    }
+
+    /**
      * @Route("/customers", name="add customer", methods={"POST"})
      * @Route("/customers.add", name="new customer", methods={"GET"})
      *
@@ -130,9 +159,8 @@ class CustomerController extends Controller
             $em->flush(); // Permanently add to database
 
             $this->addFlash('success', "Created customer.");
-            return $this->render(':Customer:createAjax.xml.twig', [
-                'data' => $customer->getId(),
-                'form' => $form->createView()
+            return $this->render('::ajaxFinished.xml.twig', [
+                'id' => $customer->getId()
             ]);
         }
 

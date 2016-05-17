@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\SellingItem;
 use AppBundle\Form\SellingItemType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,11 +84,11 @@ class SalesInventoryController extends Controller
 
     /**
      * @Route("/selling_items/{id}.view", name="view item", methods={"GET"}, requirements={"id" : "\d+"})
-     * @param Request $request
+     *
      * @param $id
      * @return Response
+     * @internal param Request $request
      */
-
     public function viewAction($id)
     {
 
@@ -109,8 +110,8 @@ class SalesInventoryController extends Controller
 
 
     /**
-     * @Route("/selling_items/{id}.edit",name="edit item", methods={"GET", "HEAD"}, requirements={"id" : "\d+"})     *
-     * @Route("/selling_items/{id}", name="update item", methods={"POST"}, requirements={"id" : "\d+"})     *
+     * @Route("/selling_items/{id}.edit",name="edit item", methods={"GET", "HEAD"}, requirements={"id" : "\d+"})
+     * @Route("/selling_items/{id}", name="update item", methods={"POST"}, requirements={"id" : "\d+"})
      * @param Request $request
      * @param $id
      * @return Response

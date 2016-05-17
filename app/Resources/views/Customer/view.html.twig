@@ -38,9 +38,9 @@
                     <button type="button" class="btn btn-default">
                         Back
                     </button>
-                    <button type="button" class="btn btn-primary">
-                        Edit
-                    </button>
+                    <a href="{{ path('edit customer', {'id' : customer.id}) }}">
+                        <button type="button" class="btn btn-primary">Edit</button>
+                    </a>
                 </div>
             </div>
 
@@ -51,18 +51,43 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-                    <table>
+                    <table class="table table-responsive table-hover">
                         <thead>
                         <tr>
-                            <th></th>
+                            <th>Buying ID</th>
+                            <th>Buying Date</th>
+                            <th>Sales Clerk</th>
+                            <th>Items</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for buying in customer.buyings %}
                             <tr>
                                 <td>{{ buying.id }}</td>
-                                <td>{{ buying.date }}</td>
+                                <td>{{ buying.date.format('Y-m-d H:i:s') }}</td>
                                 <td>{{ buying.salesClerk.name }}</td>
+                                <td>
+
+                                    <table class="table table-responsive">
+                                        <thead>
+                                        <tr>
+                                            <th>Item ID</th>
+                                            <th>Item Name</th>
+                                            <th>Item Price</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for item in buying.items %}
+                                            <tr>
+                                                <td>{{ item.id }}</td>
+                                                <td>{{ item.name }}</td>
+                                                <td>{{ item.price }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>

@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class RepairsInventoryController extends Controller
 {
     /**
-     * @Route("/repair_items/")
+     * @Route("/repair_items")
      */
     public function indexAction()
     {
@@ -32,6 +32,7 @@ class RepairsInventoryController extends Controller
      */
     public function createAction()
     {
+        
         return $this->render(':RepairsInventory:create.html.twig', array(
             // ...
         ));

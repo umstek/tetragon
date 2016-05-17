@@ -16,10 +16,11 @@ class RepairingOrderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date', Types\DateTimeType::class)
-            ->add('customer')
-            ->add('items')
-            ->add('technician');
+            ->add('date', Types\DateTimeType::class, ['data' => new \DateTime('now', new \DateTimeZone('Asia/Colombo'))])
+            ->add('customerId', Types\TextType::class, ['mapped' => false, 'required' => true, 'attr' => ['readOnly' => true]])
+            ->add('itemsIds', Types\TextType::class, ['mapped' => false, 'required' => true, 'attr' => ['readOnly' => true]])
+            ->add('technicianId', Types\TextType::class, ['mapped' => false, 'required' => true, 'attr' => ['readOnly' => true]])
+            ->add('submit', Types\SubmitType::class);
     }
 
     /**
