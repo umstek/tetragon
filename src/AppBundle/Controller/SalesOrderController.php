@@ -26,12 +26,12 @@ class SalesOrderController extends Controller
         $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:SalesOrder');
 
         if ($request->query->count() > 0) {
-            $expected = ['id', 'date', 'customer_name'];
+            $expected = ['id', 'date', 'customerId', 'salesClerkId'];
             if (count(array_intersect($expected, $request->query->keys())) > 0 // at least one expected key
-                and count($expected + $request->query->keys()) == 3 // and no unknown keys (using array union)
+                and count($expected + $request->query->keys()) == 4 // and no unknown keys (using array union)
             ) {
                 // Only the queries with expected keys are checked
-                $salesOrders = $repository->findBy($request->query->all());
+                $salesOrders = $repository->findBySearchQuery($request->query->all());
             } else {
                 $salesOrders = $repository->findAll();
                 $this->addFlash('error', "The query is invalid. Everything is shown. ");
@@ -42,7 +42,7 @@ class SalesOrderController extends Controller
 
         if (count($salesOrders) == 0 && $request->query->count() > 0) {  // none found for the query
             $this->addFlash('info', "No salesOrders found for the query. ");
-            return $this->redirectToRoute('search salesOrders');
+            return $this->redirectToRoute('sales orders');
         }
         // else
         if ($request->query->count() > 0) {

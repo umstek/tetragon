@@ -84,7 +84,7 @@ class SalesInventoryController extends Controller
 
     /**
      * @Route("/selling_items/{id}.view", name="view item", methods={"GET"}, requirements={"id" : "\d+"})
-     * 
+     *
      * @param $id
      * @return Response
      * @internal param Request $request

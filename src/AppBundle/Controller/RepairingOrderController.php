@@ -8,6 +8,6 @@ class RepairingOrderController extends Controller
 {
     public function indexAction($name)
     {
-        return $this->render('', array('name' => $name));
+
     }
 }
