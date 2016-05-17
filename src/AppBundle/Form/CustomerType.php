@@ -19,7 +19,7 @@ class CustomerType extends AbstractType
             ->add('id', Types\HiddenType::class, ['disabled' => true])
             ->add('name')
             ->add('address')
-            ->add('phone', Types\TextType::class, ['data' => '+94'])
+            ->add('phone', Types\TextType::class)
             ->add('email', Types\EmailType::class)
             ->add('nic')
             ->add('submit', Types\SubmitType::class);
