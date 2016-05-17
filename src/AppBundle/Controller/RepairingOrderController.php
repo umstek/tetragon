@@ -52,4 +52,24 @@ class RepairingOrderController extends Controller
         ]);
     }
 
+    /**
+     * @Route("/repairing_orders/{id}", name="view repairing order", methods={"GET"}, requirements={"id" : "\d+"})
+     */
+    public function viewAction(Request $request, $id)
+    {
+        // Collect repairing order object from the database
+        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:RepairingOrder');
+        $repairingOrder = $repository->find($id);
+
+        // If not found, render a page with an all records and error message
+        if ($repairingOrder == null) {
+            $this->addFlash('error', "Repairing order with id $id not found. ");
+            return $this->redirectToRoute('repairing orders');
+        }
+
+        // If found, render the content
+        return $this->render(':RepairingOrder:view.html.twig', [
+            'repairingOrder' => $repairingOrder
+        ]);
+    }
 }

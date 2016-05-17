@@ -67,7 +67,7 @@
                                     var xml = $.parseXML(result);
                                     var $xml = $(xml);
                                     $('#customerCreate').html($xml.find('segment').html());
-                                    $('#sales_order_customerId').val($.trim($xml.find('data').text()));
+                                    $('#repairing_order_customerId').val($.trim($xml.find('data').text()));
                                 },
                                 error: function (xhr, status, error) {
                                     alert(error);
@@ -98,7 +98,7 @@
                                     var $xml = $(xml);
                                     $('#customerSearch').html($xml.find('segment').html());
                                     $('#customerSearch').find('tbody tr').click(function () {
-                                        $('#sales_order_customerId').val($.trim($(this).find('td').first().text()));
+                                        $('#repairing_order_customerId').val($.trim($(this).find('td').first().text()));
                                     });
 
                                     $('#customerSearch').find('button[type=submit]').click(clickAction);
@@ -137,7 +137,7 @@
                                     var $xml = $(xml);
                                     $('#technicianSearch').html($xml.find('segment').html());
                                     $('#technicianSearch').find('tbody tr').click(function () {
-                                        $('#sales_order_salesClerkId').val($.trim($(this).find('td').first().text()));//
+                                        $('#repairing_order_technicianId').val($.trim($(this).find('td').first().text()));//
                                     });
 
                                     $('#technicianSearch').find('button[type=submit]').click(clickAction);
