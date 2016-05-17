@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\SellingItem;
 use AppBundle\Form\SellingItemType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,9 +65,9 @@ class SalesInventoryController extends Controller
     {
         // Customer object to hold the collected data
         $item = new SellingItem();
-        $form = $this->createForm(SellingItemType::class, $item);
-        $form->handleRequest($request);
-        if ($form->isValid()) { // Validation
+        $form = $this->createForm(SellingItemType::class, $item); // creating a Selling item type form, with the selling item object
+        $form->handleRequest($request); // combine the fourm`s data into the "$item"  mean time validate the fourm`s data.
+        if ($form->isValid()) { // Validation (at the first iteration fourm is not vaid)
             $em = $this->getDoctrine()->getManager();
             $em->persist($item);
             $em->flush(); // Permanently add to database
@@ -77,8 +76,8 @@ class SalesInventoryController extends Controller
             return $this->redirectToRoute('new item');
         }
 
-        return $this->render(':SalesInventory:create.html.twig', [
-            'form' => $form->remove('isSold')->remove('isWarrantyClaimed')->createView()
+        return $this->render(':SalesInventory:create.html.twig', [ // if fourm is empty; load this page
+            'form' => $form->createView() //'form' is the variable we pass into the twig file //remove('isSold')->remove('isWarrantyClaimed')->
         ]);
     }
 
@@ -174,7 +173,7 @@ class SalesInventoryController extends Controller
 
         if (count($nonempty) == 0) { // no parameters submitted, meaning asking for the empty form
             return $this->render(':SalesInventory:search.html.twig', [
-                'form' => $form->remove("warrantyExpiration")->remove("isWarrantyClaimed")->remove("isSold")->remove("price")->createView()
+                'form' => $form->createView() //remove("warrantyExpiration")->remove("isWarrantyClaimed")->remove("isSold")->remove("price")->
             ]);
         }
 
