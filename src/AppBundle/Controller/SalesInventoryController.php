@@ -170,7 +170,7 @@ class SalesInventoryController extends Controller
                 }
             }
         }
-        dump($request);
+
         if (count($nonempty) == 0) { // no parameters submitted, meaning asking for the empty form
             return $this->render(':SalesInventory:search.html.twig', [
                 'form' => $form->remove("warrantyExpiration")->remove("isWarrantyClaimed")->remove("isSold")->remove("price")->createView()
