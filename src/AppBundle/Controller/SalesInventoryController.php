@@ -41,7 +41,7 @@ class SalesInventoryController extends Controller
 
         if (count($items) == 0 && $request->query->count() > 0) {  // none found for the query
             $this->addFlash('info', "No items found for the query. ");
-            return $this->redirectToRoute('search items');
+            return $this->redirectToRoute('search selling_items');
         }
         // else
         if ($request->query->count() > 0) {
@@ -153,11 +153,32 @@ class SalesInventoryController extends Controller
     }
 
     /**
-     * @Route("/selling_items.search")
+     * @Route("/selling_items.search", name="search selling_items")
+     *
+     * @param Request $request
+     * @return Response
      */
-    public function searchAction()
+    public function searchAction(Request $request)
     {
+        $item = new SellingItem();
+        $form = $this->createForm(SellingItemType::class, $item);
 
+        $nonempty = [];
+        if ($request->request->has('selling_item')) { // Selling item form data
+            foreach ($request->request->get('selling_item') as $key => $value) {
+                if ($value != null and $value != '' and $key != '_token') { // omit the empty ones and the CSRF token
+                    $nonempty[$key] = $value;
+                }
+            }
+        }
+
+        if (count($nonempty) == 0) { // no parameters submitted, meaning asking for the empty form
+            return $this->render(':SalesInventory:search.html.twig', [
+                'form' => $form->remove("warrantyExpiration")->remove("isWarrantyClaimed")->remove("isSold")->remove("price")->createView()
+            ]);
+        }
+
+        return $this->redirectToRoute('items', $nonempty);
 
     }
 }
