@@ -1,0 +1,91 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Repairing order{% endblock %}
+
+{% block body %}
+    <div class="col-sm-12">
+        <h1>Welcome to the Repairing order page</h1>
+
+        {% embed 'flashWidget.html.twig' %}
+        {% endembed %}
+
+        {% if repairingOrder != null %}
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Repairing order at {{ repairingOrder.date.format('Y-m-d H:i:s') }}
+                        for {{ repairingOrder.customer.name }}</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Date: </label>
+                            {{ repairingOrder.date.format('Y-m-d H:i:s') }}
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Customer: </label>
+                            <a href="{{ path('view customer', {'id': repairingOrder.customer.id}) }}">
+                                {{ repairingOrder.customer.name }}
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Sales Clerk: </label>
+                            <a href="{{ path('view employee', {'id': repairingOrder.technician.id}) }}">
+                                {{ repairingOrder.technician.name }}
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Item count: </label>
+                            {{ repairingOrder.items.count }}
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btn-default">
+                        Back
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Item Details
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-responsive table-hover">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Due Date</th>
+                            <th>Repair Status</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in repairingOrder.items %}
+                            <tr>
+                                <td>{{ item.id }}</td>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.description }}</td>
+                                <td>{{ item.due.format('Y-m-d H:i:s') }}</td>
+                                <td>
+                                    {% if item.isRepaired %}
+                                        Repaired.
+                                    {% else %}
+                                        Not Repaired.
+                                    {% endif %}
+                                </td>
+                                <td>{{ item.price }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+{% endblock %}
