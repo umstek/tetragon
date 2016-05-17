@@ -78,6 +78,8 @@ class SalesOrderController extends Controller
             $customer->addBuying($salesOrder);
             $salesClerk->addSale($salesOrder);
 
+            // TODO Add items
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($salesOrder);
             $em->flush(); // Permanently add to database
@@ -85,11 +87,7 @@ class SalesOrderController extends Controller
             $this->addFlash('success', "Created salesOrder.");
             return $this->redirectToRoute('add sales order');
         }
-
-        // Executed only if validation fails
-        // Renders the add salesOrder page which does not list customers
-        // No need to add a flash. Validation errors are displayed in-place
-        // Also needed to render the create salesOrder page with a get request
+        
         return $this->render(':SalesOrder:create.html.twig', [
             'form' => $form->createView()
         ]);

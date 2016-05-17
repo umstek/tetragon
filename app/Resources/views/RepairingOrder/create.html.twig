@@ -1,0 +1,160 @@
+{% form_theme form "bootstrap_3_layout.html.twig" %}
+{% extends "::base.html.twig" %}
+
+{% block title %}Create new repairing order{% endblock %}
+
+{% block body %}
+
+    {% embed 'flashWidget.html.twig' %}
+    {% endembed %}
+
+    {{ form_start(form, {'action': path('add sales order')}) }}
+    <div class="panel panel-default">
+
+        <div id="addSale">
+            <div class="panel-body">
+                <legend style="color: #009688">Create a repairing order</legend>
+                {{ form_errors(form) }}
+                {{ form_row(form.date) }}
+                {{ form_row(form.customerId) }}
+                {{ form_row(form.technicianId) }}
+
+                {{ form_row(form.itemsIds) }}
+
+            </div>
+            <div class="panel-footer" style="background-color:#ffffff;">
+                {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+    <div id="customerSearch">
+
+    </div>
+    <div id="customerCreate">
+
+    </div>
+    <div id="technicianSearch">
+
+    </div>
+    <div id="addItems">
+
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(
+                function () {
+
+                    // load create new customer page
+                    $.get("{{ path('ajax new customer') }}", function (resp) {
+                        var xml = $.parseXML(resp);
+                        var $xml = $(xml);
+                        $('#customerCreate').html($xml.find('segment').html());
+
+                        $('#customerCreate').on('submit', 'form[name=customer]', function (e) {
+                            e.preventDefault();
+
+                            $.ajax({
+                                type: $(this).attr('method'),
+                                url: $(this).attr('action'),
+                                data: $(this).serialize(),
+                                cache: false,
+                                success: function (result, status, xhr) {
+                                    var xml = $.parseXML(result);
+                                    var $xml = $(xml);
+                                    $('#customerCreate').html($xml.find('segment').html());
+                                    $('#sales_order_customerId').val($.trim($xml.find('data').text()));
+                                },
+                                error: function (xhr, status, error) {
+                                    alert(error);
+                                }
+                            });
+
+                        });
+                    });
+
+                    // load customer search by name page
+                    // we don't use advanced searching because when we create an order, customer is with us
+                    // so knowing the name is enough to get customer account if exists.
+                    $.get("{{ path('ajax search customers by name') }}", function (resp) {
+                        var xml = $.parseXML(resp);
+                        var $xml = $(xml);
+                        $('#customerSearch').html($xml.find('segment').html());
+
+                        var clickAction = function (e) {
+                            e.preventDefault();
+
+                            $.ajax({
+                                type: 'POST',
+                                url: "{{ path('ajax search customers by name') }}",  // only load sales clerks
+                                data: {name: $('#customerSearch').find('input[name=name]').val()},
+                                cache: false,
+                                success: function (result, status, xhr) {
+                                    var xml = $.parseXML(result);
+                                    var $xml = $(xml);
+                                    $('#customerSearch').html($xml.find('segment').html());
+                                    $('#customerSearch').find('tbody tr').click(function () {
+                                        $('#sales_order_customerId').val($.trim($(this).find('td').first().text()));
+                                    });
+
+                                    $('#customerSearch').find('button[type=submit]').click(clickAction);
+                                },
+                                error: function (xhr, status, error) {
+                                    alert(error);
+                                }
+                            });
+
+                        };
+
+                        $('#customerSearch').find('button[type=submit]').click(clickAction);
+                    });
+
+                    // load a sales clerk
+                    // this sales clerk creates the order
+                    {# TODO automatically load currently logged in employee name #}
+                    $.get("{{ path('ajax search employees by name') }}", function (resp) {
+                        var xml = $.parseXML(resp);
+                        var $xml = $(xml);
+                        $('#technicianSearch').html($xml.find('segment').html());
+
+                        var clickAction = function (e) {
+                            e.preventDefault();
+
+                            $.ajax({
+                                type: 'POST',
+                                url: "{{ path('ajax search employees by name') }}",
+                                data: {
+                                    name: $('#technicianSearch').find('input[name=name]').val(),
+                                    role: 'technician'
+                                },
+                                cache: false,
+                                success: function (result, status, xhr) {
+                                    var xml = $.parseXML(result);
+                                    var $xml = $(xml);
+                                    $('#technicianSearch').html($xml.find('segment').html());
+                                    $('#technicianSearch').find('tbody tr').click(function () {
+                                        $('#sales_order_salesClerkId').val($.trim($(this).find('td').first().text()));//
+                                    });
+
+                                    $('#technicianSearch').find('button[type=submit]').click(clickAction);
+                                },
+                                error: function (xhr, status, error) {
+                                    alert(error);
+                                }
+                            });
+
+                        };
+
+                        $('#technicianSearch').find('button[type=submit]').click(clickAction);
+                    });
+
+                    {# TODO Configure item addition #}
+
+                }
+        );
+    </script>
+{% endblock %}
