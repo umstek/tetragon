@@ -4,15 +4,22 @@
 {% endblock %}
 
 {% block segment %}
-    {% embed 'flashWidget.html.twig' %}
-    {% endembed %}
+<div>
 
-<div class="panel panel-default">
-    <div>
+    <div class="panel panel-default">
+
         <div class="panel-body">
+            <legend style="color: #009688">Search Inventory</legend>
+
+            {% embed 'flashWidget.html.twig' %}
+            {% endembed %}
 
             {% if items != null %}
                 <div>
+                    <h6 class="h6">
+                        Click an item to checkout.
+                    </h6>
+
                     <table id="details" class="table table-responsive table-hover">
                         <thead>
                         <tr>
@@ -44,21 +51,20 @@
                 </div>
             {% endif %}
 
-            <legend style="color: #009688">Search Inventory</legend>
             <div class="form-group">
                 <label class="control-label required" for="inventory_search_name">Serial</label>
                 <input type="text" id="inventory_search_serial" name="serial" required="required" maxlength="255"
                        class="form-control"/>
             </div>
-            <div id="inventory_item_details">
-
-            </div>
         </div>
+
         <div class="panel-footer" style="background-color:#ffffff;">
-            <button type="submit" id="inventory_search_submit" name="submit" class="btn btn-primary btn">
+            <button type="submit" id="inventory_search_submit" name="submit" class="btn btn-primary">
                 Search
             </button>
         </div>
+
     </div>
+
 </div>
 {% endblock %}

@@ -5,29 +5,37 @@
 
 {% block body %}
 
-    {% embed 'flashWidget.html.twig' %}
-    {% endembed %}
-
     <div id="addSale">
         {{ form_start(form, {'action': path('add sales order')}) }}
         <div class="panel panel-default">
-
-
             <div class="panel-body">
                 <legend style="color: #009688">Create a sales order</legend>
+
+                {% embed 'flashWidget.html.twig' %}
+                {% endembed %}
+
                 {{ form_errors(form) }}
-                {{ form_row(form.date) }}
-                {{ form_row(form.customerId) }}
-                {{ form_row(form.salesClerkId) }}
+                <div class="hidden">
+                    {{ form_row(form.date) }}
+                </div>
+                <div>
+                    <label>Customer: </label>
+                    <span id="customerName">
 
-                {#{{ form_row(form.itemsDetails) }}#}
-                {# We will be adding items later. #}
+                    </span>
+                    {{ form_row(form.customerId) }}
+                </div>
+                <div>
+                    <label>Sales Clerk: </label>
+                    <span id="salesClerkName">
 
+                    </span>
+                    {{ form_row(form.salesClerkId) }}
+                </div>
             </div>
             <div class="panel-footer" style="background-color:#ffffff;">
                 {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
             </div>
-
         </div>
         {{ form_end(form) }}
     </div>
@@ -38,32 +46,47 @@
             <div class="progress-bar" style="width: 100%">Loading...</div>
         </div>
     </div>
+
     <div id="customerCreate">
         <h4 class="h4">Create a customer</h4>
         <div class="progress progress-striped active">
             <div class="progress-bar" style="width: 100%">Loading...</div>
         </div>
     </div>
+
     <div id="salesClerkSearch">
         <h4 class="h4">Sales Clerk Search</h4>
         <div class="progress progress-striped active">
             <div class="progress-bar" style="width: 100%">Loading...</div>
         </div>
     </div>
-    <div id="addItems">
+
+    <div id="inventorySearch">
 
     </div>
+
+    <div id="addItem">
+
+    </div>
+
 {% endblock %}
 
 {% block scripts %}
     {{ parent() }}
     <script>
+
+        var orderId = 0;  // Used when adding items to the order
+
         $(document).ready(
                 function () {
 
-                    // override form submission
+                    // override main form submission
                     $("body").on('submit', 'form[name=sales_order]', function (e) {
                         e.preventDefault();
+
+                        var temp = $('#addSale').html(); // keep this in case of an error
+                        var customerName = $('#customerName').html();
+                        var salesClerkName = $('#salesClerkName').html();
 
                         $.ajax({
                             type: $(this).attr('method'),
@@ -74,65 +97,126 @@
                                 var xml = $.parseXML(result);
                                 var $xml = $(xml);
                                 $('#addSale').html($xml.find('segment').html());
-                                alert('>' + $.trim($xml.find('data').text()) + '<');
+                                //alert('>' + $.trim($xml.find('data').text()) + '<');
                                 if ($.trim($xml.find('data').text()) != '' && $.trim($xml.find('data').text()) != 0) {
                                     // this means request successful
-                                    {# TODO store the id (data) somewhere #}
+                                    orderId = $.trim($xml.find('data').text()); // store the order id for further use.
                                     // remove all add customer etc. forms. They are not needed anymore.
                                     // And, load item adding form.
 
-                                    {# TODO Configure item addition #}
+                                    // inventory item search
                                     $.get("{{ path('ajax search selling items by serial') }}", function (resp) {
                                         var xml = $.parseXML(resp);
                                         var $xml = $(xml);
-                                        $('#addItems').html($xml.find('segment').html());
+                                        $('#inventorySearch').html($xml.find('segment').html());
 
                                         var clickAction = function (e) {
                                             e.preventDefault();
 
+                                            var temp = $('#inventorySearch').html();
+
                                             $.ajax({
                                                 type: 'POST',
                                                 url: "{{ path('ajax search selling items by serial') }}",
+                                                data: {serial: $('#inventorySearch').find('input[name=serial]').val()},
+                                                cache: false,
+                                                success: function (result, status, xhr) {
+                                                    var xml = $.parseXML(result);
+                                                    var $xml = $(xml);
+                                                    $('#inventorySearch').html($xml.find('segment').html());
+                                                    $('#inventorySearch').find('tbody tr').click(function () {
+                                                        $('#addItem').find('#itemId').html($.trim($(this).find('td').first().text()));
+                                                        $('#addItem').find('#itemName').html($.trim($(this).find('td').first().next().text()));
+                                                    });
+
+                                                    $('#inventorySearch').find('button[type=submit]').click(clickAction);
+                                                },
+                                                error: function (xhr, status, error) {
+                                                    alert(error);
+                                                    $('#inventorySearch').html(temp);
+                                                }
+
+                                            });
+
+                                            $('#inventorySearch').html(
+                                                    '<h4 class="h4">Searching...</h4>' +
+                                                    '<div class="progress progress-striped active">' +
+                                                    '<div class="progress-bar" style="width: 100%">Loading...</div>' +
+                                                    '</div>'
+                                            );
+
+                                        };
+
+                                        $('#inventorySearch').find('button[type=submit]').click(clickAction);
+                                    });
+
+                                    // add item dialog -- WARNING twig generated path
+                                    $.get("{{ path('ajax add item to sales order', {'id': 0}) }}".replace("0", orderId), function (resp) {
+                                        var xml = $.parseXML(resp);
+                                        var $xml = $(xml);
+                                        $('#addItem').html($xml.find('segment').html());
+
+                                        var clickAction = function (e) {
+                                            e.preventDefault();
+
+                                            var temp = $('#addItem').html();
+
+                                            $.ajax({
+                                                type: 'POST',
+                                                url: "{{ path('ajax add item to sales order', {'id': 0 }) }}".replace("0", orderId),
                                                 data: {
-                                                    serial: $('#addItems').find('input[name=name]').val()
+                                                    itemId: $.trim($('#addItem').find('#itemId').text()),
+                                                    expire: $('#addItem').find('input[name=expire]').val()
                                                 },
                                                 cache: false,
                                                 success: function (result, status, xhr) {
                                                     var xml = $.parseXML(result);
                                                     var $xml = $(xml);
-                                                    $('#addItems').html($xml.find('segment').html());
-                                                    $('#addItems').find('tbody tr').click(function () {
-                                                        $('#sales_order_itemDetails').val($.trim($(this).find('td').first().text()));//
-                                                    });
+                                                    $('#addItem').html($xml.find('segment').html());
 
-                                                    $('#addItems').find('button[type=submit]').click(clickAction);
+                                                    $('#addItem').find('button[name=add]').click(clickAction);
                                                 },
                                                 error: function (xhr, status, error) {
                                                     alert(error);
+                                                    $('#addItem').html(temp);
                                                 }
+
                                             });
+
+                                            $('#addItem').html(
+                                                    '<h4 class="h4">Adding...</h4>' +
+                                                    '<div class="progress progress-striped active">' +
+                                                    '<div class="progress-bar" style="width: 100%">Loading...</div>' +
+                                                    '</div>'
+                                            );
+
                                         };
 
-                                        $('#addItems').find('button[type=submit]').click(clickAction);
+                                        $('#addItem').find('button[type=submit]').click(clickAction);
                                     });
-
-                                    $('#addSale').html(
-                                            '<h4 class="h4">Working...</h4>' +
-                                            '<div class="progress progress-striped active">' +
-                                            '<div class="progress-bar" style="width: 100%">Loading...</div>' +
-                                            '</div>'
-                                    );
 
                                     $('#customerSearch').html('');
                                     $('#customerCreate').html('');
                                     $('#salesClerkSearch').html('');
+                                } /* request successful end */ else { // request returned 'successfully' with an error
+                                    $('#customerName').html(customerName);
+                                    $('#salesClerkName').html(salesClerkName);
                                 }
                             },
                             error: function (xhr, status, error) {
                                 alert(error);
+                                $('#addSale').html(temp);
                             }
                         });
-                    });
+
+                        $('#addSale').html(
+                                '<h4 class="h4">Working...</h4>' +
+                                '<div class="progress progress-striped active">' +
+                                '<div class="progress-bar" style="width: 100%">Loading...</div>' +
+                                '</div>'
+                        );
+
+                    }); // main form submit
 
                     // load create new customer page
                     $.get("{{ path('ajax new customer') }}", function (resp) {
@@ -142,6 +226,8 @@
 
                         $('#customerCreate').on('submit', 'form[name=customer]', function (e) {
                             e.preventDefault();
+
+                            var temp = $('#customerCreate').html();
 
                             $.ajax({
                                 type: $(this).attr('method'),
@@ -156,6 +242,7 @@
                                 },
                                 error: function (xhr, status, error) {
                                     alert(error);
+                                    $('#customerCreate').html(temp)
                                 }
                             });
 
@@ -167,7 +254,7 @@
                             );
 
                         });
-                    });
+                    }); // create a new customer
 
                     // load customer search by name page
                     // we don't use advanced searching because when we create an order, customer is with us
@@ -180,6 +267,8 @@
                         var clickAction = function (e) {
                             e.preventDefault();
 
+                            var temp = $('#customerSearch').html();
+
                             $.ajax({
                                 type: 'POST',
                                 url: "{{ path('ajax search customers by name') }}",  // only load sales clerks
@@ -191,12 +280,14 @@
                                     $('#customerSearch').html($xml.find('segment').html());
                                     $('#customerSearch').find('tbody tr').click(function () {
                                         $('#sales_order_customerId').val($.trim($(this).find('td').first().text()));
+                                        $('#customerName').html($.trim($(this).find('td').first().next().text()));
                                     });
 
                                     $('#customerSearch').find('button[type=submit]').click(clickAction);
                                 },
                                 error: function (xhr, status, error) {
                                     alert(error);
+                                    $('#customerSearch').html(temp);
                                 }
                             });
 
@@ -210,7 +301,7 @@
                         };
 
                         $('#customerSearch').find('button[type=submit]').click(clickAction);
-                    });
+                    }); // search customers by name
 
                     // load a sales clerk
                     // this sales clerk creates the order
@@ -222,6 +313,8 @@
 
                         var clickAction = function (e) {
                             e.preventDefault();
+
+                            var temp = $('#salesClerkSearch').html();
 
                             $.ajax({
                                 type: 'POST',
@@ -236,13 +329,15 @@
                                     var $xml = $(xml);
                                     $('#salesClerkSearch').html($xml.find('segment').html());
                                     $('#salesClerkSearch').find('tbody tr').click(function () {
-                                        $('#sales_order_salesClerkId').val($.trim($(this).find('td').first().text()));//
+                                        $('#sales_order_salesClerkId').val($.trim($(this).find('td').first().text()));
+                                        $('#salesClerkName').html($.trim($(this).find('td').first().next().text()));
                                     });
 
                                     $('#salesClerkSearch').find('button[type=submit]').click(clickAction);
                                 },
                                 error: function (xhr, status, error) {
                                     alert(error);
+                                    $('#salesClerkSearch').html(temp);
                                 }
                             });
 
@@ -256,9 +351,9 @@
                         };
 
                         $('#salesClerkSearch').find('button[type=submit]').click(clickAction);
-                    });
+                    }); // get search employees by name
 
-                }
-        );
+                } // enclosing function
+        ); // document ready
     </script>
 {% endblock %}

@@ -1,0 +1,23 @@
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Sales order{% endblock %}
+
+{% block body %}
+
+    {% embed 'flashWidget.html.twig' %}
+    {% endembed %}
+
+    <form method="post" action="{{ path('claim item') }}">
+        <div class="panel panel-warning">
+            <label>Type 'confirm' and press Submit.
+                <input type="text" name="confirm"/>
+            </label>
+            <div class="panel-footer">
+                <input type="submit">
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
