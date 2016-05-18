@@ -17,6 +17,7 @@ class SellingItemType extends AbstractType
     {
         $builder
             ->add('category', Types\TextType::class)
+            ->add('warrantyPeriod', Types\TextType::class)
             ->add('name', Types\TextType::class)
             ->add('brand', Types\TextType::class)
             ->add('model', Types\TextType::class)
@@ -27,6 +28,7 @@ class SellingItemType extends AbstractType
 //            ->add('warrantyExpiration', Types\DateTimeType::class, ['data' => new \DateTime('now', new \DateTimeZone('Asia/Colombo'))])
             ->add('price', Types\MoneyType::class)
             ->add('submit', Types\SubmitType::class);
+
     }
 
     /**

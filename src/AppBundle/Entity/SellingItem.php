@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SellingItem
 {
+
     /**
      * @var int
      *
@@ -22,61 +23,59 @@ class SellingItem
     private $id;
 
     /**
+     * @var String
+     *
+     * @ORM\Column(name="warrantyPeriod", type="string", length=255, nullable=true)
+     */
+    private $warrantyPeriod = "No Warranty";
+    /**
      * @var string
      *
      * @ORM\Column(name="category", type="string", length=255)
      */
     private $category;
-
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
-
     /**
      * @var string
      *
      * @ORM\Column(name="brand", type="string", length=255)
      */
     private $brand;
-
     /**
      * @var string
      *
      * @ORM\Column(name="model", type="string", length=255)
      */
     private $model;
-
     /**
      * @var string
      *
      * @ORM\Column(name="serial", type="string", length=255)
      */
     private $serial;
-
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
      */
-    private $description;
-
+    private $description = "";
     /**
      * @var bool
      *
      * @ORM\Column(name="is_sold", type="boolean")
      */
     private $isSold = false;
-
     /**
      * @var bool
      *
      * @ORM\Column(name="is_warranty_claimed", type="boolean")
      */
     private $isWarrantyClaimed = false;
-
     /**
      * @var \DateTime
      * @ORM\Column(name="warranty_expiration", type="datetime", nullable=true)
@@ -95,6 +94,22 @@ class SellingItem
      * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
      */
     private $order;
+
+    /**
+     * @return String
+     */
+    public function getWarrantyPeriod()
+    {
+        return $this->warrantyPeriod;
+    }
+
+    /**
+     * @param String $warrantyPeriod
+     */
+    public function setWarrantyPeriod($warrantyPeriod)
+    {
+        $this->warrantyPeriod = $warrantyPeriod;
+    }
 
     /**
      * @return boolean
