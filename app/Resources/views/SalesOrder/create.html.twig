@@ -8,10 +8,11 @@
     {% embed 'flashWidget.html.twig' %}
     {% endembed %}
 
-    {{ form_start(form, {'action': path('add sales order')}) }}
-    <div class="panel panel-default">
+    <div id="addSale">
+        {{ form_start(form, {'action': path('add sales order')}) }}
+        <div class="panel panel-default">
 
-        <div id="addSale">
+
             <div class="panel-body">
                 <legend style="color: #009688">Create a sales order</legend>
                 {{ form_errors(form) }}
@@ -19,24 +20,35 @@
                 {{ form_row(form.customerId) }}
                 {{ form_row(form.salesClerkId) }}
 
-                {{ form_row(form.itemsIds) }}
+                {#{{ form_row(form.itemsDetails) }}#}
+                {# We will be adding items later. #}
 
             </div>
             <div class="panel-footer" style="background-color:#ffffff;">
                 {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
             </div>
+
         </div>
+        {{ form_end(form) }}
     </div>
-    {{ form_end(form) }}
 
     <div id="customerSearch">
-
+        <h4 class="h4">Customer Search</h4>
+        <div class="progress progress-striped active">
+            <div class="progress-bar" style="width: 100%">Loading...</div>
+        </div>
     </div>
     <div id="customerCreate">
-
+        <h4 class="h4">Create a customer</h4>
+        <div class="progress progress-striped active">
+            <div class="progress-bar" style="width: 100%">Loading...</div>
+        </div>
     </div>
     <div id="salesClerkSearch">
-
+        <h4 class="h4">Sales Clerk Search</h4>
+        <div class="progress progress-striped active">
+            <div class="progress-bar" style="width: 100%">Loading...</div>
+        </div>
     </div>
     <div id="addItems">
 
@@ -48,6 +60,79 @@
     <script>
         $(document).ready(
                 function () {
+
+                    // override form submission
+                    $("body").on('submit', 'form[name=sales_order]', function (e) {
+                        e.preventDefault();
+
+                        $.ajax({
+                            type: $(this).attr('method'),
+                            url: $(this).attr('action'),
+                            data: $(this).serialize(),
+                            cache: false,
+                            success: function (result, status, xhr) {
+                                var xml = $.parseXML(result);
+                                var $xml = $(xml);
+                                $('#addSale').html($xml.find('segment').html());
+                                alert('>' + $.trim($xml.find('data').text()) + '<');
+                                if ($.trim($xml.find('data').text()) != '' && $.trim($xml.find('data').text()) != 0) {
+                                    // this means request successful
+                                    {# TODO store the id (data) somewhere #}
+                                    // remove all add customer etc. forms. They are not needed anymore.
+                                    // And, load item adding form.
+
+                                    {# TODO Configure item addition #}
+                                    $.get("{{ path('ajax search selling items by serial') }}", function (resp) {
+                                        var xml = $.parseXML(resp);
+                                        var $xml = $(xml);
+                                        $('#addItems').html($xml.find('segment').html());
+
+                                        var clickAction = function (e) {
+                                            e.preventDefault();
+
+                                            $.ajax({
+                                                type: 'POST',
+                                                url: "{{ path('ajax search selling items by serial') }}",
+                                                data: {
+                                                    serial: $('#addItems').find('input[name=name]').val()
+                                                },
+                                                cache: false,
+                                                success: function (result, status, xhr) {
+                                                    var xml = $.parseXML(result);
+                                                    var $xml = $(xml);
+                                                    $('#addItems').html($xml.find('segment').html());
+                                                    $('#addItems').find('tbody tr').click(function () {
+                                                        $('#sales_order_itemDetails').val($.trim($(this).find('td').first().text()));//
+                                                    });
+
+                                                    $('#addItems').find('button[type=submit]').click(clickAction);
+                                                },
+                                                error: function (xhr, status, error) {
+                                                    alert(error);
+                                                }
+                                            });
+                                        };
+
+                                        $('#addItems').find('button[type=submit]').click(clickAction);
+                                    });
+
+                                    $('#addSale').html(
+                                            '<h4 class="h4">Working...</h4>' +
+                                            '<div class="progress progress-striped active">' +
+                                            '<div class="progress-bar" style="width: 100%">Loading...</div>' +
+                                            '</div>'
+                                    );
+
+                                    $('#customerSearch').html('');
+                                    $('#customerCreate').html('');
+                                    $('#salesClerkSearch').html('');
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                alert(error);
+                            }
+                        });
+                    });
 
                     // load create new customer page
                     $.get("{{ path('ajax new customer') }}", function (resp) {
@@ -73,6 +158,13 @@
                                     alert(error);
                                 }
                             });
+
+                            $('#customerCreate').html(
+                                    '<h4 class="h4">Adding...</h4>' +
+                                    '<div class="progress progress-striped active">' +
+                                    '<div class="progress-bar" style="width: 100%">Loading...</div>' +
+                                    '</div>'
+                            );
 
                         });
                     });
@@ -107,6 +199,13 @@
                                     alert(error);
                                 }
                             });
+
+                            $('#customerSearch').html(
+                                    '<h4 class="h4">Searching...</h4>' +
+                                    '<div class="progress progress-striped active">' +
+                                    '<div class="progress-bar" style="width: 100%">Loading...</div>' +
+                                    '</div>'
+                            );
 
                         };
 
@@ -147,12 +246,17 @@
                                 }
                             });
 
+                            $('#salesClerkSearch').html(
+                                    '<h4 class="h4">Searching...</h4>' +
+                                    '<div class="progress progress-striped active">' +
+                                    '<div class="progress-bar" style="width: 100%">Loading...</div>' +
+                                    '</div>'
+                            );
+
                         };
 
                         $('#salesClerkSearch').find('button[type=submit]').click(clickAction);
                     });
-
-                    {# TODO Configure item addition #}
 
                 }
         );

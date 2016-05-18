@@ -17,9 +17,9 @@ class SalesOrderType extends AbstractType
     {
         $builder
             ->add('date', Types\DateTimeType::class, ['data' => new \DateTime('now', new \DateTimeZone('Asia/Colombo'))])
-            ->add('customerId', Types\TextType::class, ['mapped' => false, 'required' => true, 'attr' => ['readOnly' => true]])
-            ->add('itemsIds', Types\TextType::class, ['mapped' => false, 'required' => true, 'attr' => ['readOnly' => true]])
-            ->add('salesClerkId', Types\TextType::class, ['mapped' => false, 'required' => true, 'attr' => ['readOnly' => true]])
+            ->add('customerId', Types\HiddenType::class, ['mapped' => false, 'required' => true, 'attr' => ['readOnly' => true]])
+//            ->add('itemsDetails', Types\TextType::class, ['mapped' => false, 'required' => true, 'attr' => ['readOnly' => true]])
+            ->add('salesClerkId', Types\HiddenType::class, ['mapped' => false, 'required' => true, 'attr' => ['readOnly' => true]])
             ->add('submit', Types\SubmitType::class);
     }
 

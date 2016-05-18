@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\SellingItem;
 use AppBundle\Form\SellingItemType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,15 +60,14 @@ class SalesInventoryController extends Controller
      *
      * @param Request $request
      * @return Response
-     *
      */
     public function createAction(Request $request)
     {
         // Customer object to hold the collected data
         $item = new SellingItem();
         $form = $this->createForm(SellingItemType::class, $item); // creating a Selling item type form, with the selling item object
-        $form->handleRequest($request); // combine the fourm`s data into the "$item"  mean time validate the fourm`s data.
-        if ($form->isValid()) { // Validation (at the first iteration fourm is not vaid)
+        $form->handleRequest($request); // combine the form`s data into the "$item"  mean time validate the form`s data.
+        if ($form->isValid()) { // Validation (at the first iteration form is not valid)
             $em = $this->getDoctrine()->getManager();
             $em->persist($item);
             $em->flush(); // Permanently add to database
@@ -76,7 +76,7 @@ class SalesInventoryController extends Controller
             return $this->redirectToRoute('new item');
         }
 
-        return $this->render(':SalesInventory:create.html.twig', [ // if fourm is empty; load this page
+        return $this->render(':SalesInventory:create.html.twig', [ // if form is empty; load this page
             'form' => $form->createView() //'form' is the variable we pass into the twig file //remove('isSold')->remove('isWarrantyClaimed')->
         ]);
     }
@@ -86,9 +86,9 @@ class SalesInventoryController extends Controller
      *
      * @param $id
      * @return Response
-     * @internal param Request $request
+     * Request $request
      */
-    public function viewAction($id)
+    public function viewAction($id, Request $request)
     {
 
         // Collect selling item object from the database
@@ -178,5 +178,34 @@ class SalesInventoryController extends Controller
         }
 
         return $this->redirectToRoute('items', $nonempty);
+    }
+
+    /**
+     * @Route("/ajax/selling_items.search", name="ajax search selling items by serial", methods={"GET", "POST"})
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function searchBySerialAjaxAction(Request $request)
+    {
+
+        if ($request->isMethod('POST')) {
+            $serial = $request->request->get('serial');
+            dump($request);
+            $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:SellingItem');
+            $items = $repository->findBy(['serial' => $serial]);
+
+            if (count($items) > 0) {
+                return $this->render(':SalesInventory:searchAjax.xml.twig', [
+                    'items' => $items
+                ]);
+            } else {
+                $this->addFlash('info', "No items found for the query. ");
+            }
+        }
+
+        return $this->render(':SalesInventory:searchAjax.xml.twig', [
+            'items' => null
+        ]);
     }
 }

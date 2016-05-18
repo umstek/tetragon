@@ -55,6 +55,7 @@ class SalesOrderController extends Controller
 
     /**
      * @Route("/sales_orders", name="add sales order", methods={"POST"})
+     * @Route("/sales_orders", name="ajax add sales order", methods={"POST"})
      * @Route("/sales_orders.add", name="new sales order", methods={"GET"})
      *
      * @param Request $request
@@ -69,28 +70,60 @@ class SalesOrderController extends Controller
         if ($form->isValid()) { // Validation
             dump($request);
 
-            $customer = $this->getDoctrine()->getManager()->getRepository('AppBundle:Customer')
-                ->find($request->request->get('sales_order')['customerId']);
-            $salesClerk = $this->getDoctrine()->getManager()->getRepository('AppBundle:SalesClerk')
-                ->find($request->request->get('sales_order')['salesClerkId']);
-            $salesOrder->setCustomer($customer);
-            $salesOrder->setSalesClerk($salesClerk);
-            $customer->addBuying($salesOrder);
-            $salesClerk->addSale($salesOrder);
+            if ($request->request->get('sales_order')['customerId'] == "" or
+                $request->request->get('sales_order')['salesClerkId'] == ""
+            ) {
+                $this->addFlash('error', 'A customer and a sales clerk must be specified.');
+            } else {
+                $customer = $this->getDoctrine()->getManager()->getRepository('AppBundle:Customer')
+                    ->find($request->request->get('sales_order')['customerId']);
+                $salesClerk = $this->getDoctrine()->getManager()->getRepository('AppBundle:SalesClerk')
+                    ->find($request->request->get('sales_order')['salesClerkId']);
+                $salesOrder->setCustomer($customer);
+                $salesOrder->setSalesClerk($salesClerk);
+                $customer->addBuying($salesOrder);
+                $salesClerk->addSale($salesOrder);
 
-            // TODO Add items
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($salesOrder);
+                $em->flush(); // Permanently add to database
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($salesOrder);
-            $em->flush(); // Permanently add to database
+                $this->addFlash('success', "Created sales order. Start adding items!");
 
-            $this->addFlash('success', "Created salesOrder.");
-            return $this->redirectToRoute('add sales order');
+                // form submitted; have to be AJAX. Anyways, let's do a redirect if that doesn't happen
+                if ($request->isXmlHttpRequest()) {  // if AJAX request and not valid
+                    return $this->render('ajaxFinished.xml.twig', [
+                        'id' => $salesOrder->getId()
+                    ]);
+                } else {
+                    return $this->redirectToRoute('add sales order');
+                }
+            }
         }
-        
+
+        if ($request->isXmlHttpRequest()) {  // if AJAX request and not valid
+            return $this->render(':SalesOrder:createAjax.xml.twig', [
+                'form' => $form->createView()
+            ]);
+        }
+
         return $this->render(':SalesOrder:create.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/sales_orders/{id}.add", name="add item to sales order", methods={"POST"})
+     *
+     * @param Request $request
+     * @param $id
+     */
+    public function addItemToOrderAjaxAction(Request $request, $id)
+    {
+        $salesOrderRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:SalesOrder');
+        $salesOrder = $salesOrderRepo->find($id);
+        $item = $this->getDoctrine()->getManager()->getRepository('AppBundle:SellingItem')->find($request->request->get('sellingItem')['id']);
+        $salesOrder->addItem($item);
     }
 
     /**

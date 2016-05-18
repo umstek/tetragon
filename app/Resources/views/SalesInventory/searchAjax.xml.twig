@@ -1,0 +1,64 @@
+{% extends 'ajaxBase.xml.twig' %}
+
+{% block data %}
+{% endblock %}
+
+{% block segment %}
+    {% embed 'flashWidget.html.twig' %}
+    {% endembed %}
+
+<div class="panel panel-default">
+    <div>
+        <div class="panel-body">
+
+            {% if items != null %}
+                <div>
+                    <table id="details" class="table table-responsive table-hover">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Category</th>
+                            <th>Name</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Serial Number</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in items %}
+                            <tr>
+                                <td>{{ item.id }}</td>
+                                <td>{{ item.category }}</td>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.brand }}</td>
+                                <td>{{ item.model }}</td>
+                                <td>{{ item.serial }}</td>
+                                <td>{{ item.description }}</td>
+                                <td>{{ item.price }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+
+            <legend style="color: #009688">Search Inventory</legend>
+            <div class="form-group">
+                <label class="control-label required" for="inventory_search_name">Serial</label>
+                <input type="text" id="inventory_search_serial" name="serial" required="required" maxlength="255"
+                       class="form-control"/>
+            </div>
+            <div id="inventory_item_details">
+
+            </div>
+        </div>
+        <div class="panel-footer" style="background-color:#ffffff;">
+            <button type="submit" id="inventory_search_submit" name="submit" class="btn btn-primary btn">
+                Search
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
