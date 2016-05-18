@@ -1,5 +1,3 @@
-{% form_theme form 'bootstrap_3_layout.html.twig' %}
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Sales order{% endblock %}
@@ -9,13 +7,16 @@
     {% embed 'flashWidget.html.twig' %}
     {% endembed %}
 
-    <form method="post" action="{{ path('claim item') }}">
+    <form method="post" action="{{ path('claim item', {'id': id}) }}">
         <div class="panel panel-warning">
-            <label>Type 'confirm' and press Submit.
-                <input type="text" name="confirm"/>
-            </label>
+            <div class="panel-body">
+                <legend style="color: #009688">Confirm warranty claim</legend>
+                <label>Type 'confirm' and press Submit.
+                    <input class="form-control" type="text" name="confirm"/>
+                </label>
+            </div>
             <div class="panel-footer">
-                <input type="submit">
+                <input class="btn btn-danger" type="submit">
             </div>
         </div>
     </form>

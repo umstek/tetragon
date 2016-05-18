@@ -76,12 +76,12 @@
                 var selectedId = invokedOn.parent().find('td').first().text();
                 var selectedCustomerId = invokedOn.parent().find('td[title=customerId]').text();
                 var selectedSalesClerkId = invokedOn.parent().find('td[title=salesClerkId]').text();
-                {#var viewOrderPath = '{{ path('view sales order', {'id': '0' }) }}'; // TWIG generated url#}
+                var viewOrderPath = '{{ path('view sales order', {'id': '0' }) }}'; // TWIG generated url
                 var viewCustomerPath = '{{ path('view customer', {'id': '0' }) }}'; // TWIG generated url
                 var viewSalesClerkPath = '{{ path('view employee', {'id': '0' }) }}'; // TWIG generated url
 
                 if (selectedMenu.text() === 'View Order') {
-                    //window.location.href = viewOrderPath.replace("0", selectedId);
+                    window.location.href = viewOrderPath.replace("0", selectedId);
                 } else if (selectedMenu.text() === 'View Customer') {
                     window.location.href = viewCustomerPath.replace("0", selectedCustomerId);
                 } else if (selectedMenu.text() === 'View Sales Clerk') {

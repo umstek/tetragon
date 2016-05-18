@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\SellingItem;
 use AppBundle\Form\SellingItemType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -189,7 +190,7 @@ class SalesInventoryController extends Controller
             $serial = $request->request->get('serial');
             dump($request);
             $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:SellingItem');
-            $items = $repository->findBy(['serial' => $serial]);
+            $items = $repository->findBy(['serial' => $serial, 'isSold' => false]);
             dump($items);
             if (count($items) > 0) {
                 return $this->render(':SalesInventory:searchAjax.xml.twig', [
@@ -230,8 +231,11 @@ class SalesInventoryController extends Controller
                 $em->flush();
                 $this->addFlash('success', "Warranty has successfully been claimed. ");
                 return $this->redirectToRoute('view item', ['id' => $id]);
+            } else {
+                $this->addFlash('info', "You did not confirm the warranty claim. ");
+                return $this->redirectToRoute('view item', ['id' => $id]);
             }
-        }
+        } // else
 
         if ($item->getIsSold()) {
             if ($item->getIsWarrantyClaimed()) {

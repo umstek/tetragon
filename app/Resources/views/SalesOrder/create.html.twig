@@ -173,8 +173,13 @@
                                                     var xml = $.parseXML(result);
                                                     var $xml = $(xml);
                                                     $('#addItem').html($xml.find('segment').html());
-
                                                     $('#addItem').find('button[name=add]').click(clickAction);
+                                                    $('#addItem').find('div.panel-footer').append(
+                                                            '<a id="inventory_items_finish" href="{{ path('view sales order', {'id': 0}) }}"'.replace('0', orderId) +
+                                                            ' class="btn btn-success">' +
+                                                            'Finish' +
+                                                            '</a>');
+                                                    {# FIXME if an error, but form loaded successfully, it will enable finish button #}
                                                 },
                                                 error: function (xhr, status, error) {
                                                     alert(error);
@@ -192,7 +197,7 @@
 
                                         };
 
-                                        $('#addItem').find('button[type=submit]').click(clickAction);
+                                        $('#addItem').find('button[name=add]').click(clickAction);
                                     });
 
                                     $('#customerSearch').html('');
