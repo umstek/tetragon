@@ -1,4 +1,5 @@
 # README #
+
 This is the repository for **tetragon** software by **tetracode**.
 
 ![tetragon](https://bitbucket.org/account/user/tetra-code/projects/TET/avatar/256)
@@ -14,6 +15,12 @@ ___
 * This contains the development sources for the shop management system **tetragon**.
 * Built with [![symfony](http://symfony.com/logos/symfony_black_02.svg?v=4)](http://symfony.com/) and :heart:
 * Join the [hipchat](https://tetracode.hipchat.com/home)!
+___
+
+## Any online version? ##
+
+Of course. Go to [Live preview on Heroku](http://tetragon.heroku.com/).
+This is the latest nightly build which passed all the tests. 
 ___
 
 ## How to run the program locally? ##
@@ -35,20 +42,15 @@ To run the program,
    >     php bin/console doctrine:database:create
    >     php bin/console doctrine:schema:create
    >     php bin/console doctrine:schema:update
-10. Run with php. (You may need to add `php.exe` location to path.)
+10. If you got errors with the step 8, now run it again. 
+11. Run with php. (You may need to add `php.exe` location to path.)
    >     php bin/console server:run
-11. Go to [`http://127.0.0.1:8000`](http://127.0.0.1:8000) and enjoy. :smile:
+12. Go to [`http://127.0.0.1:8000`](http://127.0.0.1:8000) and enjoy. :smile:
 ___
-
-## Any online version? ##
-
-Of course. Go to [test-prod on Heroku](http://tetragon.heroku.com/)
-
----
 
 ## How to get started developing? ##
 
-1. Follow the above steps, 1 to 9.
+1. Follow the above steps, 1 to 10.
 2. Install a good IDE. 
    > You can obtain JetBrains [PhpStorm](https://www.jetbrains.com/phpstorm/) 1 year license proving your student status. (HIGHLY RECOMMENDED.)
    > [NetBeans](https://netbeans.org/) is a good IDE too. :smiley:
