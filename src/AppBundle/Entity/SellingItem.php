@@ -68,18 +68,18 @@ class SellingItem
      *
      * @ORM\Column(name="is_sold", type="boolean")
      */
-    private $isSold;
+    private $isSold = false;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="is_warranty_claimed", type="boolean")
      */
-    private $isWarrantyClaimed;
+    private $isWarrantyClaimed = false;
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="warranty_expiration", type="datetime")
+     * @ORM\Column(name="warranty_expiration", type="datetime", nullable=true)
      */
     private $warrantyExpiration;
     /**
