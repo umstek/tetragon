@@ -71,21 +71,29 @@
                     </h3>
                 </div>
                 <div class="panel-body">
+                    {% if SalesInv.order is not null %}
                     <table>
                         <thead>
                         <tr>
-                            <th></th>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Customer Name</th>
+                            <th>Customer Phone Number</th>
+                            <th>Sales Clarke</th>
+
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-
-                            {#<td>{{ SalesInv.order.customer }}</td>#}
-                            {#<td>{{ SalesInv.order.date }}</td>#}
-                            {#<td>{{ SalesInv.order.salesClerk }}</td>#}
+                            <td>{{ SalesInv.order.id }}</td>
+                            <td>{{ SalesInv.order.date }}</td>
+                            <td>{{ SalesInv.order.customer.name }}</td>
+                            <td>{{ SalesInv.order.customer.phone }}</td>
+                            <td>{{ SalesInv.order.salesClerk.name }}</td>
                         </tr>
                         </tbody>
                     </table>
+                    {% endif %}
                 </div>
             </div>
         {% endif %}
