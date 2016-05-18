@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\SellingItem;
 use AppBundle\Form\SellingItemType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,7 +35,7 @@ class SalesInventoryController extends Controller
                 $this->addFlash('error', "The query is invalid. Everything is shown. ");
             }
         } else { // No get params given
-            $items = $repository->findAll();
+            $items = $repository->findBy(["isSold" => false]);//$repository->findBy(["isSold"=>false]);
         }
 
         if (count($items) == 0 && $request->query->count() > 0) {  // none found for the query
@@ -50,8 +49,6 @@ class SalesInventoryController extends Controller
         return $this->render(':SalesInventory:index.html.twig', [
             'items' => $items,
         ]);
-
-
     }
 
     /**
@@ -77,7 +74,7 @@ class SalesInventoryController extends Controller
         }
 
         return $this->render(':SalesInventory:create.html.twig', [ // if form is empty; load this page
-            'form' => $form->createView() //'form' is the variable we pass into the twig file //remove('isSold')->remove('isWarrantyClaimed')->
+            'form' => $form->createView() //'form' is the variable we pass into the twig file //remove('isSold')->remove('isWarrantyClaimed')->remove("warrantyExpiration")->
         ]);
     }
 
@@ -173,7 +170,7 @@ class SalesInventoryController extends Controller
 
         if (count($nonempty) == 0) { // no parameters submitted, meaning asking for the empty form
             return $this->render(':SalesInventory:search.html.twig', [
-                'form' => $form->createView() //remove("warrantyExpiration")->remove("isWarrantyClaimed")->remove("isSold")->remove("price")->
+                'form' => $form->createView() //->  remove("warrantyExpiration")->remove("isWarrantyClaimed")->remove("isSold")->remove("price")->
             ]);
         }
 
