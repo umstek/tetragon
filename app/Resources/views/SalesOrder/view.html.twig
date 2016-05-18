@@ -71,7 +71,11 @@
                         <tbody>
                         {% for item in salesOrder.items %}
                             <tr>
-                                <td>{{ item.id }}</td>
+                                <td>
+                                    <a href="{{ path('view item', {'id': item.id}) }}">
+                                        {{ item.id }}
+                                    </a>
+                                </td>
                                 <td>{{ item.category }}</td>
                                 <td>{{ item.name }}</td>
                                 <td>{{ item.brand }}</td>
