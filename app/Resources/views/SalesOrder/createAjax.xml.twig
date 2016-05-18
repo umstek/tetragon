@@ -5,29 +5,38 @@
 {% endblock %}
 
 {% block segment %}
+<div id="addSale">
+    {{ form_start(form, {'action': path('add sales order')}) }}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <legend style="color: #009688">Create a sales order</legend>
 
-    {% embed 'flashWidget.html.twig' %}
-    {% endembed %}
+            {% embed 'flashWidget.html.twig' %}
+            {% endembed %}
 
-{{ form_start(form, {'action': path('add sales order')}) }}
-<div class="panel panel-default">
+            {{ form_errors(form) }}
+            <div class="hidden">
+                {{ form_row(form.date) }}
+            </div>
+            <div>
+                <label>Customer: </label>
+                    <span id="customerName">
 
-    <div class="panel-body">
-        <legend style="color: #009688">Create a sales order</legend>
-        {{ form_errors(form) }}
-        {{ form_row(form.date) }}
-        {{ form_row(form.customerId) }}
-        {{ form_row(form.salesClerkId) }}
+                    </span>
+                {{ form_row(form.customerId) }}
+            </div>
+            <div>
+                <label>Sales Clerk: </label>
+                    <span id="salesClerkName">
 
-        {#{{ form_row(form.itemsDetails) }}#}
-        {# We will be adding items later. #}
-
+                    </span>
+                {{ form_row(form.salesClerkId) }}
+            </div>
+        </div>
+        <div class="panel-footer" style="background-color:#ffffff;">
+            {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+        </div>
     </div>
-    <div class="panel-footer" style="background-color:#ffffff;">
-        {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
-    </div>
-
+    {{ form_end(form) }}
 </div>
-{{ form_end(form) }}
-
 {% endblock %}

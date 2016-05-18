@@ -113,17 +113,55 @@ class SalesOrderController extends Controller
     }
 
     /**
-     * @Route("/sales_orders/{id}.add", name="add item to sales order", methods={"POST"})
+     * @Route("/sales_orders/{id}.add", name="ajax add item to sales order", methods={"GET", "POST"})
      *
      * @param Request $request
      * @param $id
+     * @return Response
      */
     public function addItemToOrderAjaxAction(Request $request, $id)
     {
-        $salesOrderRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:SalesOrder');
-        $salesOrder = $salesOrderRepo->find($id);
-        $item = $this->getDoctrine()->getManager()->getRepository('AppBundle:SellingItem')->find($request->request->get('sellingItem')['id']);
-        $salesOrder->addItem($item);
+        dump($request);
+
+        $em = $this->getDoctrine()->getManager();
+        if ($request->isMethod('POST')) {
+            if ($request->request->has('itemId') && $request->request->has('expire')) {
+                $orderRepo = $em->getRepository('AppBundle:SalesOrder');
+                $order = $orderRepo->find($id);
+
+                $itemRepo = $em->getRepository('AppBundle:SellingItem');
+                $item = $itemRepo->find($request->get('itemId'));
+                if ($order != null && $item != null) {
+                    if (!$item->getIsSold()) {
+                        $this->addFlash('success', 'Item added successfully. ');
+                        $item->setIsSold(true);
+                        try {
+                            $item->setWarrantyExpiration(
+                                new \DateTime($request->request->get('expire'),
+                                    new \DateTimeZone('Asia/Colombo')));
+                        } catch (\Exception $ex) {
+                            dump($request->request->get('expire'));
+                        } // FIXME warranty
+
+                        $order->addItem($item);
+                        $item->setOrder($order);
+
+                        $em->flush();
+                    } else {
+                        $this->addFlash('warning', 'Item has already been sold.');
+                        return $this->render(':SalesOrder:addItemToOrder.xml.twig');
+                    }
+                } else {
+                    $this->addFlash('error', 'Invalid item (or nothing) provided.');
+                    return $this->render(':SalesOrder:addItemToOrder.xml.twig');
+                }
+            } else {
+                $this->addFlash('error', 'Required details not found.');
+                return $this->render(':SalesOrder:addItemToOrder.xml.twig');
+            }
+        } // else
+
+        return $this->render(':SalesOrder:addItemToOrder.xml.twig');
     }
 
     /**

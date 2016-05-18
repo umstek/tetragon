@@ -19,7 +19,7 @@
                 function () {
 
                     $("button").click(function () {
-                        $.get("{{ path('ajax new customer') }}", function (resp, status) {
+                        $.get("{{ path('ajax search selling items by serial') }}", function (resp, status) {
                             var xml = $.parseXML(resp);
                             var $xml = $(xml);
                             $('#ajax').html($xml.find('segment').html());

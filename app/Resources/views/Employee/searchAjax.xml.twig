@@ -4,15 +4,22 @@
 {% endblock %}
 
 {% block segment %}
-    {% embed 'flashWidget.html.twig' %}
-    {% endembed %}
+<div>
 
-<div class="panel panel-default">
-    <div>
+    <div class="panel panel-default">
+
         <div class="panel-body">
+            <legend style="color: #009688">Search employees</legend>
+
+            {% embed 'flashWidget.html.twig' %}
+            {% endembed %}
 
             {% if employees != null %}
                 <div>
+                    <h6 class="h6">
+                        Click on an employee to select.
+                    </h6>
+
                     <table id="details" class="table table-responsive table-hover">
                         <thead>
                         <tr>
@@ -40,17 +47,19 @@
                 </div>
             {% endif %}
 
-            <legend style="color: #009688">Search employees</legend>
             <div class="form-group">
                 <label class="control-label required" for="employee_search_name">Name</label>
                 <input type="text" id="employee_search_name" name="name" required="required" maxlength="255"
                        class="form-control"/>
             </div>
         </div>
+
         <div class="panel-footer" style="background-color:#ffffff;">
-            <button type="submit" id="customer_search_submit" name="submit" class="btn btn-primary btn">Search
+            <button type="submit" id="customer_search_submit" name="submit" class="btn btn-primary btn">
+                Search
             </button>
         </div>
+
     </div>
 </div>
 {% endblock %}

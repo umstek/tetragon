@@ -106,7 +106,7 @@ class SalesInventoryController extends Controller
 
 
     /**
-     * @Route("/selling_items/{id}.edit",name="edit item", methods={"GET", "HEAD"}, requirements={"id" : "\d+"})
+     * @Route("/selling_items/{id}.edit", name="edit item", methods={"GET", "HEAD"}, requirements={"id" : "\d+"})
      * @Route("/selling_items/{id}", name="update item", methods={"POST"}, requirements={"id" : "\d+"})
      * @param Request $request
      * @param $id
@@ -191,7 +191,7 @@ class SalesInventoryController extends Controller
             dump($request);
             $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:SellingItem');
             $items = $repository->findBy(['serial' => $serial]);
-
+            dump($items);
             if (count($items) > 0) {
                 return $this->render(':SalesInventory:searchAjax.xml.twig', [
                     'items' => $items
@@ -204,5 +204,54 @@ class SalesInventoryController extends Controller
         return $this->render(':SalesInventory:searchAjax.xml.twig', [
             'items' => null
         ]);
+    }
+
+    /**
+     * @Route("/selling_items/{id}.claim", name="claim item", methods={"GET", "POST"})
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function claimWarrantyAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:SellingItem');
+        $item = $repository->find($id);
+
+        if ($request->isMethod('POST')) {
+            if ($request->request->has('confirm')
+                && $request->request->get('confirm') == 'confirm'
+                && $item->getIsSold()
+                && !$item->getIsWarrantyClaimed()
+                && $item->getWarrantyExpiration() != null
+                && ($item->getWarrantyExpiration() > new \DateTime('now', new \DateTimeZone('Asia/Colombo')))
+            ) {
+                $item->setIsWarrantyClaimed(true);
+                $em->flush();
+                $this->addFlash('success', "Warranty has successfully been claimed. ");
+                return $this->redirectToRoute('view item', ['id' => $id]);
+            }
+        }
+
+        if ($item->getIsSold()) {
+            if ($item->getIsWarrantyClaimed()) {
+                $this->addFlash('warning', "Warranty for this item has already been claimed.");
+                return $this->redirectToRoute('view item', ['id' => $id]);
+            } else {
+                if ($item->getWarrantyExpiration() != null
+                    && ($item->getWarrantyExpiration() > new \DateTime('now', new \DateTimeZone('Asia/Colombo')))
+                ) {
+                    $this->addFlash('info', "A warranty claim is possible for the item.");
+                    return $this->render(':SalesInventory:warrantyClaim.html.twig', ['id' => $id]); //TODO
+                } else {
+                    $this->addFlash('warning', "This item has no warranty or warranty period has been expired.");
+                    return $this->redirectToRoute('view item', ['id' => $id]);
+                }
+            }
+        } else {
+            $this->addFlash('warning', "This item is not yet sold.");
+            return $this->redirectToRoute('view item', ['id' => $id]);
+        }
     }
 }

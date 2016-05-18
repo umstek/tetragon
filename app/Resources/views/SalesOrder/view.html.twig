@@ -78,7 +78,11 @@
                                 <td>{{ item.model }}</td>
                                 <td>{{ item.serial }}</td>
                                 <td>{{ item.description }}</td>
-                                <td>{{ item.warrantyExpiration.format('Y-m-d H:i:s') }}</td>
+                                <td>
+                                    {% if item.warrantyExpiration is not null %}
+                                        {{ item.warrantyExpiration.format('Y-m-d H:i:s') }}
+                                    {% endif %}
+                                </td>
                                 <td>
                                     {% if item.isWarrantyClaimed %}
                                         Claimed.
