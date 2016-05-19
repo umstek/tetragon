@@ -72,6 +72,9 @@ class CustomerController extends Controller
         }
 
         if (count($nonempty) == 0) { // no parameters submitted, meaning asking for the empty form
+            if ($request->isMethod('POST')) { // not really the empty form. 
+                $this->addFlash('info', 'Please provide some known information. ');
+            }
             return $this->render(':Customer:search.html.twig', [
                 'form' => $form->createView()
             ]);
@@ -129,6 +132,10 @@ class CustomerController extends Controller
 
             $this->addFlash('success', "Created customer.");
             return $this->redirectToRoute('customers');
+        } else {
+            if ($request->isMethod('POST')) {
+                $this->addFlash('error', 'Form contains errors. ');
+            }
         }
 
         // Executed only if validation fails
@@ -162,6 +169,10 @@ class CustomerController extends Controller
             return $this->render('::ajaxFinished.xml.twig', [
                 'id' => $customer->getId()
             ]);
+        } else {
+            if ($request->isMethod('POST')) {
+                $this->addFlash('error', 'Form contains errors. ');
+            }
         }
 
         // Executed only if validation fails
@@ -229,6 +240,8 @@ class CustomerController extends Controller
 
                 $this->addFlash('success', "Updated customer.");
                 return $this->redirectToRoute('customers');
+            } else {
+                $this->addFlash('error', 'Form contains errors. ');
             }
 
             return $this->render(':Customer:modify.html.twig', [

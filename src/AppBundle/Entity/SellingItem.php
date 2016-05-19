@@ -26,6 +26,8 @@ class SellingItem
     /**
      * @var String
      *
+     * @Assert\Regex(pattern="/^(\d+\syears|\d+\smonths|\d+\sweeks|\d+\sdays|lifetime|no\s\warranty)$/i",
+     *     message="Invalid content. Enter a number followed by 'months', 'years' etc. or 'lifetime'.")
      * @ORM\Column(name="warrantyPeriod", type="string", length=255, nullable=true)
      */
     private $warrantyPeriod = "No Warranty";
@@ -57,7 +59,7 @@ class SellingItem
     private $model;
     /**
      * @var string
-     * 
+     *
      * @Assert\NotBlank()
      * @ORM\Column(name="serial", type="string", length=255) // TODO make unique
      */
@@ -82,7 +84,7 @@ class SellingItem
     private $isWarrantyClaimed = false;
     /**
      * @var \DateTime
-     * 
+     *
      * @Assert\DateTime()
      * @ORM\Column(name="warranty_expiration", type="datetime", nullable=true)
      */
@@ -116,6 +118,7 @@ class SellingItem
     public function setWarrantyPeriod($warrantyPeriod)
     {
         $this->warrantyPeriod = $warrantyPeriod;
+        return $this;
     }
 
     /**

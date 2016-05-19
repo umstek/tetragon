@@ -21,7 +21,7 @@ class CustomerType extends AbstractType
             ->add('address')
             ->add('phone', Types\TextType::class)
             ->add('email', Types\EmailType::class)
-            ->add('nic')
+            ->add('nic', Types\TextType::class)
             ->add('submit', Types\SubmitType::class);
     }
 

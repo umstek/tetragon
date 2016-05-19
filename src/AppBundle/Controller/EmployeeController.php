@@ -93,6 +93,9 @@ class EmployeeController extends Controller
         }
 
         if (count($nonempty) == 0) { // no parameters submitted, meaning asking for the empty form
+            if ($request->isMethod('POST')) {
+                $this->addFlash('info', 'Please provide some known information. ');
+            }
             return $this->render(':Employee:search.html.twig', [
                 'form' => $form->remove('sysUser')->remove('role')->createView()
             ]);
@@ -192,6 +195,10 @@ class EmployeeController extends Controller
             } else {
                 $form->addError(new FormError('Passwords do not match.'));
             }
+        } else {
+            if ($request->isMethod('POST')) {
+                $this->addFlash('error', 'Form contains errors. ');
+            }
         }
 
         // Executed only if validation fails
@@ -268,6 +275,8 @@ class EmployeeController extends Controller
 
                         $this->addFlash('success', "Updated employee.");
                         return $this->redirectToRoute('employees');
+                    } else {
+                        $this->addFlash('error', 'Form contains errors. ');
                     }
                 } else {
                     $form->addError(new FormError('Email addresses do not match.'));

@@ -1,7 +1,29 @@
+{% form_theme form "bootstrap_3_layout.html.twig" %}
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:RepairsInventory:search{% endblock %}
+{% block title %}Repairs Inventory{% endblock %}
 
 {% block body %}
-<h1>Welcome to the RepairsInventory:search page</h1>
+    <div class="col-sm-12">
+
+        {% embed 'flashWidget.html.twig' %}
+        {% endembed %}
+
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+        <div class="panel panel-default">
+            <div id="add" class="panel-collapse">
+                <div class="panel-body">
+                    <legend style="color: #009688">Search for a Selling Item</legend>
+                    {{ form_errors(form) }}
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.description) }}
+                </div>
+                <div class="panel-footer" style="background-color:#ffffff">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+
+    </div>
 {% endblock %}

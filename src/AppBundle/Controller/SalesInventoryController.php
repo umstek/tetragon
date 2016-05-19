@@ -72,6 +72,10 @@ class SalesInventoryController extends Controller
 
             $this->addFlash('success', "Created item.");
             return $this->redirectToRoute('new item');
+        } else {
+            if ($request->isMethod('POST')) {
+                $this->addFlash('error', 'Form contains errors. ');
+            }
         }
 
         return $this->render(':SalesInventory:create.html.twig', [ // if form is empty; load this page
@@ -109,7 +113,7 @@ class SalesInventoryController extends Controller
     /**
      * @Route("/selling_items/{id}.edit", name="edit item", methods={"GET", "HEAD"}, requirements={"id" : "\d+"})
      * @Route("/selling_items/{id}", name="update item", methods={"POST"}, requirements={"id" : "\d+"})
-     * 
+     *
      * @param Request $request
      * @param $id
      * @return Response
@@ -124,6 +128,9 @@ class SalesInventoryController extends Controller
         if ($item == null) { // Not found? ask to create.
             $this->addFlash('error', "SellingItem with id $id not found. Create new?");
             return $this->redirectToRoute('new item');
+        } elseif ($item->getIsSold()) {
+            $this->addFlash('warning', "You cannot edit an already sold item. ");
+            return $this->redirectToRoute('items');
         }
 
         // Found selling_Item with id?
@@ -136,6 +143,8 @@ class SalesInventoryController extends Controller
 
                 $this->addFlash('success', "Updated Selling Item.");
                 return $this->redirectToRoute('items');
+            } else {
+                $this->addFlash('error', 'Form contains errors. ');
             }
 
             return $this->render(':SalesInventory:modify.html.twig', [
@@ -171,6 +180,9 @@ class SalesInventoryController extends Controller
         }
 
         if (count($nonempty) == 0) { // no parameters submitted, meaning asking for the empty form
+            if ($request->isMethod('POST')) {
+                $this->addFlash('info', 'Please provide some known information. ');
+            }
             return $this->render(':SalesInventory:search.html.twig', [
                 'form' => $form->remove("price")->createView() //->  remove("warrantyExpiration")->remove("isWarrantyClaimed")->remove("isSold")->remove("price")->
             ]);

@@ -12,21 +12,74 @@ use Symfony\Component\HttpFoundation\Response;
 class RepairsInventoryController extends Controller
 {
     /**
-     * @Route("/repair_items")
+     * @Route("/repair_items", name="repairing items", methods={"GET","HEAD"})
+     *
+     * @param Request $request
+     * @return Response
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        return $this->render(':RepairsInventory:index.html.twig', array(// ...
-        ));
+        // Collect item objects from the database
+        // Get parameters are used for searching or filtering
+        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:RepairingItem');
+
+        if ($request->query->count() > 0) {
+            $expected = ['id', 'name', 'price', 'description', 'due'];
+            if (count(array_intersect($expected, $request->query->keys())) > 0 // at least one expected key
+                and count($expected + $request->query->keys()) == 5 // and no unknown keys (using array union)
+            ) {
+                // Only the queries with expected keys are checked
+                $items = $repository->findBy($request->query->all());
+            } else {
+                $items = $repository->findAll();
+                $this->addFlash('error', "The query is invalid. Everything is shown. ");
+            }
+        } else { // No get params given
+            $items = $repository->findBy(['isRepaired' => false]);
+        }
+
+        if (count($items) == 0 && $request->query->count() > 0) {  // none found for the query
+            $this->addFlash('info', "No items found for the query. ");
+            return $this->redirectToRoute('search repairing items');
+        }
+        // else
+        if ($request->query->count() > 0) {
+            $this->addFlash('success', "items matched for the given criteria.");
+        }
+        return $this->render(':RepairsInventory:index.html.twig', [
+            'items' => $items,
+        ]);
     }
 
     /**
-     * @Route("/repair_items.search")
+     * @Route("/repair_items.search", name="search repairing items")
+     *
+     * @param Request $request
+     * @return Response
      */
-    public function searchAction()
+    public function searchAction(Request $request)
     {
-        return $this->render(':RepairsInventory:search.html.twig', array(// ...
-        ));
+        $item = new RepairingItem();
+        $form = $this->createForm(RepairingItemType::class, $item);
+
+        $nonempty = [];
+        if ($request->request->has('repairing_item')) { // Selling item form data
+            foreach ($request->request->get('repairing_item') as $key => $value) {
+                if ($value != null and $value != '' and $key != '_token') { // omit the empty ones and the CSRF token
+                    $nonempty[$key] = $value;
+                }
+            }
+        }
+
+        if (count($nonempty) == 0) { // no parameters submitted, meaning asking for the empty form
+            if ($request->isMethod('POST')) {
+                $this->addFlash('info', 'Please provide some known information. ');
+            }
+            return $this->render(':RepairsInventory:search.html.twig', [
+                'form' => $form->remove("price")->remove('due')->remove('isRepaired')->createView()
+            ]);
+        }
+        return $this->redirectToRoute('repairing items', $nonempty);
     }
 
     /**
@@ -64,7 +117,7 @@ class RepairsInventoryController extends Controller
     }
 
     /**
-     * @Route("/repair_items/{id}", name="view item", methods={"GET"}, requirements={"id" : "\d+"})
+     * @Route("/repair_items/{id}", name="view repairing item", methods={"GET"}, requirements={"id" : "\d+"})
      *
      * @param $id
      * @param Request $request
@@ -125,6 +178,10 @@ class RepairsInventoryController extends Controller
                 'id' => $id,
                 'form' => $form->createView()
             ]);
+        } else {
+            if ($request->isMethod('POST')) {
+                $this->addFlash('error', 'Form contains errors. ');
+            }
         }
 
         return $this->render(':RepairsInventory:modify.html.twig', [

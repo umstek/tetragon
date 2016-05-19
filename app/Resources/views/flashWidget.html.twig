@@ -1,23 +1,31 @@
 {% for flash_message in app.session.flashbag.get('error') %}
-    <div class="alert alert-danger">
+    <div class="alert alert-danger flash">
         <strong>Error: </strong>{{ flash_message }}
     </div>
 {% endfor %}
 
 {% for flash_message in app.session.flashbag.get('warning') %}
-    <div class="alert alert-warning">
+    <div class="alert alert-warning flash">
         <strong>Warning: </strong>{{ flash_message }}
     </div>
 {% endfor %}
 
 {% for flash_message in app.session.flashbag.get('success') %}
-    <div class="alert alert-success">
+    <div class="alert alert-success flash">
         <strong>Success: </strong>{{ flash_message }}
     </div>
 {% endfor %}
 
 {% for flash_message in app.session.flashbag.get('info') %}
-    <div class="alert alert-info">
+    <div class="alert alert-info flash">
         <strong>Info.: </strong>{{ flash_message }}
     </div>
 {% endfor %}
+
+<script>
+    window.setTimeout(function () {
+        $(".flash").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+        });
+    }, 5000);
+</script>
