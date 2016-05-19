@@ -40,6 +40,19 @@
                             <label class="list-group-item-heading">Serial: </label>
                             {{ SalesInv.serial }}
                         </li>
+
+                        <li class="list-group-item">
+                            {% if SalesInv.isSold %}
+                                <label class="list-group-item-heading">Warranty Period: </label>
+                                {{ SalesInv.warrantyExpiration.format('Y-m-d H:i:s') }}
+                            {% endif %}
+                            {% if not SalesInv.isSold %}
+                                <label class="list-group-item-heading">Warranty Period: </label>
+                                {{ SalesInv.warrantyPeriod }}
+                            {% endif %}
+
+                        </li>
+
                         <li class="list-group-item">
                             <label class="list-group-item-heading">Availability: </label>
                             {% if SalesInv.isSold %}
@@ -72,7 +85,7 @@
                 </div>
                 <div class="panel-body">
                     {% if SalesInv.order is not null %}
-                    <table>
+                        <table class="table table-responsive table-hover">
                         <thead>
                         <tr>
                             <th>Order ID</th>
@@ -86,7 +99,7 @@
                         <tbody>
                         <tr>
                             <td>{{ SalesInv.order.id }}</td>
-                            <td>{{ SalesInv.order.date }}</td>
+                            <td>{{ SalesInv.order.date.format('Y-m-d H:i:s') }}</td>
                             <td>{{ SalesInv.order.customer.name }}</td>
                             <td>{{ SalesInv.order.customer.phone }}</td>
                             <td>{{ SalesInv.order.salesClerk.name }}</td>

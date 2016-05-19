@@ -14,6 +14,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
         </div>
+
         <div id="add">
             <div class="panel-body">
                 {{ form_errors(form) }}
@@ -24,6 +25,7 @@
                 {{ form_row(form.serial) }}
                 {{ form_row(form.description) }}
                 {{ form_row(form.price) }}
+                {{ form_row(form.warrantyPeriod) }}
                 {#{{ form_row(form.isSold) }}#}
                 {#{{ form_row(form.warrantyExpiration) }}#}
                 {#{{ form_row(form.isWarrantyClaimed) }}#}

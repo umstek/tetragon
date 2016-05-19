@@ -12,7 +12,6 @@
     {{ form_start(form, {'action': path('update item', {'id': id }), 'method': 'POST'}) }}
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">Modify SalesInventoryItem</h3>
         <!-- FIXME this should be PUT, symfony has a bug which doesn't allow the PUT request to handled -->
     </div>
     <div id="modify">
@@ -26,6 +25,7 @@
             {{ form_row(form.brand) }}
             {#{{ form_row(form.isSold) }}#}
             {{ form_row(form.serial) }}
+            {{ form_row(form.warrantyPeriod) }}
             {#{{ form_row(form.isWarrantyClaimed) }}#}
             {#{{ form_row(form.warrantyExpiration) }}#}
         </div>
