@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <div class="jumbotron">
+    <div class="panel col-sm-6 col-sm-offset-3">
         {% image 'bundles/app/logo_tetragon.svg' %}
         <img class="img-responsive" src="{{ asset_url }}" alt="Logo"/>
         {% endimage %}
-        <h1 class="h1">
+        <h4 class="h2">
             Tetragon
-        </h1>
+        </h4>
     </div>
     <div class="col-sm-offset-1">
         <a href="{{ path('sales page') }}" class="btn btn-raised btn-primary col-xs-12 col-sm-4">Sales Section</a>

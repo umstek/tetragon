@@ -3,17 +3,18 @@
 {% block title %}AppBundle:Employee:index{% endblock %}
 
 {% block body %}
-    <div class="col-sm-12">
-        <h1>Welcome to the Employees page</h1>
+    <div class="col-sm-12 panel">
+
 
         {% embed 'flashWidget.html.twig' %}
         {% endembed %}
 
-        <div>
-            <h4 class="h4">Right click each row for options.</h4>
+        <div class="panel-body">
+            <legend style="color: #009688">Welcome to the Employees page</legend>
+            <p style="color:#a7a9ab">Right click each row for options.</p>
             <table id="details" class="table table-responsive table-hover">
                 <thead>
-                <tr>
+                <tr style="color: #009688">
                     <th>ID</th>
                     <th>Name</th>
                     <th>Role</th>
