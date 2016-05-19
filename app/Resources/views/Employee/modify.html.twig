@@ -4,19 +4,15 @@
 {% block title %}Modify an Employee record{% endblock %}
 
 {% block body %}
-    <h1>Welcome to the Employee:modify page</h1>
 
     {% embed 'flashWidget.html.twig' %}
     {% endembed %}
 
     {{ form_start(form, {'action': path('update employee', {'id': id }), 'method': 'POST'}) }}
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Modify Employee</h3>
-            <!-- FIXME this should be PUT, symfony has a bug which doesn't allow the PUT request to handled -->
-        </div>
         <div id="modify">
             <div class="panel-body">
+                <legend style="color: #009688">Modify Employee</legend>
                 {{ form_errors(form) }}
                 {{ form_row(form.id) }}
                 {{ form_row(form.name) }}
@@ -32,8 +28,8 @@
                 {{ form_row(form.sysUser.email) }}
                 {{ form_row(form.nic) }}
             </div>
-            <div class="panel-footer">
-                {{ form_rest(form) }}
+            <div class="panel-footer" style="background-color: #ffffff">
+                {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
             </div>
         </div>
     </div>

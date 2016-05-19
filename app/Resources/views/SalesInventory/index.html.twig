@@ -3,16 +3,18 @@
 {% block title %}Sales Inventory{% endblock %}
 
 {% block body %}
-    <div class="col-sm-12">
-        <h1>Welcome to the Sales inventory page</h1>
+    <div class="col-sm-12 panel">
+
 
         {% embed 'flashWidget.html.twig' %}
         {% endembed %}
 
-        <div>
+        <div class="panel-body">
+            <legend style="color: #009688">Sales Inventory</legend>
+            <p style="color:#a7a9ab">Right click each row for options.</p>
             <table id="details" class="table table-responsive table-hover">
                 <thead>
-                <tr>
+                <tr style="color: #009688">
                     <th>ID</th>
                     <th>Name</th>
                     <th>Brand</th>

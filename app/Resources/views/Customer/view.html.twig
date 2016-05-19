@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="col-sm-12">
-        <h1>Welcome to the Customer page</h1>
+        <Legend>View Customer</Legend>
 
         {% embed 'flashWidget.html.twig' %}
         {% endembed %}
@@ -17,27 +17,27 @@
                 <div class="panel-body">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <label class="list-group-item-heading">Address: </label>
+                            <label class="list-group-item-text h4">Address:   </label>
                             {{ customer.address }}
                         </li>
                         <li class="list-group-item">
-                            <label class="list-group-item-heading">Phone: </label>
+                            <label class="list-group-item-text h4">Phone:   </label>
                             {{ customer.phone }}
                         </li>
                         <li class="list-group-item">
-                            <label class="list-group-item-heading">E-mail: </label>
+                            <label class="list-group-item-text h4">E-mail:   </label>
                             <a href="mailto:{{ customer.email }}">
                                 {{ customer.email }}
                             </a>
                         </li>
                         <li class="list-group-item">
-                            <label class="list-group-item-heading">NIC number: </label>
+                            <label class="list-group-item-text h4">NIC number:   </label>
                             {{ customer.nic }}
                         </li>
                     </ul>
                 </div>
-                <div class="panel-footer">
-                    <button type="button" class="btn btn-default">
+                <div class="panel-footer" style="background-color: #ffffff">
+                    <button type="button" class="btn btn-primary">
                         Back
                     </button>
                     <a href="{{ path('edit customer', {'id' : customer.id}) }}">
@@ -46,7 +46,7 @@
                 </div>
             </div>
 
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         Buyings
@@ -84,16 +84,16 @@
                 </div>
             </div>
 
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         Repairs
                     </h3>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body ">
                     <table class="table table-responsive table-hover">
                         <thead>
-                        <tr>
+                        <tr >
                             <th>Repair ID</th>
                             <th>Order Date</th>
                             <th>Sales Clerk</th>

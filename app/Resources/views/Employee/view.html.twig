@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="col-sm-12">
-        <h1>Welcome to the Employee page</h1>
+        <legend>View Employee</legend>
 
         {% embed 'flashWidget.html.twig' %}
         {% endembed %}
@@ -17,27 +17,27 @@
                 <div class="panel-body">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <label class="list-group-item-heading">Address: </label>
+                            <label class="list-group-item-text h4">Address: </label>
                             {{ employee.address }}
                         </li>
                         <li class="list-group-item">
-                            <label class="list-group-item-heading">Phone: </label>
+                            <label class="list-group-item-text h4">Phone: </label>
                             {{ employee.phone }}
                         </li>
                         <li class="list-group-item">
-                            <label class="list-group-item-heading">E-mail: </label>
+                            <label class="list-group-item-text h4">E-mail: </label>
                             <a href="mailto:{{ employee.email }}">
                                 {{ employee.email }}
                             </a>
                         </li>
                         <li class="list-group-item">
-                            <label class="list-group-item-heading">NIC number: </label>
+                            <label class="list-group-item-text h4">NIC number: </label>
                             {{ employee.nic }}
                         </li>
                     </ul>
                 </div>
-                <div class="panel-footer">
-                    <button type="button" class="btn btn-default">
+                <div class="panel-footer" style="background-color: #ffffff">
+                    <button type="button" class="btn btn-primary">
                         Back
                     </button>
                     <button type="button" class="btn btn-primary">

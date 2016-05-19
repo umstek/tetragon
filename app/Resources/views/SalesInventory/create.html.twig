@@ -5,18 +5,16 @@
 
 {% block body %}
 
-    <h1> Add an item </h1>
 
     {% embed 'flashWidget.html.twig' %}
     {% endembed %}
 
     {{ form_start(form, {'action': path('add item')}) }}
     <div class="panel panel-default">
-        <div class="panel-heading">
-        </div>
 
         <div id="add">
             <div class="panel-body">
+                <legend style="color: #009688">Add a Selling item</legend>
                 {{ form_errors(form) }}
                 {{ form_row(form.category) }}
                 {{ form_row(form.name) }}
@@ -31,10 +29,10 @@
                 {#{{ form_row(form.isWarrantyClaimed) }}#}
             </div>
             <div class="panel-footer" style="background-color:#ffffff;">
-                {{ form_rest(form) }}
                 <button type="button" class="btn btn-primary">
-                    <a href="{{ path('items') }}">Selling_Items_Home</a>
+                    <a href="{{ path('items') }}" style="text-decoration: none">Back</a>
                 </button>
+                {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
             </div>
         </div>
     </div>

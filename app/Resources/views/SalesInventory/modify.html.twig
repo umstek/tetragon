@@ -4,18 +4,16 @@
 {% block title %}Modify a SalesInventory record{% endblock %}
 
 {% block body %}
-<h1>Welcome to the SalesInventory:modify page</h1>
 
 {% embed 'flashWidget.html.twig' %}
 {% endembed %}
 
     {{ form_start(form, {'action': path('update item', {'id': id }), 'method': 'POST'}) }}
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <!-- FIXME this should be PUT, symfony has a bug which doesn't allow the PUT request to handled -->
-    </div>
+
     <div id="modify">
         <div class="panel-body">
+            <legend style="color: #009688">Modify Selling Item</legend>
             {{ form_errors(form) }}
             {{ form_row(form.name) }}
             {{ form_row(form.model) }}
@@ -29,8 +27,8 @@
             {#{{ form_row(form.isWarrantyClaimed) }}#}
             {#{{ form_row(form.warrantyExpiration) }}#}
         </div>
-            <div class="panel-footer">
-                {{ form_rest(form) }}
+            <div class="panel-footer" style="background-color: #ffffff">
+                {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
             </div>
         </div>
     </div>
