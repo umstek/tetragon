@@ -25,7 +25,7 @@ class SellingItemType extends AbstractType
 //            ->add('isSold', Types\HiddenType::class, ['data' => false])
 //            ->add('isWarrantyClaimed', Types\HiddenType::class, ['data' => false])
 //            ->add('warrantyExpiration', Types\DateTimeType::class, ['data' => new \DateTime('now', new \DateTimeZone('Asia/Colombo'))])
-            ->add('price', Types\MoneyType::class)
+            ->add('price', Types\MoneyType::class, ['currency' => 'LKR'])
             ->add('submit', Types\SubmitType::class);
     }
 

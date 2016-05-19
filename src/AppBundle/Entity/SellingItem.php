@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * SellingItem
@@ -24,6 +25,7 @@ class SellingItem
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="category", type="string", length=255)
      */
     private $category;
@@ -31,6 +33,7 @@ class SellingItem
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
@@ -51,8 +54,9 @@ class SellingItem
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="serial", type="string", length=255)
+     * 
+     * @Assert\NotBlank()
+     * @ORM\Column(name="serial", type="string", length=255) // TODO make unique
      */
     private $serial;
 
@@ -79,12 +83,15 @@ class SellingItem
 
     /**
      * @var \DateTime
+     * 
+     * @Assert\DateTime()
      * @ORM\Column(name="warranty_expiration", type="datetime", nullable=true)
      */
     private $warrantyExpiration;
     /**
      * @var
      *
+     * @Assert\Range(min="1")
      * @ORM\Column(name="price", type="float")
      */
     private $price;

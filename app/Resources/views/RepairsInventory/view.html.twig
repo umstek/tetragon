@@ -1,7 +1,86 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:RepairsInventory:view{% endblock %}
+{% block title %}Repairs inventory{% endblock %}
 
 {% block body %}
-<h1>Welcome to the RepairsInventory:view page</h1>
+    <div class="col-sm-12">
+        <h1>Welcome to the Repairs Inventory page</h1>
+
+        {% embed 'flashWidget.html.twig' %}
+        {% endembed %}
+
+        {% if item != null %}
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ item.name }}</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Name: </label>
+                            {{ item.name }}
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Model: </label>
+                            {{ item.description }}
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Brand: </label>
+                            {{ item.due.format('') }}
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Charge: </label>
+                            {{ item.price }}
+                        </li>
+                        <li class="list-group-item">
+                            <label class="list-group-item-heading">Status: </label>
+                            {% if item.isRepaired %}
+                                Repaired.
+                            {% else %}
+                                Not yet repaired.
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-footer">
+
+                    <button type="button" class="btn btn-primary">
+                        <a href="{{ path('edit repairing item', {'id': item.id }) }}">Edit</a>
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Order
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    {% if item.order is not null %}
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Date</th>
+                                <th>Customer Name</th>
+                                <th>Customer Phone Number</th>
+                                <th>Technician</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>{{ item.order.id }}</td>
+                                <td>{{ item.order.date }}</td>
+                                <td>{{ item.order.customer.name }}</td>
+                                <td>{{ item.order.customer.phone }}</td>
+                                <td>{{ item.order.technician.name }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}

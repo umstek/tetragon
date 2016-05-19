@@ -35,7 +35,6 @@ abstract class Person
      * @var string
      *
      * @Assert\NotBlank()
-     * @Assert\Length(max="20")
      * @MisdAssertPhoneNumber()
      * @ORM\Column(name="phone", type="string", length=20)
      */

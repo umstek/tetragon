@@ -20,7 +20,7 @@ class RepairingItemType extends AbstractType
             ->add('description', Types\TextareaType::class)
             ->add('due', Types\DateTimeType::class)
             ->add('isRepaired', Types\CheckboxType::class)
-            ->add('price', Types\MoneyType::class);
+            ->add('price', Types\MoneyType::class, ['currency' => 'LKR']);
     }
 
     /**

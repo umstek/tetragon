@@ -109,6 +109,7 @@ class SalesInventoryController extends Controller
     /**
      * @Route("/selling_items/{id}.edit", name="edit item", methods={"GET", "HEAD"}, requirements={"id" : "\d+"})
      * @Route("/selling_items/{id}", name="update item", methods={"POST"}, requirements={"id" : "\d+"})
+     * 
      * @param Request $request
      * @param $id
      * @return Response

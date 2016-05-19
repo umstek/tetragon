@@ -1,0 +1,33 @@
+{% form_theme form "bootstrap_3_layout.html.twig" %}
+{% extends 'ajaxBase.xml.twig' %}
+
+{% block data %}
+
+{% endblock %}
+
+{% block segment %}
+
+    {% embed 'flashWidget.html.twig' %}
+    {% endembed %}
+
+{{ form_start(form, {'action': path('ajax add repair item')}) }}
+<div class="panel panel-default">
+
+    <div id="add">
+        <div class="panel-body">
+            <legend style="color: #009688">Add a Repairing item</legend>
+            {{ form_errors(form) }}
+            {{ form_row(form.id) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.due) }}
+            {{ form_row(form.price) }}
+        </div>
+        <div class="panel-footer" style="background-color:#ffffff;">
+            {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}
+
+{% endblock %}

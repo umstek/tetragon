@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * RepairingItem
@@ -24,6 +25,7 @@ class RepairingItem
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
@@ -37,6 +39,8 @@ class RepairingItem
 
     /**
      * @var \DateTime
+     *
+     * @Assert\DateTime()
      * @ORM\Column(name="due", type="datetime")
      */
     private $due;
@@ -46,11 +50,13 @@ class RepairingItem
      *
      * @ORM\Column(name="is_repaired", type="boolean")
      */
-    private $isRepaired;
+    private $isRepaired = false;
 
     /**
      * @var
      *
+     * @Assert\NotBlank()
+     * @Assert\Range(min="1")
      * @ORM\Column(name="price", type="float")
      */
     private $price;

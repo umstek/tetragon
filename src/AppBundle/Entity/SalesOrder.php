@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * BuyingOrder
@@ -25,6 +26,7 @@ class SalesOrder extends Order
     /**
      * @var \DateTime
      *
+     * @Assert\DateTime()
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
