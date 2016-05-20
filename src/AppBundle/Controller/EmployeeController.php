@@ -139,7 +139,7 @@ class EmployeeController extends Controller
     /**
      * @Route("/employees", name="add employee", methods={"POST"})
      * @Route("/employees.add", name="new employee", methods={"GET"})
-     * //@Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_ADMIN')")
      *
      * @param Request $request
      * @return Response
