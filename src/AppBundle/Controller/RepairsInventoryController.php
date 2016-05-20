@@ -7,6 +7,7 @@ use AppBundle\Form\RepairingItemType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -100,14 +101,19 @@ class RepairsInventoryController extends Controller
         $form = $this->createForm(RepairingItemType::class, $item);
         $form->handleRequest($request);
         if ($form->isValid()) { // Validation
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($item);
-            $em->flush(); // Permanently add to database
+            if ($item->getDue() < new \DateTime('now', new \DateTimeZone('Asia/Colombo'))) {
+                $form->addError(new FormError('Invalid due date. '));
+            } else {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($item);
+                $em->flush(); // Permanently add to database
 
-            $this->addFlash('success', "Created repairing item.");
-            return $this->render('::ajaxFinished.xml.twig', [
-                'id' => $item->getId(),
-            ]);
+                $this->addFlash('success', "Created repairing item.");
+                return $this->render('::ajaxFinished.xml.twig', [
+                    'id' => $item->getId(),
+                ]);
+            }
+
         } else {
             if ($request->isMethod('POST')) {
                 $this->addFlash('error', 'Form contains errors. ');
