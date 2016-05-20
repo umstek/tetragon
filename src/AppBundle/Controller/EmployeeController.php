@@ -18,7 +18,7 @@ class EmployeeController extends Controller
 
     /**
      * @Route("/employees", name="employees", methods={"GET", "HEAD"})
-     * @Security("has_role('ROLE_ADMIN') ")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @return Response
@@ -73,6 +73,7 @@ class EmployeeController extends Controller
 
     /**
      * @Route("/employees.search", name="search employees")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @return Response
@@ -106,6 +107,7 @@ class EmployeeController extends Controller
 
     /**
      * @Route("/ajax/employees.search", name="ajax search employees by name", methods={"GET", "POST"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @return Response
@@ -137,6 +139,7 @@ class EmployeeController extends Controller
     /**
      * @Route("/employees", name="add employee", methods={"POST"})
      * @Route("/employees.add", name="new employee", methods={"GET"})
+     * //@Security("has_role('ROLE_ADMIN')")
      *
      * @param Request $request
      * @return Response
@@ -180,14 +183,23 @@ class EmployeeController extends Controller
                     if ($request->request->get('employee')['sysUser']['plain_password'] == '') {
                         $form->addError(new FormError('Password cannot be empty.'));
                     } else {
-                        $employee->getSysUser()->setRoles($roles);  // Set access levels
+                        $em = $this->getDoctrine()->getManager()->getRepository('AppBundle:User');
 
-                        $em = $this->getDoctrine()->getManager();
-                        $em->persist($employee);
-                        $em->flush(); // Permanently add to database
+                        if (count($em->findBy(['email' => $request->request->get('employee')['email']])) > 0) {
+                            $form->addError(new FormError('Email address already taken.'));
+                        } elseif (count($em->findBy(['username' => $request->request->get('employee')['sysUser']['username']])) > 0) {
+                            $form->addError(new FormError('Username already taken.'));
+                        } else {
 
-                        $this->addFlash('success', "Created employee.");
-                        return $this->redirectToRoute('employees');
+                            $employee->getSysUser()->setRoles($roles);  // Set access levels
+
+                            $em = $this->getDoctrine()->getManager();
+                            $em->persist($employee);
+                            $em->flush(); // Permanently add to database
+
+                            $this->addFlash('success', "Created employee.");
+                            return $this->redirectToRoute('employees');
+                        }
                     }
                 } else {
                     $form->addError(new FormError('Email addresses do not match.'));
@@ -240,7 +252,7 @@ class EmployeeController extends Controller
      * FIXME first route should be PUT, but symfony has a bug
      * @Route("/employees/{id}", name="update employee", methods={"POST"}, requirements={"id" : "\d+"})
      * @Route("/employees/{id}.edit", name="edit employee", methods={"GET", "HEAD"}, requirements={"id" : "\d+"})
-     * @Security("has_role('ROLE_ADMIN') || (is_granted('IS_AUTHENTICATED_FULLY') && user.getId() == id)")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @param $id
@@ -248,6 +260,11 @@ class EmployeeController extends Controller
      */
     public function modifyAction(Request $request, $id)
     {
+        if ($this->getUser()->getProfile()->getId() != $id && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            dump($this->getUser()->getId());
+            throw $this->createAccessDeniedException('You are not allowed to perform this action.');
+        }
+
         // Collect employee object from the database
         $em = $this->getDoctrine()->getManager();
         $employee = $em->getRepository('AppBundle:Employee')->find($id);

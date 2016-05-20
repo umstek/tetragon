@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Customer;
 use AppBundle\Form\CustomerType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,6 +14,7 @@ class CustomerController extends Controller
 {
     /**
      * @Route("/customers", name="customers", methods={"GET", "HEAD"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @return Response
@@ -53,6 +55,7 @@ class CustomerController extends Controller
 
     /**
      * @Route("/customers.search", name="search customers")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @return Response
@@ -85,6 +88,7 @@ class CustomerController extends Controller
 
     /**
      * @Route("/ajax/customers.search", name="ajax search customers by name", methods={"GET", "POST"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @return Response
@@ -115,6 +119,7 @@ class CustomerController extends Controller
     /**
      * @Route("/customers", name="add customer", methods={"POST"})
      * @Route("/customers.add", name="new customer", methods={"GET"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @return Response
@@ -150,6 +155,7 @@ class CustomerController extends Controller
     /**
      * @Route("/ajax/customers", name="ajax add customer", methods={"POST"})
      * @Route("/ajax/customers.add", name="ajax new customer", methods={"GET"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @return Response
@@ -187,6 +193,7 @@ class CustomerController extends Controller
 
     /**
      * @Route("/customers/{id}", name="view customer", methods={"GET"}, requirements={"id" : "\d+"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @param $id
@@ -214,6 +221,7 @@ class CustomerController extends Controller
      * FIXME first route should be PUT, but symfony has a bug
      * @Route("/customers/{id}", name="update customer", methods={"POST"}, requirements={"id" : "\d+"})
      * @Route("/customers/{id}.edit", name="edit customer", methods={"GET", "HEAD"}, requirements={"id" : "\d+"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @param $id

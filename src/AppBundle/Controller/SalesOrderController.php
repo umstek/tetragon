@@ -6,6 +6,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\SalesOrder;
 use AppBundle\Form\SalesOrderType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,7 @@ class SalesOrderController extends Controller
 
     /**
      * @Route("/sales_orders", name="sales orders", methods={"GET", "HEAD"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @return Response
@@ -57,6 +59,7 @@ class SalesOrderController extends Controller
      * @Route("/sales_orders", name="add sales order", methods={"POST"})
      * @Route("/sales_orders", name="ajax add sales order", methods={"POST"})
      * @Route("/sales_orders.add", name="new sales order", methods={"GET"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @return Response
@@ -114,6 +117,7 @@ class SalesOrderController extends Controller
 
     /**
      * @Route("/sales_orders/{id}.add", name="ajax add item to sales order", methods={"GET", "POST"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @param $id
@@ -166,6 +170,7 @@ class SalesOrderController extends Controller
 
     /**
      * @Route("/sales_orders/{id}", name="view sales order", methods={"GET"}, requirements={"id" : "\d+"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
     public function viewAction(Request $request, $id)
     {

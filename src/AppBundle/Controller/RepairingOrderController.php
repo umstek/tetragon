@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\RepairingOrder;
 use AppBundle\Form\RepairingOrderType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,7 @@ class RepairingOrderController extends Controller
 
     /**
      * @Route("/repairing_orders", name="repairing orders", methods={"GET", "HEAD"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @return Response
@@ -30,7 +32,7 @@ class RepairingOrderController extends Controller
                 and count($expected + $request->query->keys()) == 4 // and no unknown keys (using array union)
             ) {
                 // Only the queries with expected keys are checked
-                $repairOrders = $repository->findBySearchQuery($request->query->all());
+                $repairOrders = $repository->findBy($request->query->all());
             } else {
                 $repairOrders = $repository->findAll();
                 $this->addFlash('error', "The query is invalid. Everything is shown. ");
@@ -56,6 +58,7 @@ class RepairingOrderController extends Controller
      * @Route("/repairing_orders", name="add repairing order", methods={"POST"})
      * @Route("/repairing_orders", name="ajax add repairing order", methods={"POST"})
      * @Route("/repairing_orders.add", name="new repairing order", methods={"GET"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @return Response
@@ -113,6 +116,7 @@ class RepairingOrderController extends Controller
 
     /**
      * @Route("/ajax/repairing_orders/{id}.add", name="ajax add item to repairing order", methods={"POST"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @param $id
@@ -150,6 +154,7 @@ class RepairingOrderController extends Controller
 
     /**
      * @Route("/repairing_orders/{id}", name="view repairing order", methods={"GET"}, requirements={"id" : "\d+"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @param $id

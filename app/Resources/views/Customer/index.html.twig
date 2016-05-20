@@ -38,12 +38,8 @@
             </table>
         </div>
 
-        <button type="button" class="btn btn-link">
-            <a href="{{ path('new customer') }}">Add Customer</a>
-        </button>
-        <button type="button" class="btn btn-link">
-            <a href="{{ path('search customers') }}">Search Customers</a>
-        </button>
+        <a class="btn btn-primary" href="{{ path('new customer') }}">Add Customer</a>
+        <a class="btn btn-info" href="{{ path('search customers') }}">Search Customers</a>
     </div>
 
     <ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none">

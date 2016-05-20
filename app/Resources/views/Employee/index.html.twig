@@ -3,11 +3,11 @@
 {% block title %}AppBundle:Employee:index{% endblock %}
 
 {% block body %}
+
+    {% embed 'flashWidget.html.twig' %}
+    {% endembed %}
+
     <div class="col-sm-12 panel">
-
-
-        {% embed 'flashWidget.html.twig' %}
-        {% endembed %}
 
         <div class="panel-body">
             <legend style="color: #009688">Welcome to the Employees page</legend>
@@ -40,12 +40,8 @@
             </table>
         </div>
 
-        <button type="button" class="btn btn-link">
-            <a href="{{ path('new employee') }}">Add Employee</a>
-        </button>
-        <button type="button" class="btn btn-link">
-            <a href="{{ path('search employees') }}">Search Employees</a>
-        </button>
+        <a class="btn btn-primary" href="{{ path('new employee') }}">Add Employee</a>
+        <a class="btn btn-info" href="{{ path('search employees') }}">Search Employees</a>
     </div>
 
     <ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none">

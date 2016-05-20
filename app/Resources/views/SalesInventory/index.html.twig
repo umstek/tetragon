@@ -45,12 +45,8 @@
             </table>
         </div>
 
-        <button type="button" class="btn btn-link">
-            <a href="{{ path('new item') }}">Add item</a>
-        </button>
-        <button type="button" class="btn btn-link">
-            <a href="{{ path('search selling_items') }}">Search items</a>
-        </button>
+        <a class="btn btn-primary" href="{{ path('new item') }}">Add item</a>
+        <a class="btn btn-info" href="{{ path('search selling_items') }}">Search items</a>
     </div>
 
     <ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none">

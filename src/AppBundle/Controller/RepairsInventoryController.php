@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\RepairingItem;
 use AppBundle\Form\RepairingItemType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,6 +14,7 @@ class RepairsInventoryController extends Controller
 {
     /**
      * @Route("/repair_items", name="repairing items", methods={"GET","HEAD"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @return Response
@@ -53,6 +55,7 @@ class RepairsInventoryController extends Controller
 
     /**
      * @Route("/repair_items.search", name="search repairing items")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @return Response
@@ -85,6 +88,7 @@ class RepairsInventoryController extends Controller
     /**
      * @Route("/ajax/repair_items", name="ajax add repair item", methods={"POST"})
      * @Route("/ajax/repair_items.add", name="ajax new repair item", methods={"GET"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @return Response
@@ -119,6 +123,7 @@ class RepairsInventoryController extends Controller
 
     /**
      * @Route("/repair_items/{id}", name="view repairing item", methods={"GET"}, requirements={"id" : "\d+"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param $id
      * @param Request $request
@@ -146,6 +151,7 @@ class RepairsInventoryController extends Controller
     /**
      * @Route("/repair_items/{id}.edit", name="edit repairing item", methods={"GET", "HEAD"}, requirements={"id" : "\d+"})
      * @Route("/repair_items/{id}", name="update repairing item", methods={"POST"}, requirements={"id" : "\d+"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @param $id
