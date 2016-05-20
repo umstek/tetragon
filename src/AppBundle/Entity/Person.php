@@ -51,9 +51,8 @@ abstract class Person
     /**
      * @var string
      *
-     * @Assert\Length(min="10", max="12")
-     * @Assert\Regex(pattern="(20\d\d|\d\d)\d{7,7}(V|X)", htmlPattern="(20\d\d|\d\d)\d{7,7}(V|X)",
-     *     message="Please enter a valid National Identity Card Number")
+     * @Assert\Regex(pattern="/^(20\d\d|\d\d)\d{7,7}(V|X)$/i", htmlPattern="(20\d\d|\d\d)\d{7,7}(V|X)",
+     *     message="Please enter a valid National Identity Card Number.")
      * @ORM\Column(name="nic", type="string", length=11, nullable=true)
      */
     protected $nic;

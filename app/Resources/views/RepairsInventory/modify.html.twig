@@ -9,7 +9,7 @@
     {% embed 'flashWidget.html.twig' %}
     {% endembed %}
 
-    {{ form_start(form, {'action': path('update item', {'id': id }), 'method': 'POST'}) }}
+    {{ form_start(form, {'action': path('update repairing item', {'id': id }), 'method': 'POST'}) }}
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Modify Repairing Item</h3>
@@ -20,9 +20,8 @@
                 {{ form_errors(form) }}
                 {{ form_row(form.name) }}
                 {{ form_row(form.description) }}
-                {{ form_row(form.due.format('Y-m-d H:i:s')) }}
+                {{ form_row(form.due) }}
                 {{ form_row(form.price) }}
-                {{ form_row(form.isRepaired) }}
             </div>
             <div class="panel-footer">
                 {{ form_rest(form) }}

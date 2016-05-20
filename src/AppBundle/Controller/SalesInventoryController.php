@@ -201,10 +201,8 @@ class SalesInventoryController extends Controller
 
         if ($request->isMethod('POST')) {
             $serial = $request->request->get('serial');
-            dump($request);
             $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:SellingItem');
             $items = $repository->findBy(['serial' => $serial, 'isSold' => false]);
-            dump($items);
             if (count($items) > 0) {
                 return $this->render(':SalesInventory:searchAjax.xml.twig', [
                     'items' => $items
@@ -224,7 +222,7 @@ class SalesInventoryController extends Controller
      *
      * @param Request $request
      * @param $id
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return Response
      */
     public function claimWarrantyAction(Request $request, $id)
     {

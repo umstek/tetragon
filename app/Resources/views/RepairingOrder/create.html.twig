@@ -5,49 +5,206 @@
 
 {% block body %}
 
-    {% embed 'flashWidget.html.twig' %}
-    {% endembed %}
-
-    {{ form_start(form, {'action': path('add sales order')}) }}
-    <div class="panel panel-default">
-
-        <div id="addSale">
+    <div id="addRepair">
+        {{ form_start(form, {'action': path('add repairing order')}) }}
+        <div class="panel panel-default">
             <div class="panel-body">
                 <legend style="color: #009688">Create a repairing order</legend>
+
+                {% embed 'flashWidget.html.twig' %}
+                {% endembed %}
+
                 {{ form_errors(form) }}
-                {{ form_row(form.date) }}
-                {{ form_row(form.customerId) }}
-                {{ form_row(form.technicianId) }}
+                <div class="hidden">
+                    {{ form_row(form.date) }}
+                </div>
+                <div>
+                    <label>Customer: </label>
+                    <span id="customerName">
 
-                {{ form_row(form.itemsIds) }}
+                    </span>
+                    {{ form_row(form.customerId) }}
+                </div>
+                <div>
+                    <label>Technician: </label>
+                    <span id="technicianName">
 
+                    </span>
+                    {{ form_row(form.technicianId) }}
+                </div>
             </div>
             <div class="panel-footer" style="background-color:#ffffff;">
                 {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
             </div>
         </div>
+        {{ form_end(form) }}
     </div>
-    {{ form_end(form) }}
 
     <div id="customerSearch">
-
+        <h4 class="h4">Customer Search</h4>
+        <div class="progress progress-striped active">
+            <div class="progress-bar" style="width: 100%">Loading...</div>
+        </div>
     </div>
+
     <div id="customerCreate">
-
+        <h4 class="h4">Create a customer</h4>
+        <div class="progress progress-striped active">
+            <div class="progress-bar" style="width: 100%">Loading...</div>
+        </div>
     </div>
+
     <div id="technicianSearch">
+        <h4 class="h4">Technician Search</h4>
+        <div class="progress progress-striped active">
+            <div class="progress-bar" style="width: 100%">Loading...</div>
+        </div>
+    </div>
+
+    <div id="addItem">
 
     </div>
-    <div id="addItems">
 
-    </div>
 {% endblock %}
 
 {% block scripts %}
     {{ parent() }}
     <script>
+
+        var orderId = 0;  // Used when adding items to the order
+
         $(document).ready(
                 function () {
+
+                    // override main form submission
+                    $("body").on('submit', 'form[name=repairing_order]', function (e) {
+                        e.preventDefault();
+
+                        var temp = $('#addRepair').html(); // keep this in case of an error
+                        var customerName = $('#customerName').html();
+                        var technicianName = $('#technicianName').html();
+
+                        $.ajax({
+                            type: $(this).attr('method'),
+                            url: $(this).attr('action'),
+                            data: $(this).serialize(),
+                            cache: false,
+                            success: function (result, status, xhr) {
+                                var xml = $.parseXML(result);
+                                var $xml = $(xml);
+                                $('#addRepair').html($xml.find('segment').html());
+                                //alert('>' + $.trim($xml.find('data').text()) + '<');
+                                if ($.trim($xml.find('data').text()) != '' && $.trim($xml.find('data').text()) != 0) {
+                                    // this means request successful
+                                    orderId = $.trim($xml.find('data').text()); // store the order id for further use.
+                                    // remove all add customer etc. forms. They are not needed anymore.
+                                    // And, load item adding form.
+
+
+                                    var afterLoadAddPage = function (resp) {
+                                        var xml = $.parseXML(resp);
+                                        var $xml = $(xml);
+                                        $('#addItem').html($xml.find('segment').html());
+
+                                        var clickAction2 = function (e) {
+                                            e.preventDefault();
+
+                                            var temp2 = $('#addItem').html();
+
+                                            $.ajax({
+                                                type: $(this).attr('method'),
+                                                url: $(this).attr('action'),
+                                                data: $(this).serialize(),
+                                                cache: false,
+
+
+                                                success: function (result, status, xhr) {
+                                                    var xml = $.parseXML(result);
+                                                    var $xml = $(xml);
+                                                    $('#addItem').html($xml.find('segment').html());
+
+
+                                                    if ($.trim($xml.find('data').text()) != '' && $.trim($xml.find('data').text()) != 0) {
+
+                                                        var itemId = $.trim($xml.find('data').text()); // store the  item id for further use.
+                                                        // add item to order
+                                                        $.ajax({
+                                                            type: 'POST',
+                                                            url: "{{ path('ajax add item to repairing order', {'id': 0}) }}".replace('0', orderId),
+                                                            data: {itemId: itemId},
+                                                            cache: false,
+                                                            success: function (result, status, xhr) {
+                                                                console.log('Added item to order.');
+                                                                // reload adding form
+                                                                $.get("{{ path('ajax new repair item') }}", function (resp) {
+                                                                    $('#addItem').find('div.panel-footer').append(
+                                                                            '<a id="repair_items_finish" href="{{ path('view repairing order', {'id': 0}) }}"'.replace('0', orderId) +
+                                                                            ' class="btn btn-success">' +
+                                                                            'Finish' +
+                                                                            '</a>');
+                                                                    afterLoadAddPage(resp);
+                                                                });
+                                                                {# FIXME if an error, but form loaded successfully, it will enable finish button #}
+                                                                //$("#addItem").on('submit', 'form[name=repairing_item]', clickAction2);
+
+                                                            },
+                                                            error: function (xhr, status, error) {
+                                                                console.log('Error. '); // no way
+                                                            }
+                                                        });
+
+                                                    } // end really success adding item
+
+                                                },
+
+
+                                                error: function (xhr, status, error) {
+                                                    alert(error);
+                                                    $('#addItem').html(temp2);
+                                                }
+
+                                            });
+
+                                            $('#addItem').html(
+                                                    '<h4 class="h4">Adding...</h4>' +
+                                                    '<div class="progress progress-striped active">' +
+                                                    '<div class="progress-bar" style="width: 100%">Loading...</div>' +
+                                                    '</div>'
+                                            );
+
+                                        };
+
+                                        // override the submit action after loading the page
+                                        $("#addItem").off('submit', 'form[name=repairing_item]');
+                                        $("#addItem").on('submit', 'form[name=repairing_item]', clickAction2)
+                                    };
+
+                                    // twig generated urls
+                                    $.get("{{ path('ajax new repair item') }}", afterLoadAddPage);
+
+
+                                    $('#customerSearch').html('');
+                                    $('#customerCreate').html('');
+                                    $('#technicianSearch').html('');
+                                } /* request successful end */ else { // request returned 'successfully' with an error
+                                    $('#customerName').html(customerName);
+                                    $('#technicianName').html(technicianName);
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                alert(error);
+                                $('#addRepair').html(temp);
+                            }
+                        });
+
+                        $('#addRepair').html(
+                                '<h4 class="h4">Working...</h4>' +
+                                '<div class="progress progress-striped active">' +
+                                '<div class="progress-bar" style="width: 100%">Loading...</div>' +
+                                '</div>'
+                        );
+
+                    }); // main form submit
 
                     // load create new customer page
                     $.get("{{ path('ajax new customer') }}", function (resp) {
@@ -57,6 +214,8 @@
 
                         $('#customerCreate').on('submit', 'form[name=customer]', function (e) {
                             e.preventDefault();
+
+                            var temp = $('#customerCreate').html();
 
                             $.ajax({
                                 type: $(this).attr('method'),
@@ -71,11 +230,19 @@
                                 },
                                 error: function (xhr, status, error) {
                                     alert(error);
+                                    $('#customerCreate').html(temp)
                                 }
                             });
 
+                            $('#customerCreate').html(
+                                    '<h4 class="h4">Adding...</h4>' +
+                                    '<div class="progress progress-striped active">' +
+                                    '<div class="progress-bar" style="width: 100%">Loading...</div>' +
+                                    '</div>'
+                            );
+
                         });
-                    });
+                    }); // create a new customer
 
                     // load customer search by name page
                     // we don't use advanced searching because when we create an order, customer is with us
@@ -88,9 +255,11 @@
                         var clickAction = function (e) {
                             e.preventDefault();
 
+                            var temp = $('#customerSearch').html();
+
                             $.ajax({
                                 type: 'POST',
-                                url: "{{ path('ajax search customers by name') }}",  // only load sales clerks
+                                url: "{{ path('ajax search customers by name') }}",  // only load technicians
                                 data: {name: $('#customerSearch').find('input[name=name]').val()},
                                 cache: false,
                                 success: function (result, status, xhr) {
@@ -99,22 +268,31 @@
                                     $('#customerSearch').html($xml.find('segment').html());
                                     $('#customerSearch').find('tbody tr').click(function () {
                                         $('#repairing_order_customerId').val($.trim($(this).find('td').first().text()));
+                                        $('#customerName').html($.trim($(this).find('td').first().next().text()));
                                     });
 
                                     $('#customerSearch').find('button[type=submit]').click(clickAction);
                                 },
                                 error: function (xhr, status, error) {
                                     alert(error);
+                                    $('#customerSearch').html(temp);
                                 }
                             });
+
+                            $('#customerSearch').html(
+                                    '<h4 class="h4">Searching...</h4>' +
+                                    '<div class="progress progress-striped active">' +
+                                    '<div class="progress-bar" style="width: 100%">Loading...</div>' +
+                                    '</div>'
+                            );
 
                         };
 
                         $('#customerSearch').find('button[type=submit]').click(clickAction);
-                    });
+                    }); // search customers by name
 
-                    // load a sales clerk
-                    // this sales clerk creates the order
+                    // load a technician clerk
+                    // this technician creates the order
                     {# TODO automatically load currently logged in employee name #}
                     $.get("{{ path('ajax search employees by name') }}", function (resp) {
                         var xml = $.parseXML(resp);
@@ -123,6 +301,8 @@
 
                         var clickAction = function (e) {
                             e.preventDefault();
+
+                            var temp = $('#technicianSearch').html();
 
                             $.ajax({
                                 type: 'POST',
@@ -137,24 +317,31 @@
                                     var $xml = $(xml);
                                     $('#technicianSearch').html($xml.find('segment').html());
                                     $('#technicianSearch').find('tbody tr').click(function () {
-                                        $('#repairing_order_technicianId').val($.trim($(this).find('td').first().text()));//
+                                        $('#repairing_order_technicianId').val($.trim($(this).find('td').first().text()));
+                                        $('#technicianName').html($.trim($(this).find('td').first().next().text()));
                                     });
 
                                     $('#technicianSearch').find('button[type=submit]').click(clickAction);
                                 },
                                 error: function (xhr, status, error) {
                                     alert(error);
+                                    $('#technicianSearch').html(temp);
                                 }
                             });
+
+                            $('#technicianSearch').html(
+                                    '<h4 class="h4">Searching...</h4>' +
+                                    '<div class="progress progress-striped active">' +
+                                    '<div class="progress-bar" style="width: 100%">Loading...</div>' +
+                                    '</div>'
+                            );
 
                         };
 
                         $('#technicianSearch').find('button[type=submit]').click(clickAction);
-                    });
+                    }); // get search employees by name
 
-                    {# TODO Configure item addition #}
-
-                }
-        );
+                } // enclosing function
+        ); // document ready
     </script>
 {% endblock %}

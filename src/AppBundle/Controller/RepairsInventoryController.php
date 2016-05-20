@@ -102,16 +102,17 @@ class RepairsInventoryController extends Controller
 
             $this->addFlash('success', "Created repairing item.");
             return $this->render('::ajaxFinished.xml.twig', [
-                'id' => $item->getId()
+                'id' => $item->getId(),
             ]);
+        } else {
+            if ($request->isMethod('POST')) {
+                $this->addFlash('error', 'Form contains errors. ');
+            }
         }
-
-        // Executed only if validation fails
-        // Renders the add item page which does not list customers
-        // No need to add a flash. Validation errors are displayed in-place
-        // Also needed to render the create item page with a get request
+        
         return $this->render(':RepairsInventory:createAjax.xml.twig', [
-            'data' => 0,
+            'name' => '',
+            'id' => 0,
             'form' => $form->createView()
         ]);
     }
@@ -160,6 +161,9 @@ class RepairsInventoryController extends Controller
         if ($item == null) { // Not found? ask to create.
             $this->addFlash('error', "Repairing item with id $id not found.");
             return $this->redirectToRoute('repairing items');
+        } elseif ($item->getIsRepaired()) {
+            $this->addFlash('warning', "You cannot edit an already repaired item. ");
+            return $this->redirectToRoute('repairing items');
         }
 
         // Found selling_Item with id?
@@ -171,7 +175,7 @@ class RepairsInventoryController extends Controller
                 $em->flush(); // Permanently change the record in database
 
                 $this->addFlash('success', "Updated Repairing Item.");
-                return $this->redirectToRoute('items');
+                return $this->redirectToRoute('repairing items');
             }
 
             return $this->render(':RepairsInventory:modify.html.twig', [
@@ -189,6 +193,5 @@ class RepairsInventoryController extends Controller
             'form' => $form->createView()
         ], new Response());
     }
-
 
 }

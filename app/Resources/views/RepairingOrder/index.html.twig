@@ -1,0 +1,93 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Sales{% endblock %}
+
+{% block body %}
+    <div class="col-sm-12">
+        <h1>Welcome to the Repair orders page</h1>
+
+        {% embed 'flashWidget.html.twig' %}
+        {% endembed %}
+
+        <div>
+            <table id="details" class="table table-responsive table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Customer ID</th>
+                    <th>Customer name</th>
+                    <th>Customer Phone</th>
+                    <th>Sales Clerk ID</th>
+                    <th>Sales Clerk Name</th>
+                    <th>Sales Clerk Phone</th>
+                    <th>Items</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in repairs %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.date.format('Y-m-d H:i:s') }}</td>
+
+                        {# something == null state of the below should never happen #}
+
+                        {% if order.customer != null %}
+                            <td title="customerId">{{ order.customer.id }}</td>
+                            <td>{{ order.customer.name }}</td>
+                            <td>{{ order.customer.phone }}</td>
+                        {% endif %}
+                        {% if order.technician != null %}
+                            <td title="technicianId">{{ order.technician.id }}</td>
+                            <td>{{ order.technician.name }}</td>
+                            <td>{{ order.technician.phone }}</td>
+                        {% endif %}
+                        <td>
+                            {% for item in order.items or {} %}
+                                {{ item.name }}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <button type="button" class="btn btn-link">
+            <a href="{{ path('new repairing order') }}">New Order</a>
+        </button>
+        <button type="button" class="btn btn-link">
+            {#<a href="{{ path('search sales orders') }}">Search Orders</a>#}
+        </button>
+    </div>
+
+    <ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none">
+        <li><a tabindex="-1" href="#">View Order</a></li>
+        <li><a tabindex="-1" href="#">View Customer</a></li>
+        <li><a tabindex="-1" href="#">View Technician</a></li>
+    </ul>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ asset('bundles/app/contextmenu.js') }}"></script>
+    <script>
+        $("#details").find("tbody tr").contextMenu({
+            menuSelector: "#contextMenu",
+            menuSelected: function (invokedOn, selectedMenu) {
+                var selectedId = invokedOn.parent().find('td').first().text();
+                var selectedCustomerId = invokedOn.parent().find('td[title=customerId]').text();
+                var selectedTechnicianId = invokedOn.parent().find('td[title=technicianId]').text();
+                var viewOrderPath = '{{ path('view repairing order', {'id': '0' }) }}'; // TWIG generated url
+                var viewCustomerPath = '{{ path('view customer', {'id': '0' }) }}'; // TWIG generated url
+                var viewTechnicianPath = '{{ path('view employee', {'id': '0' }) }}'; // TWIG generated url
+
+                if (selectedMenu.text() === 'View Order') {
+                    window.location.href = viewOrderPath.replace("0", selectedId);
+                } else if (selectedMenu.text() === 'View Customer') {
+                    window.location.href = viewCustomerPath.replace("0", selectedCustomerId);
+                } else if (selectedMenu.text() === 'View Technician') {
+                    window.location.href = viewTechnicianPath.replace("0", selectedTechnicianId);
+                }
+            }
+        });
+    </script>
+{% endblock %}
