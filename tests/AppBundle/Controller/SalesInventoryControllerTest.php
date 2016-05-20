@@ -33,20 +33,26 @@ class SalesInventoryControllerTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/selling_items.add');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());  // loading
+
     }
 
     public function testView()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/selling_items/{id}.view');
+        $crawler = $client->request('GET', '/selling_items/1');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());  // loading
+
     }
 
     public function testModify()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/selling_items/{id}.edit');
+        $crawler = $client->request('GET', '/selling_items/10.edit');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());  // loading
+
     }
 
     public function testSearch()
@@ -54,6 +60,11 @@ class SalesInventoryControllerTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/selling_items.search');
+
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        //$this->assertContains('Search', $crawler->filter('h1')->text());
     }
 
 }
+

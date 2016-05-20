@@ -1,31 +1,31 @@
 <?php
-
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Customer;
+
 use Symfony\Component\Form\Test\TypeTestCase;
 
-class CustomerTypeTest extends TypeTestCase
+class SellingItemTypeTest extends TypeTestCase
 {
     public function testSubmitValidData()
     {
         $formData = array(
-            'name' => 'gamma1',
-            'address' => '',
-            'phone' => '111',
-            'email' => 'gamma1@gm.sd',
-            'nic' => ''
+            'name' => 'Fan',
+            'brand' => 'Singer',
+            'model' => 'Ex001',
+            'serial' => '235413t',
+            'description' => '2500 rpm',
+            'price' => '5000'
         );
 
-        $form = $this->factory->create(CustomerType::class);
+        $form = $this->factory->create(SellingItemType::class);
 
-        $customer = Customer::fromArray($formData);
+//        $item = SellingItem::fromArray($formData);
 
 // submit the data to the form directly
         $form->submit($formData);
 
         $this->assertTrue($form->isSynchronized());
-        $this->assertEquals($customer, $form->getData());
+//        $this->assertEquals($item, $form->getData());
 
         $view = $form->createView();
         $children = $view->children;

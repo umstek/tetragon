@@ -49,20 +49,26 @@ class EmployeeControllerTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/employees.add');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
     }
 
     public function testView()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/emplyees/{}');
+        $crawler = $client->request('GET', '/emplyees/1');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
     }
 
     public function testModify()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/employees/{}.edit');
+        $crawler = $client->request('GET', '/employees/1.edit');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
     }
 
 }

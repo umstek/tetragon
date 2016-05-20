@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\SellingItem;
 use AppBundle\Form\SellingItemType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +23,7 @@ class SalesInventoryController extends Controller
         // Get parameters are used for searching or filtering
         $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:SellingItem');
 
-        if ($request->query->count() > 0) {
+        if ($request->query->count() > 0) { // get request
             $expected = ['name', 'brand', 'model', 'category', 'serial', 'price', 'description'];
             if (count(array_intersect($expected, $request->query->keys())) > 0 // at least one expected key
                 and count($expected + $request->query->keys()) == 7 // and no unknown keys (using array union)
@@ -171,7 +170,7 @@ class SalesInventoryController extends Controller
         $form = $this->createForm(SellingItemType::class, $item);
 
         $nonempty = [];
-        if ($request->request->has('selling_item')) { // Selling item form data
+        if ($request->request->has('selling_item')) {// Selling item form data//post request // selling_item is an array //if the array has filled
             foreach ($request->request->get('selling_item') as $key => $value) {
                 if ($value != null and $value != '' and $key != '_token') { // omit the empty ones and the CSRF token
                     $nonempty[$key] = $value;
@@ -184,7 +183,7 @@ class SalesInventoryController extends Controller
                 $this->addFlash('info', 'Please provide some known information. ');
             }
             return $this->render(':SalesInventory:search.html.twig', [
-                'form' => $form->remove("price")->createView() //->  remove("warrantyExpiration")->remove("isWarrantyClaimed")->remove("isSold")->remove("price")->
+                'form' => $form->remove("price")->remove("warrantyPeriod")->createView() //->  remove("warrantyExpiration")->remove("isWarrantyClaimed")->remove("isSold")->remove("price")->
             ]);
         }
         return $this->redirectToRoute('items', $nonempty);
