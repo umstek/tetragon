@@ -5,6 +5,10 @@
 {% block body %}
     <div class="col-sm-12 panel">
 
+        <div id="extraFlash">
+
+        </div>
+
         {% embed 'flashWidget.html.twig' %}
         {% endembed %}
 
@@ -54,6 +58,36 @@
 {% endblock %}
 {% block scripts %}
     <script src="{{ asset('bundles/app/contextmenu.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('[type=checkbox]').change(function () {
+                var id = $(this).parent().parent().parent().parent().find('td').first().text();
+                var ajaxPath = "{{ path('repair repairing item', {'id':0}) }}".replace('0', id);
+                var valx = false;
+
+                //alert($(this).parent().parent().parent().parent().find('td').first().text());
+                if ($(this).is(":checked")) {
+                    valx = true;
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: ajaxPath,
+                    data: {'repaired': valx},
+                    cache: false,
+                    success: function (result, status, xhr) {
+                        var xml = $.parseXML(result);
+                        var $xml = $(xml);
+                        $('#extraFlash').html($xml.find('segment').html());
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+                });
+
+            });
+        });
+    </script>
     <script>
         $("#details").find("tbody tr").contextMenu({
             menuSelector: "#contextMenu",

@@ -136,15 +136,22 @@ class SalesInventoryController extends Controller
         // Found selling_Item with id?
         $form = $this->createForm(SellingItemType::class, $item);
         if ($request->isMethod('POST')) { // and sent the new data with PUT?
+            $oldSerial = $item->getSerial();
+            $newSerial = $request->request->get('selling_item')['serial'];
             // FIXME this should be PUT, symfony has a bug which doesn't allow the PUT request to be handled
-            $form->handleRequest($request); // this changes the original customer object accordingly
-            if ($form->isValid()) { // Validation
-                $em->flush(); // Permanently change the record in database
 
-                $this->addFlash('success', "Updated Selling Item.");
-                return $this->redirectToRoute('items');
+            if ($oldSerial != $newSerial && count($em->getRepository('AppBundle:SellingItem')->findBy(['serial' => $newSerial])) > 0) {
+                $form->addError(new FormError('Duplicate serial number.'));
             } else {
-                $this->addFlash('error', 'Form contains errors. ');
+                $form->handleRequest($request); // this changes the original customer object accordingly
+                if ($form->isValid()) { // Validation
+                    $em->flush(); // Permanently change the record in database
+
+                    $this->addFlash('success', "Updated Selling Item.");
+                    return $this->redirectToRoute('items');
+                } else {
+                    $this->addFlash('error', 'Form contains errors. ');
+                }
             }
 
             return $this->render(':SalesInventory:modify.html.twig', [

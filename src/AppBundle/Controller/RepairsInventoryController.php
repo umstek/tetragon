@@ -7,6 +7,7 @@ use AppBundle\Form\RepairingItemType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -100,20 +101,25 @@ class RepairsInventoryController extends Controller
         $form = $this->createForm(RepairingItemType::class, $item);
         $form->handleRequest($request);
         if ($form->isValid()) { // Validation
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($item);
-            $em->flush(); // Permanently add to database
+            if ($item->getDue() < new \DateTime('now', new \DateTimeZone('Asia/Colombo'))) {
+                $form->addError(new FormError('Invalid due date. '));
+            } else {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($item);
+                $em->flush(); // Permanently add to database
 
-            $this->addFlash('success', "Created repairing item.");
-            return $this->render('::ajaxFinished.xml.twig', [
-                'id' => $item->getId(),
-            ]);
+                $this->addFlash('success', "Created repairing item.");
+                return $this->render('::ajaxFinished.xml.twig', [
+                    'id' => $item->getId(),
+                ]);
+            }
+
         } else {
             if ($request->isMethod('POST')) {
                 $this->addFlash('error', 'Form contains errors. ');
             }
         }
-        
+
         return $this->render(':RepairsInventory:createAjax.xml.twig', [
             'name' => '',
             'id' => 0,
@@ -198,6 +204,43 @@ class RepairsInventoryController extends Controller
             'id' => $id,
             'form' => $form->createView()
         ], new Response());
+    }
+
+    /**
+     * @Route("/repair_items/{id}.repair", name="repair repairing item", methods={"POST"}, requirements={"id" : "\d+"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     *
+     * @param $id
+     * @param Request $request
+     * @return Response
+     */
+    public function repairAction($id, Request $request)
+    {
+
+        // Collect selling item object from the database
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:RepairingItem');
+        $item = $repository->find($id);
+        $repaired = ($request->request->get('repaired'));
+
+        // If not found, render a page with an all records and error message
+        if ($item == null) {
+            $this->addFlash('error', "Repair item with id $id not found. ");
+        } else {
+            if ($repaired == 'true') {
+                $this->addFlash('success', "Item with id $id marked as repaired. ");
+                $item->setIsRepaired(true);
+            } else {
+                $this->addFlash('info', "Item with id $id marked as not repaired. ");
+                $item->setIsRepaired(false);
+            }
+            $em->flush();
+        }
+
+        // If found, render the content
+        return $this->render('::ajaxFinished.xml.twig', [
+            'id' => $id
+        ]);
     }
 
 }
