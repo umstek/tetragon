@@ -1,31 +1,36 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Thilan
+ * Date: 5/20/2016
+ * Time: 7:44 AM
+ */
+
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Customer;
+
 use Symfony\Component\Form\Test\TypeTestCase;
 
-class CustomerTypeTest extends TypeTestCase
+class SalesOrderTypeTest extends TypeTestCase
 {
     public function testSubmitValidData()
     {
         $formData = array(
-            'name' => 'gamma1',
-            'address' => '',
-            'phone' => '111',
-            'email' => 'gamma1@gm.sd',
-            'nic' => ''
+            'customerId' => '768766',
+            'date' => new \DateTime("now", new \DateTimeZone("Asia/Colombo")),
+            'salesClerkId' => '2500 rpm',
         );
 
-        $form = $this->factory->create(CustomerType::class);
+        $form = $this->factory->create(SalesOrderType::class);
 
-        $customer = Customer::fromArray($formData);
+//        $item = SellingItem::fromArray($formData);
 
 // submit the data to the form directly
         $form->submit($formData);
 
         $this->assertTrue($form->isSynchronized());
-        $this->assertEquals($customer, $form->getData());
+//        $this->assertEquals($item, $form->getData());
 
         $view = $form->createView();
         $children = $view->children;

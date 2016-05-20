@@ -11,6 +11,8 @@ class RepairsInventoryControllerTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/repair_items/');
+//        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
     }
 
     public function testSearch()
@@ -18,6 +20,8 @@ class RepairsInventoryControllerTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/repair_items.search');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
     }
 
     public function testCreate()
@@ -25,20 +29,26 @@ class RepairsInventoryControllerTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/repair_items.add');
+//        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
     }
 
     public function testView()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/repair_items/{id}.view');
+        $crawler = $client->request('GET', '/repair_items/1');
+//        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
     }
 
     public function testEdit()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/repair_items/{id}.edit');
+        $crawler = $client->request('GET', '/repair_items/1.edit');
+//        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
     }
 
 }

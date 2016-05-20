@@ -29,7 +29,8 @@ class CustomerControllerTest extends WebTestCase
         //$this->assertContains('Search', $crawlerSearch->filter('h1')->text());
 
     }
-
+//22 19 3
+//22 33 3 10
     public function testSearch()
     {
         $client = static::createClient();
@@ -51,20 +52,26 @@ class CustomerControllerTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/customers.add');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
     }
 
     public function testView()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/customers/{}');
+        $crawler = $client->request('GET', '/customers/1');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
     }
 
     public function testModify()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/customers/{}.edit');
+        $crawler = $client->request('GET', '/customers/1.edit');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
     }
 
 }
