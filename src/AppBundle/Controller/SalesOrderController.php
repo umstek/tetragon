@@ -135,22 +135,27 @@ class SalesOrderController extends Controller
 
                 $itemRepo = $em->getRepository('AppBundle:SellingItem');
                 $item = $itemRepo->find($request->get('itemId'));
+
+                try {
+                    $date = new \DateTime($request->request->get('expire'),
+                        new \DateTimeZone('Asia/Colombo'));
+                    $item->setWarrantyExpiration($date);
+                } catch (\Exception $ex) {
+                    $date = null;
+                    dump($request->request->get('expire'));
+                }
+
                 if ($order != null && $item != null) {
                     if (!$item->getIsSold()) {
-                        $this->addFlash('success', 'Item added successfully. ');
-                        $item->setIsSold(true);
-                        try {
-                            $item->setWarrantyExpiration(
-                                new \DateTime($request->request->get('expire'),
-                                    new \DateTimeZone('Asia/Colombo')));
-                        } catch (\Exception $ex) {
-                            dump($request->request->get('expire'));
-                        } // FIXME warranty
-
-                        $order->addItem($item);
-                        $item->setOrder($order);
-
-                        $em->flush();
+                        if ($date < new \DateTime('now', new \DateTimeZone('Asia/Colombo'))) {
+                            $this->addFlash('error', 'Please do not set a past date. For no warranty, please keep the field empty. ');
+                        } else {
+                            $this->addFlash('success', 'Item added successfully.');
+                            $item->setIsSold(true);
+                            $order->addItem($item);
+                            $item->setOrder($order);
+                            $em->flush();
+                        }
                     } else {
                         $this->addFlash('warning', 'Item has already been sold.');
                         return $this->render(':SalesOrder:addItemToOrder.xml.twig');
