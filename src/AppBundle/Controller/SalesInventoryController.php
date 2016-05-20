@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\SellingItem;
 use AppBundle\Form\SellingItemType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
