@@ -52,7 +52,7 @@
             <div class="progress-bar" style="width: 100%">Loading...</div>
         </div>
     </div>
-    <input class="btn btn-primary" name="answer" value="New Customer" onclick="showDiv()" />
+    <input id="new2" class="btn btn-primary" name="answer" value="New Customer" onclick="showDiv()" />
     <div id="customerCreate" style="display:none;" class="answer_list">
         <h4 class="h4">Create a customer</h4>
         <div class="progress progress-striped active">
@@ -120,6 +120,7 @@
 
 
                                                 success: function (result, status, xhr) {
+                                                    $('body').find('#new2').html('');
                                                     var xml = $.parseXML(result);
                                                     var $xml = $(xml);
                                                     $('#addItem').html($xml.find('segment').html());
@@ -347,6 +348,7 @@
 
         function showDiv() {
             document.getElementById('customerCreate').style.display = "block";
+            document.getElementById('new2').style.display = "none";
         }
     </script>
 {% endblock %}
