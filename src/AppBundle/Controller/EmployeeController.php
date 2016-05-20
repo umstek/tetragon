@@ -18,7 +18,7 @@ class EmployeeController extends Controller
 
     /**
      * @Route("/employees", name="employees", methods={"GET", "HEAD"})
-     * //@Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_ADMIN') ")
      *
      * @param Request $request
      * @return Response
@@ -212,7 +212,7 @@ class EmployeeController extends Controller
 
     /**
      * @Route("/employees/{id}", name="view employee", methods={"GET"}, requirements={"id" : "\d+"})
-     * @Security("has_role('IS_AUTHENTICATED_FULLY')")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @param $id
@@ -240,7 +240,7 @@ class EmployeeController extends Controller
      * FIXME first route should be PUT, but symfony has a bug
      * @Route("/employees/{id}", name="update employee", methods={"POST"}, requirements={"id" : "\d+"})
      * @Route("/employees/{id}.edit", name="edit employee", methods={"GET", "HEAD"}, requirements={"id" : "\d+"})
-     * @Security("has_role('ROLE_ADMIN') || (has_role('IS_AUTHENTICATED_FULLY') && user.getId() == id)")
+     * @Security("has_role('ROLE_ADMIN') || (is_granted('IS_AUTHENTICATED_FULLY') && user.getId() == id)")
      *
      * @param Request $request
      * @param $id

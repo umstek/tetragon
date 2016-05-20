@@ -43,10 +43,13 @@
 
                         <li class="list-group-item">
                             {% if SalesInv.isSold %}
-                                <label class="list-group-item-text h4">Warranty Period: </label>
-                                {{ SalesInv.warrantyExpiration.format('Y-m-d H:i:s') }}
-                            {% endif %}
-                            {% if not SalesInv.isSold %}
+                                <label class="list-group-item-text h4">Warranty Expire: </label>
+                                {% if SalesInv.warrantyExpiration is not null %}
+                                    {{ SalesInv.warrantyExpiration.format('Y-m-d H:i:s') }}
+                                {% else %}
+                                    Not Available
+                                {% endif %}
+                            {% else %}
                                 <label class="list-group-item-text h4">Warranty Period: </label>
                                 {{ SalesInv.warrantyPeriod }}
                             {% endif %}
@@ -57,16 +60,11 @@
                             <label class="list-group-item-text h4">Availability: </label>
                             {% if SalesInv.isSold %}
                                 {{ 'Sold/NotAvailable' }}
-                            {% endif %}
-                            {% if not SalesInv.isSold %}
+                            {% else %}
                                 {{ 'Available in the store' }}
                             {% endif %}
 
                         </li>
-                        {#<li class="list-group-item">#}
-                        {#<label class="list-group-item-heading">Warranty Status: </label>#}
-                        {#{{ SalesInv.}}#}
-                        {#</li>#}
                     </ul>
                 </div>
                 <div class="panel-footer" style="background-color: #ffffff">
@@ -74,6 +72,11 @@
                     <button type="button" class="btn btn-primary">
                         <a href="{{ path('edit item', {'id': SalesInv.id }) }}">Edit</a>
                     </button>
+                    {% if SalesInv.isSold and not SalesInv.warrantyExpiration is null and not SalesInv.isWarrantyClaimed %}
+                        <button type="button" class="btn btn-danger">
+                            <a href="{{ path('claim item', {'id': SalesInv.id}) }}">Warranty Claim</a>
+                        </button>
+                    {% endif %}
                 </div>
             </div>
 
@@ -86,26 +89,30 @@
                 <div class="panel-body">
                     {% if SalesInv.order is not null %}
                         <table class="table table-responsive table-hover">
-                        <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Date</th>
-                            <th>Customer Name</th>
-                            <th>Customer Phone Number</th>
-                            <th>Sales Clarke</th>
+                            <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Date</th>
+                                <th>Customer Name</th>
+                                <th>Customer Phone Number</th>
+                                <th>Sales Clarke</th>
 
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>{{ SalesInv.order.id }}</td>
-                            <td>{{ SalesInv.order.date.format('Y-m-d H:i:s') }}</td>
-                            <td>{{ SalesInv.order.customer.name }}</td>
-                            <td>{{ SalesInv.order.customer.phone }}</td>
-                            <td>{{ SalesInv.order.salesClerk.name }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <a href="{{ path('view sales order', {'id':SalesInv.order.id }) }}">
+                                        {{ SalesInv.order.id }}
+                                    </a>
+                                </td>
+                                <td>{{ SalesInv.order.date.format('Y-m-d H:i:s') }}</td>
+                                <td>{{ SalesInv.order.customer.name }}</td>
+                                <td>{{ SalesInv.order.customer.phone }}</td>
+                                <td>{{ SalesInv.order.salesClerk.name }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     {% endif %}
                 </div>
             </div>
