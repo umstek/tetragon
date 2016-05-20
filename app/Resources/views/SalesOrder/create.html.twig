@@ -40,19 +40,6 @@
         {{ form_end(form) }}
     </div>
 
-    <div id="customerSearch">
-        <h4 class="h4">Customer Search</h4>
-        <div class="progress progress-striped active">
-            <div class="progress-bar" style="width: 100%">Loading...</div>
-        </div>
-    </div>
-
-    <div id="customerCreate">
-        <h4 class="h4">Create a customer</h4>
-        <div class="progress progress-striped active">
-            <div class="progress-bar" style="width: 100%">Loading...</div>
-        </div>
-    </div>
 
     <div id="salesClerkSearch">
         <h4 class="h4">Sales Clerk Search</h4>
@@ -60,6 +47,22 @@
             <div class="progress-bar" style="width: 100%">Loading...</div>
         </div>
     </div>
+
+    <div id="customerSearch">
+        <h4 class="h4">Customer Search</h4>
+        <div class="progress progress-striped active">
+            <div class="progress-bar" style="width: 100%">Loading...</div>
+        </div>
+    </div>
+    <input id = "new1" class="btn btn-primary" name="answer" value="New Customer" onclick="showDiv()" />
+    <div id="customerCreate" style="display:none;" class="answer_list">
+        <h4 class="h4">Create a customer</h4>
+        <div class="progress progress-striped active">
+            <div class="progress-bar" style="width: 100%">Loading...</div>
+        </div>
+    </div>
+
+
 
     <div id="inventorySearch">
 
@@ -360,5 +363,10 @@
 
                 } // enclosing function
         ); // document ready
+
+        function showDiv() {
+            document.getElementById('customerCreate').style.display = "block";
+            document.getElementById('new1').style.display = "none";
+        }
     </script>
 {% endblock %}
