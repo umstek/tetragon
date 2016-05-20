@@ -3,8 +3,7 @@
 {% block title %}Repairs Inventory{% endblock %}
 
 {% block body %}
-    <div class="col-sm-12">
-        <h1>Welcome to the Repairs inventory page</h1>
+    <div class="col-sm-12 panel">
 
         <div id="extraFlash">
 
@@ -13,10 +12,11 @@
         {% embed 'flashWidget.html.twig' %}
         {% endembed %}
 
-        <div>
+        <div class="panel-body">
             <table id="details" class="table table-responsive table-hover">
+                <legend style="color: #009688">Repairing Inventory</legend>
                 <thead>
-                <tr>
+                <tr style="color: #009688">
                     <th>ID</th>
                     <th>Name</th>
                     <th>Description</th>

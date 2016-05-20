@@ -5,9 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\SellingItem;
 use AppBundle\Form\SellingItemType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -57,7 +55,6 @@ class SalesInventoryController extends Controller
     /**
      * @Route("/selling_items", name="add item", methods={"POST"})
      * @Route("/selling_items.add", name="new item", methods={"GET"})
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @return Response
@@ -70,15 +67,11 @@ class SalesInventoryController extends Controller
         $form->handleRequest($request); // combine the form`s data into the "$item"  mean time validate the form`s data.
         if ($form->isValid()) { // Validation (at the first iteration form is not valid)
             $em = $this->getDoctrine()->getManager();
-            if ($em->getRepository('AppBundle:SellingItem')->findBy(['serial' => $request->request->get('selling_item')['serial']])) {
-                $form->addError(new FormError('Duplicate serial number.'));
-            } else {
-                $em->persist($item);
-                $em->flush(); // Permanently add to database
+            $em->persist($item);
+            $em->flush(); // Permanently add to database
 
-                $this->addFlash('success', "Created item.");
-                return $this->redirectToRoute('new item');
-            }
+            $this->addFlash('success', "Created item.");
+            return $this->redirectToRoute('new item');
         } else {
             if ($request->isMethod('POST')) {
                 $this->addFlash('error', 'Form contains errors. ');
@@ -120,7 +113,6 @@ class SalesInventoryController extends Controller
     /**
      * @Route("/selling_items/{id}.edit", name="edit item", methods={"GET", "HEAD"}, requirements={"id" : "\d+"})
      * @Route("/selling_items/{id}", name="update item", methods={"POST"}, requirements={"id" : "\d+"})
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @param $id
@@ -199,7 +191,7 @@ class SalesInventoryController extends Controller
                 $this->addFlash('info', 'Please provide some known information. ');
             }
             return $this->render(':SalesInventory:search.html.twig', [
-                'form' => $form->remove("price")->remove("warrantyPeriod")->createView() //->  remove("warrantyExpiration")->remove("isWarrantyClaimed")->remove("isSold")->remove("price")->
+                'form' => $form->remove("price")->remove("description")->remove("warrantyPeriod")->createView() //->  remove("warrantyExpiration")->remove("isWarrantyClaimed")->remove("isSold")->remove("price")->
             ]);
         }
         return $this->redirectToRoute('items', $nonempty);
@@ -207,7 +199,6 @@ class SalesInventoryController extends Controller
 
     /**
      * @Route("/ajax/selling_items.search", name="ajax search selling items by serial", methods={"GET", "POST"})
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @return Response
@@ -235,7 +226,6 @@ class SalesInventoryController extends Controller
 
     /**
      * @Route("/selling_items/{id}.claim", name="claim item", methods={"GET", "POST"})
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Request $request
      * @param $id
